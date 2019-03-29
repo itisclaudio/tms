@@ -1,0 +1,82 @@
+{% extends '_base.html' %}
+{% block title %}New Activity{% endblock title %}
+{% block content %}
+
+<h1><i class="glyphicon glyphicon-earphone"></i> New Activity</h1>
+
+<div class="well">
+
+	<form action="." method="POST" class="form-horizontal">
+		{% csrf_token %}
+		{{ form.non_field_errors }}	
+
+		<div class="form-group fieldWrapper">
+			<label class="col-sm-3 control-label">Application:</label>
+			<label class="col-sm-9 control-label" style="text-align: left;padding-top: 0px;">
+				<a class="btn btn-primary" title="{{obj}}"  href="{% url 'view_application' id=obj.id %}">
+				{{ obj|truncatechars:62 }}
+				</a>
+			</label>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_type" class="col-sm-3 control-label">Type:</label>
+			<div class="col-sm-5">
+				{{ form.type }}
+				{{ form.type.errors }}
+			</div>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_notes" class="col-sm-3 control-label">Notes:</label>
+			<div class="col-sm-9">
+				{{ form.notes }}
+				{{ form.notes.errors }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-3">
+				<button id="save_button" class="btn  btn-primary btn-lg">Save</button> 
+				<a class="btn btn-primary btn-lg" href="{% url 'view_application' id=obj.id %}">Cancel</a>
+			</div>
+		</div>
+	</form>
+</div>
+<br>
+<div class="well" style="margin:0px"><!--7-->
+<h2 style="text-align:left;margin-top:5px; margin-bottom:5px;"><i class="glyphicon glyphicon-earphone"></i> Related Activities:
+	<span class="label label-default" style="display:inline;">{{ counter }}</span> of <span class="label label-default" style="display:inline;">{{ total }}</span>
+	<a class="btn btn-primary" title="See All"  href="{% url 'view_activities' %}">
+		<i class="glyphicon glyphicon-th-large"></i>
+	</a>
+</h2>
+{% if counter  > 0 %}
+	{% for obj in activities %}
+	<div class="well well-white">
+		<a class="btn btn-info" title="Edit" href="{% url 'view_activityedit' id=obj.id %}">
+			<i class="glyphicon glyphicon-pencil icon-white"></i>
+		</a>
+		<a class="btn btn-primary" title="{{obj.application}}" href="{% url 'view_activity' id=obj.id %}">
+			{{obj.application|truncatechars:90}}
+		</a><br/>
+		<p class="smallfont" style="margin-top:2px; margin-bottom:6px;">by <a href="/recruiter_profile/{{user.id}}/">{{obj.recruiter}}</a>
+		({{ obj.get_type_display }}) {{obj.datetime|date:"M d, H:i"}}
+		</p>
+		<p style="margin-bottom:0px;">{{obj.notes|truncatewords:20}}</p>
+	</div>
+	{% endfor %}
+{% else %}
+	<div class="well well-white">
+		<p style="margin-bottom:10px;">There are no activities 
+			{% if search %}
+				for <b>"{{search}}"</b>
+			{% endif %}
+		</p>
+		<a class="btn btn-primary" href="{% url 'view_activitynew' %}" title="Add new activity to the system">
+			<i class="glyphicon glyphicon-plus"></i> Create new activity
+		</a>
+	</div>
+{% endif %}
+</div><!--7-->
+
+{% endblock content %}

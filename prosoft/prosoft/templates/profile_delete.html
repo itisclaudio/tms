@@ -1,0 +1,41 @@
+{% extends '_base.html' %}
+{% block title %}Delete: {{obj}}{% endblock title %}
+{% block content %}
+
+<h1>Delete Profile</h1>
+
+	{% if info = 1 %}
+	<div class="well well-white" style="margin-bottom:10px;">
+		<p><a href="{% url 'view_profile' id=obj.id %}">{{obj}}</a> 
+		Profile can not be deleted because the following items are associated with it.</p>
+		<p>To delete <a href="{% url 'view_profile' id=obj.id %}">{{obj}}</a>. The Application(s) below has(have) to be deleted or dissociated first.</p>
+		{% for application in applications %}
+			<p><a class="btn btn-info" href="{% url 'view_application' id=application.id %}">Application: {{application}}</a></p>
+		{% endfor %}
+	</div>
+	<a class="btn btn-primary" href="{% url 'view_profile' id=obj.id %}">Cancel</a>
+	{% else %}
+	<div class="well well-white" style="margin-bottom:10px;">
+		<p><b>Are you sure you want to delete the Profile below for ever?</b></p>
+		<a class="btn btn-info" title="Edit" href="{% url 'view_profileedit' id=obj.id %}">
+			<i class="glyphicon glyphicon-pencil icon-white"></i>
+		</a>
+		<a class="btn btn-primary" title="{{obj}}" href="{% url 'view_profile' id=obj.id %}">{{obj|truncatechars:80}}</a>
+		{% if docs_count > 0 %}
+			<br/><br/>
+			<p>The document(s) below will also be deleted:</p>
+			<ul>
+			{% for doc in docs %}
+				<li><a target="_blank" href="{{ MEDIA_URL }}/media/{{ doc.location }}">{{ doc.location.name|slice:"5:" }}</a></li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
+		<form action="." method="POST">
+		{% csrf_token %}
+			<button class="btn btn-primary" type="submit"/>Yes delete</button>
+			<a class="btn btn-primary" href="{% url 'view_profile' id=obj.id %}">Cancel</a>
+		</form>
+	{% endif %}
+
+{% endblock content %}

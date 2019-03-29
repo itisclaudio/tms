@@ -1,0 +1,93 @@
+{% extends '_site_base.html' %}
+{% load static %}
+{% block extra-head %}
+	<!-- stylesheets -->
+	
+	<!--<link href="{% static 'dist/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" >-->
+	<link href="{% static 'css/main.css' %}" rel="stylesheet" >
+	
+	<!-- <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.js"></script>-->
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style type="text/css">
+      body {
+        background-color:#F4F8FB;
+		padding-top:60px;
+		margin-bottom: 60px;
+		/*padding-bottom:60px;*/
+		/*background-color:#F4F8FB;*/
+      }
+    </style>
+{% endblock extra-head %}
+{% block title %}Prosoft Talent Management System | Log In{% endblock %}
+{% block content %}
+<div class="container">
+
+<div class="row">
+	<div class="col-xs-6" style="text-align:center;">
+		<img src="{{ MEDIA_ROOT }}/media/images/prosoft.png" width="150px">
+	</div>
+	<div class="col-xs-6" style="text-align:center;">
+		<img src="{{ MEDIA_ROOT }}/media/images/tms.png" width="150px">
+	</div>
+</div>
+
+<div class="row">
+<div class="col-sm-2">
+</div>
+<div class="col-sm-8">
+<h2 style="text-align:center;">Login</h2>
+<div class="well">
+{% if next %}
+	<form action="/login/?next={{next}}" method="POST" >
+{%else%}
+	<form action="/login/" method="POST">
+{% endif %}
+		{% if mensa = 1 %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			"Wrong username and/or password"
+			</div>
+		{% endif %}
+		{% if mensa = 3 %}
+			<div class="alert alert-success alert-dismissible" role="alert">
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+				<p>An email with your password has been sent to your email</p>
+			</div>
+		{% endif %}
+		{% if mensa = 4 %}
+			<!--User doesn't exist-->
+			<div class="alert alert-danger alert-dismissible" role="alert">
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+				<p>The username <b>{{user_req}}</b> doesn't exist!</p>
+			</div>
+		{% endif %}
+		{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="fieldWrapper">
+			<label for="id_username">Username: <em class="smallfont">(case sensitive)</em></label>
+			{{ form.username }}
+			{{ form.username.errors }}
+		</div>
+		<div class="fieldWrapper">
+			<label for="id_password">Password: <em class="smallfont">(case sensitive)</em></label>
+			{{ form.password }}
+			{{ form.password.errors }}
+		</div>
+		<br/>
+		<button class="btn btn-primary btn-lg">Login</button>
+	</form>
+	<a href="{% url 'password_reset' %}">Reset Password</a>
+	<br clear="all"/>
+</div>
+</div>
+<div class="col-sm-2">
+</div>
+</div>
+</div>
+{% block focus %}
+	<script type="text/javascript">
+		document.getElementById('id_username').focus();
+	</script>
+{% endblock %}
+{% endblock %}

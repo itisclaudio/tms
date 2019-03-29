@@ -1,0 +1,62 @@
+{% extends '_base.html' %}
+{% block title %}Profiles Report{% endblock title %}
+{% block content %}
+
+<h1 class="report"><i class="glyphicon glyphicon-education"></i> Profiles
+<span class="label label-default" style="display:inline;vertical-align: text-top;">{{ counter }}</span>
+</h1>
+<p style="margin-top:0px;text-align:center;">Prosoft's Talent Management System</p>
+
+{% if counter  > 0 %}
+	<table class="table table-hover table-list table-white" style="margin-bottom:0px;">
+	<tbody>
+	{% for obj in objs %}
+	<tr>
+		<td style="text-align:left;vertical-align:top;" width="16px"><p style="margin-bottom:2px;"><b>{{forloop.counter}}.</b></p></td>
+		<td style="text-align:left;">
+			<p style="margin-bottom:2px;"><b>{{obj}}</b></p>
+			<p style="margin-bottom:0px;" class="smallfont">
+				<i class="glyphicon glyphicon-send" title="Applications"></i> : {{obj.app_count}} |
+					{% if obj.applicant.relocation == True %}
+						Open to Relocate |
+					{% endif %}
+					{% if obj.applicant.relocation == False %}
+						No Relocate |
+					{% endif %}
+
+				{% if obj.experience %}
+				Experience : 
+					{% if obj.experience < 12 %}
+						{{obj.experience}} Months
+					{% endif %}
+					{% if obj.experience == 12 %}
+						1 Year
+					{% endif %}
+					{% if obj.experience > 12 %}
+						{{obj.yearsexp}}
+						{% if obj.monthsexp > 0%}
+						+
+						{% endif %}
+						Years
+					{% endif %}
+					| 
+				{% endif %}
+
+				{% if obj.applicant.available == True %}
+					Available
+				{% else %}
+					Not Available
+				{% endif %}	
+			</p>
+		</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+{% else %}
+	<div class="well well-white">
+		<p>There are no profiles</p>
+	</div>
+{% endif %}
+
+{% endblock content %}

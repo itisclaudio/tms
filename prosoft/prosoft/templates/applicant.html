@@ -1,0 +1,362 @@
+{% extends '_base.html' %}
+{% block title %}{{obj}} - Applicat Profile{% endblock title %}
+{% block content %}
+
+{## Modal to delete Applicant Document ##}
+<div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="modal_deleteLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title" id="modalUnlinkSocialLabel">Delete Document Forever?</h2>
+      </div>
+      <div class="modal-body">
+		<p><b id="document_name"></b></p>
+      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">No, Cancel</button>
+		  <a id="delete_button" class="btn btn-primary" href="" title="Delete Document">Yes, delete</a>
+        </div>
+    </div>
+  </div>
+</div>
+{## MODAL - End ##}
+
+{## APPLICANT ##}
+<div class="row">
+	<div class="col-xs-5">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-user"></i> <b>Applicant</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_applicantedit' id=obj.id %}"><i class="glyphicon glyphicon-pencil"></i> Edit</a></li>
+				<li><a href="{% url 'view_applicantnew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+				<li><a href="{% url 'view_applicantdelete' id=obj.id %}"><i class="glyphicon glyphicon-trash"></i> Delete</a></li>
+				<li><a href="{% url 'view_applicant_rpt' id=obj.id %}"><i class="glyphicon glyphicon-print"></i> Print</a></li>
+				<li><a href="{% url 'view_applicants' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+				<li><a href="{% url 'view_remindernew' model_name='applicant' field_id=obj.id %}"><i class="glyphicon glyphicon-bell"></i> Create reminder</a></li>
+				<li><a href="{% url 'view_profilenew_appicant' applicant_id=obj.id %}"><i class="glyphicon glyphicon-education"></i> Add profile</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-xs-7">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_applicant/" method="POST" style="display:inline;padding:0px;margin:0px;">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="input-group">
+				<span class="input-group-addon">
+						<i class="glyphicon glyphicon-search"></i>
+				</span>
+				{% if search %}
+					<input value="{{search}}" type="text" class="form-control" name="search" id="id_search" placeholder="Search applicant"/>
+				{% else %}
+					<input type="text" class="form-control" name="search" id="id_search" placeholder="Search applicant"/>
+				{% endif %}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="well well-white">
+<dl class="dl-horizontal">
+  <dt>Full name:</dt>
+  <dd>{{obj.firstname}} {{obj.lastname}}</dd>
+
+{% if user.member.role < 3 %}
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+  
+  <dt>Email:</dt>
+  <dd>{{obj.email}}</dd>
+{% endif %}
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+  
+  <dt>Date of Birth:</dt>
+  {% if obj.dob %}
+	<dd>{{obj.dob}} - ({{obj.dob|timesince}} Y/O)</dd>
+	{% else %}
+	<dd>??</dd>
+  {% endif %}
+  
+{% if user.member.role < 3 %}
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+  
+  <dt>Phone number(s):</dt>
+  {% if obj.phone_1 or obj.phone_2 %}
+	<dd>
+    {% if obj.phone_1 %}
+	  {{obj.phone_1}}
+	{% endif %}
+    {% if obj.phone_2 %}
+	  , {{obj.phone_2}}
+	{% endif %}	
+	</dd>
+	{% else %}
+	<dd>??</dd>
+  {% endif %}
+{% endif %}  
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	
+  <dt>Legal Status:</dt>
+  {% if obj.work_status %}
+	<dd>{{ obj.get_work_status_display }}</dd>
+	{% else %}
+	<dd>??</dd>
+  {% endif %}
+ 
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+ 
+  <dt>Available:</dt>
+  {% if obj.available == None %}
+	<dd>??</dd>
+	{% else %}
+		{% if obj.available == True %}
+			<dd>Yes</dd>
+		{% else %}
+			<dd>No</dd>
+		{% endif %}	
+  {% endif %}
+
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+  
+  <dt>Relocation:</dt>
+  {% if obj.relocation == None %}
+	<dd>??</dd>
+	{% else %}
+		{% if obj.relocation == True %}
+			<dd>Open to relocate</dd>
+		{% else %}
+			<dd>No</dd>
+		{% endif %}	
+  {% endif %}
+
+  	<hr style="margin-top: 5px;margin-bottom: 5px;">
+  
+  <dt>Right to Represent:</dt>
+  {% if obj.righttorep == None %}
+	<dd>??</dd>
+	{% else %}
+		{% if obj.righttorep == True %}
+			<dd>Yes</dd>
+		{% else %}
+			<dd>No</dd>
+		{% endif %}	
+  {% endif %}
+  
+  	<hr style="margin-top: 5px;margin-bottom: 5px;">
+
+  <dt>Address:</dt>
+  <dd>
+  {% if obj.address %}
+	{{obj.address}}.
+  {% endif %}
+  {% if obj.city %}
+	{{obj.city}},
+  {% endif %}
+  {% if obj.state %}
+	{{obj.state.code}}
+  {% endif %}
+  {% if obj.zipcode %}
+	{{obj.zipcode}}
+  {% endif %}
+  {% if obj.country %}
+	{{obj.country}}
+  {% endif %}
+  </dd>
+
+  	<hr style="margin-top: 5px;margin-bottom: 5px;">
+  
+   <dt>Experience:</dt>
+  {% if obj.experience %}
+	{% if obj.experience > 11 %}
+		{% if obj.experience < 252 %}
+			<dd>{{obj.yearsexp}}
+				{% if obj.monthsexp > 0 %}
+					+
+				{% endif %}
+				years
+			</dd>
+		{% else %}
+			<dd>20 years +</dd>
+		{% endif %}
+	{% else %}
+		<dd>{{obj.monthsexp}} Month(s)</dd>
+	{% endif %}
+  {% else %}
+	<dd>??</dd>
+  {% endif %}
+
+  	<hr style="margin-top: 5px;margin-bottom: 5px;">
+  
+    <dt>US Experience:</dt>
+  {% if obj.usexperience %}
+	{% if obj.usexperience > 11 %}
+		{% if obj.usexperience < 252 %}
+			<dd>{{obj.usyearsexp}}
+				{% if obj.usmonthsexp > 0 %}
+					+
+				{% endif %}
+				years
+			</dd>
+		{% else %}
+			<dd>20 years +</dd>
+		{% endif %}
+	{% else %}
+		<dd>{{obj.usmonthsexp}} Month(s)</dd>
+	{% endif %}
+  {% else %}
+	<dd>??</dd>
+  {% endif %}
+
+  	<hr style="margin-top: 5px;margin-bottom: 5px;">
+  
+   <dt>Education:</dt>
+  {% if obj.education %}
+	<dd>{{obj.education}}</dd>
+  {% else %}
+	<dd>??</dd>
+  {% endif %}
+
+  	<hr style="margin-top: 5px;margin-bottom: 5px;">
+  
+   <dt>Best time to contact:</dt>
+  {% if obj.besttime %}
+	<dd>{{obj.besttime}}</dd>
+  {% else %}
+	<dd>??</dd>
+  {% endif %}
+
+	<hr style="margin-top: 5px;margin-bottom: 5px;">  
+  
+   <dt>Current Salary:</dt>
+  {% if obj.salary_cur %}
+	<dd>{{obj.salary_cur}}</dd>
+  {% else %}
+	<dd>??</dd>
+  {% endif %}
+  
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	
+  <dt>Documents:</dt>
+  <dd>
+  {% if documents %}
+	{% for obj in documents %}
+		<a style="margin-left:0px; margin-bottom:4px; padding: 3px 6px;" id='{{ obj.document.name|slice:"5:" }}' name="delete_document_{{obj.id}}" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete" title="Delete document"><li class="glyphicon glyphicon-remove"></li></a> 
+		<a target="_blank" href="{{ MEDIA_URL }}/media/{{ obj.document }}">{{ obj.document.name|slice:"5:" }}</a><br>
+	{% endfor %}
+  {% else %}
+	No Documents </br>
+  {% endif %}
+ 	<a class="btn btn-primary" href="{% url 'view_applicantdocnew' applicant=obj.id %}" title="Upload a Document">Upload Document</a>
+  </dd>
+ 
+</dl>
+</div>
+<p class="smallfont" style="text-align:right;margin-bottom:0px;">Created: {{obj.created}} | Updated: {{obj.updated}}</p>
+
+{## APPLICANT - End ##}
+
+<br>
+
+{## PROFILES ##}
+<div class="row">
+	<div class="col-xs-12">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-education"></i> <b>Applicant Profiles</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_profilenew' %}" title="Create new profile"><i class="glyphicon glyphicon-education"></i> New Profile</a></li>
+				<li><a href="{% url 'view_profilenew_appicant' applicant_id=obj.id %}" title="Create new profile"><i class="glyphicon glyphicon-education"></i> New Profile for Applicant</a></li>
+				<li><a href="{% url 'view_profiles' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even Not Related)</a></li>
+			</ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+			<span class="label label-default" style="display:inline;">{{counter}} / {{total}}</span>
+		</h2>
+	</div>
+</div>
+
+{% if counter  > 0 %}
+	<div class="list-group">
+		{% for profile in profiles %}
+		 <a href="{% url 'view_profile' id=profile.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p style="margin-bottom:2px;"><b>{{profile|truncatechars:78}}</b></p>
+			<p style="margin-top:2px; margin-bottom:0px; line-height:14px;" class="smallfont">
+			<i class="glyphicon glyphicon-send" title="Applications"></i>  {{profile.app_count}} 
+			| <b>Relocate:</b>
+			{% if profile.applicant.relocation == True %}
+				Open
+			{% endif %}
+			{% if profile.applicant.relocation == False %}
+				No
+			{% endif %}
+			{% if profile.experience %}| <b>Experience:</b>
+				{% if profile.experience < 12 %}
+					{{profile.experience}} Months
+				{% endif %}
+				{% if profile.experience == 12 %}
+					1 Year
+				{% endif %}
+				{% if profile.experience > 12 %}
+					{{profile.yearsexp}}
+					{% if profile.monthsexp > 0%}
+					+
+					{% endif %}
+					Years
+				{% endif %}
+			{% endif %}
+			| <b>Available:</b>
+			{% if profile.applicant.available == True %}
+				Yes
+			{% else %}
+				No
+			{% endif %}		
+			{% if profile.salary %}| <b>Salary Expectations:</b>
+				{{profile.salary}}
+			{% endif %}
+			</p>
+		  </a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white">
+		<p>There are no profiles
+		{% if search %}
+			for <b>"{{search}}"</b>
+		{% endif %}
+		</p>
+		<a class="btn btn-primary" href="{% url 'view_profilenew' %}" title="Create new profile">
+			<i class="glyphicon glyphicon-plus"></i> New profile
+		</a>
+		<a class="btn btn-primary" href="{% url 'view_profilenew_appicant' applicant_id=obj.id %}" title="Add new profile for {{obj}}">
+			<i class="glyphicon glyphicon-plus"></i> New profile for this Applicant
+		</a>
+	</div>
+{% endif %}
+
+{## PROFILES - End ##}
+
+{% block focus %}
+	<script type="text/javascript">
+		document.getElementById('id_search').focus();
+	</script>
+{% endblock %}
+
+{% block extra-bottom %}
+	<script type="text/javascript">
+	{# Modal to delete documents #}
+	$( "a[name^='delete_document_']" ).click(function() {
+		var deleting_id = $(this).attr('name').replace('delete_document_','');
+		var deleting_name = $(this).attr('id');
+		$('#document_name').text(deleting_name);
+		var path = window.location.href;
+		var to_delete = "/applicant/"+{{obj.id}}+"/";	
+		//alert("deleting_name: "+deleting_name);
+		var main_path = path.replace(to_delete,'');
+		var url_delete = main_path+"/applicantdocdelete/"+deleting_id+"/";
+		$('#delete_button').attr("href",url_delete);				
+	});
+	</script>
+{% endblock %}
+
+{% endblock content %}

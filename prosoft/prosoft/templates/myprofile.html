@@ -1,0 +1,128 @@
+{% extends '_base.html' %}
+{% block title %}My Profile {{obj}} {% endblock title %}
+{% block content %}
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-bullhorn"></i> <b>My Profile</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_account_password' %}">Change password</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="well well-white">
+ 	<form action="." method="POST" class="form-horizontal">
+	{% if info = 1 %}
+		<div class="alert alert-success alert-dismissible" role="alert">
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		  Your profile has been updated successfully!
+		</div>
+	{% endif %}
+		{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-group fieldWrapper">
+			<label for="id_username" class="col-sm-3 control-label">Role:</label>
+			<label class="col-sm-5 control-label" style="text-align: left;">
+			  {{obj.member.get_role_display}}
+			</label>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_username" class="col-sm-3 control-label">Username:</label>
+			<div class="col-sm-5">
+				{{ form.username }}
+				{{ form.username.errors }}
+			</div>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_email" class="col-sm-3 control-label">Email:</label>
+			<div class="col-sm-5">
+				{{ form.email }}
+				{{ form.email.errors }}
+			</div>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_first_name" class="col-sm-3 control-label">First name:</label>
+			<div class="col-sm-4">
+				{{ form.first_name }}
+				{{ form.first_name.errors }}
+			</div>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_last_name" class="col-sm-3 control-label">Last name:</label>
+			<div class="col-sm-4">
+				{{ form.last_name }}
+				{{ form.last_name.errors }}
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-3">
+				<button id="save_button" class="btn  btn-primary btn-lg">Save</button> 
+				<a id="reset_button" class="btn btn-primary btn-lg">Reset</a>
+			</div>
+		</div>
+	</form>
+</div>
+
+<br>
+{### ACTIVITIES HEAD ###}
+<div class="row">
+	<div class="col-xs-12">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-earphone"></i> <b>Latest Activities</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_activitynew' %}"><i class="glyphicon glyphicon-plus"></i> New Activity</a></li>
+				<li><a href="{% url 'view_activities' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even not related)</a></li>
+			</ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+			<span class="label label-default" style="display:inline;">{{ counter }} / {{ total }}</span>
+		</h2>
+	</div>
+</div>
+{### ACTIVITIES HEAD - End ###}
+
+{### ACTIVITIES LIST ###}
+{% if counter  > 0 %}
+	<div class="list-group">
+		{% for obj in activities %}
+		 <a href="{% url 'view_activity' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p class="smallfont" style="margin-top:2px; margin-bottom:2px;"> {{ obj.get_type_display }} by {{obj.recruiter}}</p>
+			<p style="margin-bottom:2px;"><b>{{obj|truncatechars:78}}</b></p>
+			<p style="margin-bottom:0px;">{{obj.notes|truncatewords:20}}</p>
+		  </a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white" style="margin-bottom: 14px;">
+		<p>There are no activities</p>
+		<a class="btn btn-primary" href="{% url 'view_activitynew' %}" title="Add new activity to the system">
+			<i class="glyphicon glyphicon-plus"></i> Create new activity
+		</a>
+	</div>
+{% endif %}
+{### ACTIVITIES LIST - End ###}
+
+{% endblock content %}
+
+{% block extra-bottom %}
+<script>
+$( function() {
+	$('#reset_button').click(function() {
+		$('#id_username').val("{{obj.username}}");
+		$('#id_first_name').val("{{obj.first_name}}");
+		$('#id_last_name').val("{{obj.last_name}}");
+		$('#id_email').val("{{obj.email}}");
+
+	});
+});
+</script>
+{% endblock %}

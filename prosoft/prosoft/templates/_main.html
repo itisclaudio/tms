@@ -1,0 +1,380 @@
+{% extends '_base.html' %}
+{% block title %}TMS{% endblock title %}
+{% block content %}
+
+{## PROFILES - START ##}
+<div class="row">
+	<div class="col-xs-5">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-education"></i> <b>Profiles</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_profilenew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+				<li><a href="{% url 'view_profiles' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+				<li><a href="{% url 'view_profiles_rpt' %}"><i class="glyphicon glyphicon-print"></i> Print All</a></li>
+			</ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+			<span class="label label-default" style="display:inline;">{{ profiles_counter }}</span>
+			of
+			<span class="label label-default" style="display:inline;">{{ profiles_tot_c }}</span>
+		</h2>
+	</div>
+	<div class="col-xs-7">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_profile/" method="POST" style="display:inline;padding:0px;margin:0px;">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="input-group">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-search"></i>
+				</span>
+				<input type="text" class="form-control" name="search" id="id_search" placeholder="Search profile"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% if profiles_counter  > 0 %}
+	<div class="list-group">
+		{% for obj in profiles %}
+		 <a href="{% url 'view_profile' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p style="margin-bottom:2px;"><b>{{obj|truncatechars:78}}</b></p>
+			<p style="margin-top:2px; margin-bottom:0px; line-height:14px;" class="smallfont">
+			<i class="glyphicon glyphicon-send" title="Applications"></i>  {{obj.app_count}} 
+			| <b>Relocate:</b>
+			{% if obj.applicant.relocation == True %}
+				Open
+			{% endif %}
+			{% if obj.applicant.relocation == False %}
+				No
+			{% endif %}
+			{% if obj.experience %}| <b>Experience:</b>
+				{% if obj.experience < 12 %}
+					{{obj.experience}} Months
+				{% endif %}
+				{% if obj.experience == 12 %}
+					1 Year
+				{% endif %}
+				{% if obj.experience > 12 %}
+					{{obj.yearsexp}}
+					{% if obj.monthsexp > 0%}
+					+
+					{% endif %}
+					Years
+				{% endif %}
+			{% endif %}
+			| <b>Available:</b>
+			{% if obj.applicant.available == True %}
+				Yes
+			{% else %}
+				No
+			{% endif %}		
+			{% if obj.salary %}| <b>Salary Expectations:</b>
+				{{obj.salary}}
+			{% endif %}
+			{% if obj.applicant.work_status %}| <b>Status:</b>
+				{{obj.applicant.get_work_status_display}}
+			{% endif %}
+			</p>
+		  </a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white">
+		<p>There are no profiles
+		{% if search %}
+			for <b>"{{search}}"</b>
+		{% endif %}
+		</p>
+		<a class="btn btn-primary" href="{% url 'view_profilenew' %}" title="Create new profile">
+			<i class="glyphicon glyphicon-plus"></i> Create new profile
+		</a>
+	</div>
+{% endif %}
+
+{## PROFILES - END ##}
+
+{## OPENINGS - START ##}
+<div class="row">
+	<div class="col-xs-5">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-briefcase"></i> <b>Job Openings</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_openingnew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+				<li><a href="{% url 'view_openings' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+				<li><a href="{% url 'view_openings_rpt'%}"><i class="glyphicon glyphicon-print"></i> Print All</a></li>
+			</ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+			<span class="label label-default" style="display:inline;">{{ openings_counter }}</span>
+			of
+			<span class="label label-default" style="display:inline;">{{ openings_tot_c }}</span>
+		</h2>
+	</div>
+	<div class="col-xs-7">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_opening/" method="POST" style="display:inline;padding:0px;margin:0px;">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="input-group">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-search"></i>
+				</span>
+				{% if search %}
+					<input value="{{search}}" type="text" class="form-control" name="search" id="id_search" placeholder="Search opening"/>
+				{% else %}
+					<input type="text" class="form-control" name="search" id="id_search" placeholder="Search opening"/>
+				{% endif %}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% if openings_counter  > 0 %}
+	<div class="list-group">
+		{% for obj in openings %}
+		 <a href="{% url 'view_opening' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p style="margin-bottom:2px;"><b>{{obj|truncatechars:78}}</b></p>
+			<p style="margin-top:2px;margin-bottom:0px;" class="smallfont">
+			<i class="glyphicon glyphicon-send" title="Applications"></i> {{obj.app_count}}
+			{% if obj.rate %}| <b>Rate:</b>
+				{{obj.rate}}
+			{% endif %}
+			{% if obj.experience %}| <b>Experience:</b>
+				{% if obj.experience < 12 %}
+					{{obj.experience}} Months
+				{% endif %}
+				{% if obj.experience == 12 %}
+					1 Year
+				{% endif %}
+				{% if obj.experience > 12 %}
+					{{obj.yearsexp}}
+					{% if obj.monthsexp > 0%}
+					+
+					{% endif %}
+					Years
+				{% endif %}
+			{% endif %}
+			{% if obj.startdate %}| <b>Start date:</b>
+				{% now "Y-m-d" as todays_date %}
+				{% if obj.startdate|date:"Y-m-d" <= todays_date %}
+				   Immediate
+				{% else %}
+					{{obj.startdate }}
+				{% endif %}
+			{% endif %}
+			{% if obj.work_auth %}| <b>Work A.:</b>
+				{{obj.get_work_auth_display}}
+			{% endif %}
+			{% if obj.contract %}| <b>Contract:</b>
+				{{obj.get_contract_display}}
+			{% endif %}
+			</p>
+		  </a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white">
+		<p>There are no openings</p>
+		<a class="btn btn-primary" href="{% url 'view_openingnew' %}" title="Add new opening to the system">
+			<i class="glyphicon glyphicon-plus"></i> Create new opening
+		</a>
+	</div>
+{% endif %}
+
+{## OPENINGS - END ##}
+
+{## ACTIVITIES - START ##}
+<div class="row">
+	<div class="col-xs-5">
+		<div class="dropdown" style="display:inline;">
+		  <button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-earphone"></i> <b>Activities</b> <span class="caret"></span>
+		  </button>
+		  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			<li><a href="{% url 'view_activitynew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+			<li><a href="{% url 'view_activities' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+			<li><a href="{% url 'view_activities_rpt' %}"><i class="glyphicon glyphicon-print"></i> Print All</a></li>
+		  </ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+			<span class="label label-default" style="display:inline;">{{ activities_counter }}</span>
+			of
+			<span class="label label-default" style="display:inline;">{{ activities_tot_c }}</span>
+		</h2>
+	</div>
+	<div class="col-xs-7">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_activity/" method="POST" style="display:inline;padding:0px;margin:0px;">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="input-group">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-search"></i>
+				</span>
+				<input type="text" class="form-control" name="search" id="id_search" placeholder="Search activity"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% if activities_counter  > 0 %}
+	<div class="list-group">
+		{% for obj in activities %}
+		 <a href="{% url 'view_activity' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p class="smallfont" style="margin-top:2px; margin-bottom:2px;"> {{ obj.get_type_display }} by {{obj.recruiter}}</p>
+			<p style="margin-bottom:2px;"><b>{{obj|truncatechars:78}}</b></p>
+			<p style="margin-bottom:0px;">{{obj.notes|truncatewords:20}}</p>
+		  </a>
+		{% endfor %}
+	</div>
+{% endif %}
+{% if activities_counter  == 0 %}
+<div class="well well-white">
+	<p style="margin-bottom:10px;">There are no activities 
+		{% if search %}
+			for <b>"{{search}}"</b>
+		{% endif %}
+	</p>
+	<a class="btn btn-primary" href="{% url 'view_activitynew' %}" title="Create new activity">
+		<i class="glyphicon glyphicon-plus"></i> Create new activity
+	</a>
+</div>
+</br>
+{% endif %}
+
+{## ACTIVITIES - END ##}
+
+{## APPLICANTS-START ##}
+<div class="row">
+	<div class="col-xs-5">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-user"></i> <b>Applicants</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_applicantnew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+				<li><a href="{% url 'view_applicants' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+				<li><a href="{% url 'view_applicants_rpt' %}"><i class="glyphicon glyphicon-print"></i> Print All</a></li>
+			</ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+			<span class="label label-default" style="display:inline;">{{ applicants_counter }}</span>
+			of
+			<span class="label label-default" style="display:inline;">{{ applicants_tot_c }}</span>
+		</h2>
+	</div>
+	<div class="col-xs-7">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_applicant/" method="POST" style="display:inline;padding:0px;margin:0px;">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="input-group">
+				<span class="input-group-addon">
+						<i class="glyphicon glyphicon-search"></i>
+				</span>
+				{% if search %}
+					<input value="{{search}}" type="text" class="form-control" name="search" id="id_search" placeholder="Search applicant"/>
+				{% else %}
+					<input type="text" class="form-control" name="search" id="id_search" placeholder="Search applicant"/>
+				{% endif %}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% if applicants_counter  > 0 %}
+	<div class="list-group">
+		{% for obj in applicants %}
+		<a href="{% url 'view_applicant' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p style="margin-bottom:2px;"><b>{{obj.firstname|truncatechars:15}} {{obj.lastname|truncatechars:15}}</b></p>
+			<p style="margin-top:2px; margin-bottom:2px; line-height:14px;" class="smallfont">
+			<i class="glyphicon glyphicon-send" title="Profiles"></i>  {{obj.profiles_count}} | 
+			<i class="glyphicon glyphicon-send" title="Applications"></i>  {{obj.app_count}} |
+			<i class="glyphicon glyphicon-globe" title="Location"></i> 
+			{% if obj.country %}
+				{% if obj.country.code == 'US' %}
+					{% if obj.city %}
+						{{ obj.city }}, 
+					{% endif %}
+					<span title="{{obj.state.name}}">{{obj.state.code}}</span>
+				{% else %}
+					{{obj.country.name}}
+				{% endif %}
+			{% else %}
+				"<i>No country</i>"
+			{% endif %} |
+			
+			<b>Relocate:</b>
+			{% if obj.relocation == True %}
+				Open
+			{% endif %}
+			{% if obj.relocation == False %}
+				No
+			{% endif %} | 
+			
+			{% if obj.experience %}
+				<b>Experience:</b>
+				{% if obj.experience < 12 %}
+					{{obj.experience}} Months
+				{% endif %}
+				{% if obj.experience == 12 %}
+					1 Year
+				{% endif %}
+				{% if obj.experience > 12 %}
+					{% if obj.experience < 252 %}
+						{{obj.yearsexp}}
+						{% if obj.monthsexp > 0%}
+						+
+						{% endif %}
+						Years
+					{% else %}
+						20 years +
+					{% endif %}
+				{% endif %} |
+			{% endif %}
+			{% if obj.work_status %}
+				<b>Legal Status:</b>
+					{{ obj.get_work_status_display }} | 
+			{% endif %}
+			<b>Available:</b>
+			{% if obj.available == True %}
+				Yes
+			{% endif %}
+			{% if obj.available == False %}
+				No
+			{% endif %}
+
+			| <b>Salary: </b>
+				{% if obj.salary_cur %}
+					{{obj.salary_cur}}
+				{% else %}
+					<i>"No Info"</i>
+				{% endif %}
+			| <b>Work Auth.:</b>
+				{% if obj.work_status %}
+					{{ obj.get_work_status_display }}
+				{% else %}
+					<i>"No Info"</i>
+				{% endif %}
+			
+			</p>
+		</a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white">
+		<p>There are no applicants 
+		{% if search %}
+			for <b>"{{search}}"</b>
+		{% endif %}
+		</p>
+		<a class="btn btn-primary" href="{% url 'view_applicantnew' %}" title="Add new applicant">
+			<i class="glyphicon glyphicon-plus"></i> Create new applicant
+		</a>
+	</div>
+{% endif %}
+
+{## APPLICANTS-END ##}
+
+{% endblock content %}

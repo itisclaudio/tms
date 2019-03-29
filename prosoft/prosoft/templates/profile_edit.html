@@ -1,0 +1,78 @@
+{% extends '_base.html' %}
+{% block title %}Edit: {{obj}}{% endblock title %}
+{% block content %}
+
+<h1><i class="glyphicon glyphicon-education"></i> Edit Profile</h1>
+<div class="well">
+
+	<form action="." method="POST" class="form-horizontal">
+		{% csrf_token %}
+		{{ form.non_field_errors }}
+
+		<div class="form-group fieldWrapper">
+			<label class="col-sm-4 control-label">Applicant Profile:</label>
+			<label class="col-sm-8 control-label" style="text-align: left;">
+			  <h2 style="margin-top: 0px;margin-bottom: 0px;">{{obj.applicant }}</h2>
+			</label>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label class="col-sm-4 control-label">Documents:</label>
+			<label class="col-sm-8 control-label" style="text-align: left;">
+			  {% if documents %}
+				{% for obj in documents %}
+					<a target="_blank" href="{{ MEDIA_URL }}/media/{{ obj.location }}">{{ obj.location.name|slice:"5:" }}</a><br>
+				{% endfor %}
+			  {% else %}
+				No Documents
+			  {% endif %}
+			</label>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_skills" class="col-sm-4 control-label">Main Skill(s): <br><em class="smallfont">Press control or command for multiple selections</em></label>
+			<div class="col-sm-8">
+			<select multiple="multiple" class="form-control" id="id_skills" name="skills">
+			{% for choice in form.skills.field.choices %}
+				<option value="{{choice.0}}" 
+					{% for skill in skills %}
+						{% ifequal skill.id choice.0 %}
+							selected="selected"
+						{% endifequal %}
+					{% endfor %}/>
+				{{choice.1|truncatechars:60}}</option>
+			{% endfor %}
+			</select>
+			{{ form.skills.errors }}
+			<a class="btn btn-primary" href="{% url 'view_skillnew' %}" title="Add new Skill">New skill</a>
+			</div>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_exp_months" class="col-sm-4 control-label">Experience (MM)(YY):</label>
+			<div class="col-sm-3">
+				{{ form.exp_months }}
+				{{ form.exp_months.errors }}
+			</div>
+			<div class="col-sm-3">
+				{{ form.exp_years }}
+				{{ form.exp_years.errors }}
+			</div>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_salary_cur" class="col-sm-4 control-label">Salary Expectations:</label>
+			<div class="col-sm-4">
+				{{ form.salary }}
+				{{ form.salary.errors }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-sm-offset-4">
+				<button id="save_button" class="btn  btn-primary btn-lg">Save</button> 
+				<a class="btn btn-primary btn-lg" href="{% url 'view_profile' id=obj.id %}">Cancel</a>
+			</div>
+		</div>
+	</form>
+</div>
+{% endblock content %}

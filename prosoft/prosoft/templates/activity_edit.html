@@ -1,0 +1,92 @@
+{% extends '_base.html' %}
+{% block title %}Edit: {{obj}}{% endblock title %}
+{% block content %}
+
+<h1>Edit</h1>
+
+<div class="well">
+
+<dl class="dl-horizontal">
+ 
+  <dt>Application:</dt>
+  <dd>{{obj.application}}</dd>
+  
+ <hr style="margin-top: 5px;margin-bottom: 5px;">
+ 
+  <dt>Recruiter:</dt>
+  <dd>{{obj.recruiter}}</dd>
+  
+ <hr style="margin-top: 5px;margin-bottom: 5px;">
+ 
+  <dt>Date Time:</dt>
+  <dd>{{obj.datetime}}</dd>
+  
+  <hr style="margin-top: 5px;margin-bottom: 5px;">
+</dl>
+
+	<form action="." method="POST" class="form-horizontal">
+		{% csrf_token %}
+		{{ form.non_field_errors }}
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_type" class="col-sm-3 control-label">Type:</label>
+			<div class="col-sm-9">
+				{{ form.type }}
+				{{ form.type.errors }}
+			</div>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_notes" class="col-sm-3 control-label">Notes:</label>
+			<div class="col-sm-9">
+				{{ form.notes }}
+				{{ form.notes.errors }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-sm-offset-3">
+				<button id="save_button" class="btn  btn-primary btn-lg">Save</button> 
+				<a class="btn btn-primary btn-lg" href="{% url 'view_activity' id=obj.id %}">Cancel</a>
+			</div>
+		</div>
+	</form>
+</div>
+<br>
+
+<h2 style="text-align:left;">Latest Activities from this Application:</h2>
+<div class="well">
+{% if activities|length  > 0 %}
+	<table class="table table-hover table-list table-white" style="margin-bottom:0px;">
+	<thead>
+	<tr>
+		<th style="text-align:left;">When</th>
+		<th>Recruiter</th>
+		<th>Type</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for obj in activities %}
+	<tr>
+		<td style="text-align:left;">
+			<a class="btn btn-primary" href="{% url 'view_activity' id=obj.id %}">
+			{{ obj.datetime}} ({{ obj.datetime|timesince }} ago)
+			</a>
+		</td>
+		<td>
+			{{obj.recruiter}}
+		</td>
+		<td>
+			{{obj.get_type_display }}
+		</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+{% else %}
+	<div class="well well-white">
+		<p>There are no activities</p>
+	</div>
+{% endif %}
+</div>
+
+{% endblock content %}

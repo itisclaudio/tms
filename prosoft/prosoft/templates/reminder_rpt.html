@@ -1,0 +1,59 @@
+{% extends '_base.html' %}
+{% block title %}{{obj}} - Activity Report{% endblock title %}
+{% block content %}
+
+<h1 class="report"><i class="glyphicon glyphicon-education"></i> Reminder</h1>
+<p style="margin-top:0px;text-align:center;">Prosoft's Talent Management System</p>
+
+<table class="table table-list table-white" style="margin-bottom:0px;" width="100%">
+  <col width="25%">
+  <col width="75%">
+<tr>
+	<th style="text-align:right;">Date : </th>
+	<td style="text-align:left;">{{ obj.datetime }}</td>
+</tr>
+{% if obj_mod %}
+<tr>
+	<th style="text-align:right;">{{ obj.model_name|title }}: </th>
+	<td style="text-align:left;">{{obj_mod}}</td>
+</tr>
+{% endif %}
+<tr>
+	<th style="text-align:right;">Recruiter : </th>
+	<td style="text-align:left;">{{ obj.recruiter }}</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Status : </th>
+	<td style="text-align:left;">
+		{% if obj.active == True %}
+			Active
+		{% else %}
+			Inactive
+		{% endif %}
+	</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Type : </th>
+	<td style="text-align:left;">
+		{% if obj.private == True %}
+			Private
+		{% else %}
+			Public
+		{% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;vertical-align:top;">Content : </th>
+	<td style="text-align:left;">
+	  {% if obj.content %}
+			{{ obj.content|urlizetrunc:65|escape|linebreaks }}
+		{% else %}
+			??
+	  {% endif %}
+	</td>
+</tr>
+
+</table>
+
+{% endblock content %}

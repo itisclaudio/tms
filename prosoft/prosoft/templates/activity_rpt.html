@@ -1,0 +1,43 @@
+{% extends '_base.html' %}
+{% block title %}{{obj}} - Activity Report{% endblock title %}
+{% block content %}
+
+<h1 class="report"><i class="glyphicon glyphicon-education"></i> Activity</h1>
+<p style="margin-top:0px;text-align:center;">Prosoft's Talent Management System</p>
+
+<table class="table table-list table-white" style="margin-bottom:0px;" width="100%">
+  <col width="25%">
+  <col width="75%">
+<tr>
+	<th style="text-align:right;">Application : </th>
+	<td style="text-align:left;">{{ obj.application }}</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Recruiter : </th>
+	<td style="text-align:left;">{{ obj.recruiter }}</td>
+</tr>
+<tr>
+	<th style="text-align:right;">When : </th>
+	<td style="text-align:left;">{{ obj.datetime }}</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Type : </th>
+	<td style="text-align:left;">{{obj.get_type_display }}</td>
+</tr>
+
+
+
+<tr>
+	<th style="text-align:right;vertical-align:top;">Notes : </th>
+	<td style="text-align:left;">
+	  {% if obj.notes %}
+			{{ obj.notes|urlizetrunc:65|escape|linebreaks }}
+		{% else %}
+			??
+	  {% endif %}
+	</td>
+</tr>
+
+</table>
+
+{% endblock content %}

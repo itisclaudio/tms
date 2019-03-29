@@ -1,0 +1,131 @@
+{% extends '_base.html' %}
+{% block title %}{{obj}} - Reminder{% endblock title %}
+{% block content %}
+
+<div class="row">
+	<div class="col-xs-5">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom; font-size:18px;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-bell"></i> <b>Reminder</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_vendoredit' id=obj.id %}"><i class="glyphicon glyphicon-pencil"></i> Edit</a></li>
+				<li><a href="{% url 'view_remindernew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+				{% if user = obj.recruiter %}
+					<li><a href="{% url 'view_reminderdelete' id=obj.id %}"><i class="glyphicon glyphicon-trash"></i> Delete</a></li>
+				{% endif %}
+				<li><a href="{% url 'view_reminders' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+				<li><a href="{% url 'view_remindernew' model_name='reminder' field_id=obj.id %}"><i class="glyphicon glyphicon-bell"></i> Create reminder</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-xs-7">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_reminder/" method="POST" style="display:inline;padding:0px;margin:0px;">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="input-group">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-search"></i>
+				</span>
+				<input type="text" class="form-control" name="search" id="id_search" placeholder="Search Reminder"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="well well-white">
+<dl class="dl-horizontal">
+
+  <dt>Date:</dt>
+	<dd>{{obj.datetime}} - ({{obj.datetime|timesince}} ago)</dd>
+
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+
+	{% if obj_mod %}
+	<dt>{{ obj.model_name|title }}:</dt>
+		<dd>
+			<a class="btn btn-primary" title="go to entity" href="/{{obj.model_name}}/{{obj_mod.id}}">
+			{{obj_mod}}
+			</a>
+		</dd>
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	{% endif %}
+	
+ 	
+  
+  <dt>Recruiter:</dt>
+  <dd>{{obj.recruiter}}</dd>
+
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+ 
+  <dt>Status:</dt>
+	{% if obj.active == True %}
+		<dd>Active</dd>
+	{% else %}
+		<dd style="color:red;"><b>Inactive</b></dd>
+	{% endif %}
+	
+ 	<hr style="margin-top: 5px;margin-bottom: 5px;">
+ 
+  <dt>Type:</dt>
+	{% if obj.private == True %}
+		<dd>Private</dd>
+	{% else %}
+		<dd>Public</dd>
+	{% endif %}
+	
+ 	<hr style="margin-top: 5px;margin-bottom: 5px;">
+  
+  <dt>Content:</dt>
+  <dd>{{obj.content}}</dd>
+</dl>
+</div>
+<br>
+<div class="well" style="margin:0px"><!--7-->
+<h2 style="text-align:left;margin-top: 0px;"><i class="glyphicon glyphicon-bell"></i> Latest Reminders
+	<span class="label label-default" style="display:inline;">{{ counter }}</span>
+	<a class="btn btn-primary" href="{% url 'view_remindernew' %}" title="Add new reminder">
+		<i class="glyphicon glyphicon-plus icon-white"></i>
+	</a>
+</h2>
+{% if counter  > 0 %}
+	{% for obj in objs %}
+	<div class="well well-white">	
+		<a class="btn btn-info" title="Edit"  href="{% url 'view_reminderedit' id=obj.id %}">
+			<i class="glyphicon glyphicon-pencil icon-white"></i>
+		</a>
+		{% if obj.active = True %}
+			<a class="btn btn-primary" title="{{obj.datetime}}" href="{% url 'view_reminder' id=obj.id %}">
+				{{obj.datetime|date:"M d, H:i"}}
+				{% if obj.private = True %}
+					(Private)
+				{% endif %}
+			</a>
+		{% else %}
+			<a class="btn btn-danger" title="{{obj.datetime}}" href="{% url 'view_reminder' id=obj.id %}">
+				{{obj.datetime|date:"M d, H:i"}}
+				{% if obj.private = True %}
+					(Private)
+				{% endif %}
+			</a>
+		{% endif %}
+		<p class="smallfont" style="margin-top:2px; margin-bottom:6px;">by <a href="/recruiter_profile/{{user.id}}/">{{obj.recruiter}}</a>
+		  {% if obj.model_name %}
+			Related to {{obj.model_name|title}}
+		  {% endif %}
+		</p>
+		<p style="margin-bottom:0px;">{{ obj.content|truncatewords:20 }}</p>
+	</div>
+	{% endfor %}
+{% endif %}
+{% if counter  == 0 %}
+<div class="well well-white">
+	<p style="margin-bottom:10px;">There are no reminders</p>
+	<a class="btn btn-primary" href="{% url 'view_remindernew' %}" title="Add new reminder to the system">
+		<i class="glyphicon glyphicon-plus"></i> Create new reminder
+	</a>
+</div>
+{% endif %}
+</div><!--7!-->
+
+{% endblock content %}

@@ -1,0 +1,39 @@
+{% extends '_base.html' %}
+{% block title %}{{obj}} - Application Report{% endblock title %}
+{% block content %}
+
+<h1 class="report"><i class="glyphicon glyphicon-send"></i> Application</h1>
+<p style="margin-top:0px;text-align:center;">Prosoft's Talent Management System</p>
+
+<table class="table table-list table-white" style="margin-bottom:0px;" width="100%">
+  <col width="25%">
+  <col width="75%">
+<tr>
+	<th style="text-align:right;vertical-align:top;">Opening : </th>
+	<td style="text-align:left;">{{obj.opening}}</td>
+</tr>
+<tr>
+	<th style="text-align:right;;vertical-align:top;">Profile : </th>
+	<td style="text-align:left;">{{obj.profile}}</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Submitted : </th>
+	<td style="text-align:left;">{{ obj.submitted }}</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Recruiter : </th>
+	<td style="text-align:left;">{{obj.recruiter }}</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Status : </th>
+	<td style="text-align:left;">
+		{% if obj.active = True %}
+			Active
+		{% else %}
+			Inctive
+		{% endif %}
+	</td>
+</tr>
+</table>
+
+{% endblock content %}

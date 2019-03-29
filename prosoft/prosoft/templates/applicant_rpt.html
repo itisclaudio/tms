@@ -1,0 +1,238 @@
+{% extends '_base.html' %}
+{% block title %}{{obj}} - Applicant{% endblock title %}
+{% block content %}
+
+<h1 class="report"><i class="glyphicon glyphicon-user"></i> Applicant</h1>
+<p style="margin-top:0px;text-align:center;">Prosoft's Talent Management System</p>
+
+<table class="table table-list table-white" style="margin-bottom:0px;" width="100%">
+  <col width="25%">
+  <col width="75%">
+<tr>
+	<th style="text-align:right;">Fullname : </th>
+	<td style="text-align:left;">{{obj.firstname}} {{obj.lastname}}</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Email : </th>
+	<td style="text-align:left;">{{obj.email}}</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Date of Birth : </th>
+	<td style="text-align:left;">
+	{% if obj.dob %}
+		{{obj.dob}} - {{obj.age}} Y/O
+	{% else %}
+		??
+	{% endif %}
+	</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Phone number(s) : </th>
+	<td style="text-align:left;">
+	{% if obj.phone_1 or obj.phone_2 %}
+		{% if obj.phone_1 %}
+		  {{obj.phone_1}}
+		{% endif %}
+		{% if obj.phone_2 %}
+		  , {{obj.phone_2}}
+		{% endif %}	
+	{% else %}
+		??
+	{% endif %}
+	</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Work Status : </th>
+	<td style="text-align:left;">
+	{% if obj.work_status %}
+		{{ obj.get_work_status_display }}
+	{% else %}
+		??
+	{% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;">Available : </th>
+	<td style="text-align:left;">
+	  {% if obj.available == None %}
+		??
+		{% else %}
+			{% if obj.available == True %}
+				Yes
+			{% else %}
+				No
+			{% endif %}	
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;">Relocation : </th>
+	<td style="text-align:left;">
+	  {% if obj.relocation == None %}
+		??
+		{% else %}
+			{% if obj.relocation == True %}
+				Open to relocate
+			{% else %}
+				No
+			{% endif %}	
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;">Right to Represent : </th>
+	<td style="text-align:left;">
+	  {% if obj.righttorep == None %}
+		??
+		{% else %}
+			{% if obj.righttorep == True %}
+				Yes
+			{% else %}
+				No
+			{% endif %}	
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;">Address : </th>
+	<td style="text-align:left;">
+	  {% if obj.address %}
+		{{obj.address}}.
+	  {% endif %}
+	  {% if obj.city %}
+		{{obj.city}},
+	  {% endif %} 
+	  {% if obj.state %}
+		{{obj.state}}
+	  {% endif %}
+		{% if obj.zipcode %}
+			{{obj.zipcode}}
+		{% endif %}
+		{% if obj.country %}
+			{{obj.country}}
+		{% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;">Total Experience : </th>
+	<td style="text-align:left;">
+	{% if obj.experience %}
+		{% if obj.experience > 11 %}
+			{% if obj.experience < 252 %}
+				{{obj.yearsexp}}
+					{% if obj.monthsexp > 0 %}
+						+
+					{% endif %}
+					years
+			{% else %}
+				20 years +
+			{% endif %}
+		{% else %}
+			{{obj.monthsexp}} Month(s)
+		{% endif %}
+	{% else %}
+	??
+	{% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;">US Experience : </th>
+	<td style="text-align:left;">
+	  {% if obj.usexperience %}
+		{% if obj.usexperience > 11 %}
+			{% if obj.usexperience < 252 %}
+				{{obj.usyearsexp}}
+					{% if obj.usmonthsexp > 0 %}
+						+
+					{% endif %}
+					years
+			{% else %}
+				20 years +
+			{% endif %}
+		{% else %}
+			{{obj.usmonthsexp}} Month(s)
+		{% endif %}
+	  {% else %}
+		??
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;">Education : </th>
+	<td style="text-align:left;">
+	  {% if obj.education %}
+		{{obj.education}}
+	  {% else %}
+		??
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;">Best time to contact : </th>
+	<td style="text-align:left;">
+	  {% if obj.besttime %}
+		{{obj.besttime}}
+	  {% else %}
+		??
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;">Current Salary : </th>
+	<td style="text-align:left;">
+	  {% if obj.salary_cur %}
+		{{obj.salary_cur}}
+	  {% else %}
+		??
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;vertical-align:top">Documents : </th>
+	<td style="text-align:left;">
+	  {% if documents %}
+		<ol>
+		{% for obj in documents %}
+			<li>
+			{{obj.get_type_display}} - {{ obj.datetime|date:"N j, Y"}}
+			</li>
+		{% endfor %}
+		</ol>
+	  {% else %}
+		No Documents
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;vertical-align:top"> Profiles : </th>
+	<td style="text-align:left;">
+	  {% if profiles|length  > 0 %}
+		<ol>
+		{% for obj in profiles %}
+			<li>
+			{{ obj|truncatechars:60 }}
+			</li>
+		{% endfor %}
+		</ol>
+	  {% else %}
+		No Applications
+	  {% endif %}
+	</td>
+</tr>
+
+
+
+</table>
+
+{% endblock content %}

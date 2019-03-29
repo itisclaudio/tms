@@ -1,0 +1,125 @@
+{% extends '_base.html' %}
+{% block title %}Recent Changes{% endblock title %}
+{% block content %}
+
+<div class="row" style="margin:0px;">
+	<div class="col-xs-12 col-sm-7" style="padding-left:0px; padding-right:0px;">
+		<h1 style="margin-bottom:4px;vertical-align:text-bottom;">
+			<i class="glyphicon glyphicon-sunglasses"></i> Tracked Changes
+				<span class="label label-default" style="display:inline;">{{ paginatorlist.paginator.count }}</span>
+		</h1>
+	</div>
+	<div class="col-xs-12 col-sm-5" style="padding-left:0px; padding-right:0px;">
+		<div class="row" style="margin:0px;">
+			<div class="col-xs-2" style="padding:1px;">
+				{% if paginatorlist.has_previous %}
+					<a class="btn btn-default btn-block" href="/trackings/1/">
+				{% else %}
+					<a class="btn btn-default btn-block disabled">
+				{% endif %}
+				<span class="glyphicon glyphicon-fast-backward"></span></a>
+			</div>
+			<div class="col-xs-2" style="padding:1px;">
+				{% if paginatorlist.has_previous %}
+					<a class="btn btn-default btn-block" href="/trackings/{{paginatorlist.previous_page_number}}">
+				{% else %}
+					<a class="btn btn-default btn-block disabled">
+				{% endif %}
+				<span class="glyphicon glyphicon-step-backward"></span></a>
+			</div>
+			<div class="col-xs-4" style="padding:1px;">
+				<a class="btn btn-default btn-block disabled">Page {{paginatorlist.number}} of {{paginatorlist.paginator.num_pages}}</a>
+			</div>
+			<div class="col-xs-2" style="padding:1px;">
+				{% if paginatorlist.has_next %}
+					<a class="btn btn-default btn-block" href="/trackings/{{paginatorlist.next_page_number}}">
+				{% else %}
+					<a class="btn btn-default btn-block disabled">
+				{% endif %}
+				<span class="glyphicon glyphicon-step-forward"></span></a>
+			</div>
+			<div class="col-xs-2" style="padding:1px;">
+				{% if paginatorlist.has_next %}
+					<a class="btn btn-default btn-block" href="/trackings/{{paginatorlist.paginator.num_pages}}">
+				{% else %}
+					<a class="btn btn-default btn-block disabled">
+				{% endif %}
+				<span class="glyphicon glyphicon-fast-forward"></span></a>
+			</div>
+		</div>
+	</div>
+</div>
+		
+{% if paginatorlist.paginator.count > 0 %}
+	<div class="list-group" style="margin-bottom:0px;">
+		{% for log in paginatorlist.object_list %}
+			<a href="{% url 'view_tracking' id=log.id %}" class="list-group-item" style="font-size:14px;">
+				{% if log.type == '2' %}
+					<span class="label label-success" title="Add" style="padding:3px 1px 2px 5px;">
+						<i class="fa fa-plus"></i>
+					</span>
+				{% elif log.type == '1' %}
+					<span class="label label-info" title="Edit" style="padding:3px 1px 2px 5px;">
+						<i class="fa fa-pencil"></i>
+					</span>
+				{% elif log.type == '3' %}
+					<span class="label label-danger" title="Delete" style="padding:3px 1px 2px 5px;">
+						<i class="fa fa-minus"></i>
+					</span>
+				{% endif %} 
+				<span style="margin-left:5px;">{{ log.datetime|date:"N j" }} 
+				by <b>{{ log.recruiter.username }}. {{log.get_type_display }}</b>:
+				{% if log.entity %} {{log.entity|title}} {% endif %} 
+				{% if log.entity_field %} | {{log.entity_field|title}}. {% endif %}
+				{% if log.old %} From: <b>{{ log.old|truncatechars:26 }}</b> {% endif %}
+				{% if log.new %} To: <b>{{ log.new|truncatechars:26 }}</b> {% endif %}
+				</span>
+			</a>
+		 {% endfor %}
+	</div>
+
+	<div class="row" style="margin:0px;">
+		<div class="col-xs-2" style="padding:1px;">
+			{% if paginatorlist.has_previous %}
+				<a class="btn btn-default btn-block" href="/trackings/1/">
+			{% else %}
+				<a class="btn btn-default btn-block disabled">
+			{% endif %}
+			<span class="glyphicon glyphicon-fast-backward"></span></a>
+		</div>
+		<div class="col-xs-2" style="padding:1px;">
+			{% if paginatorlist.has_previous %}
+				<a class="btn btn-default btn-block" href="/trackings/{{paginatorlist.previous_page_number}}">
+			{% else %}
+				<a class="btn btn-default btn-block disabled">
+			{% endif %}
+			<span class="glyphicon glyphicon-step-backward"></span></a>
+		</div>
+			<div class="col-xs-4" style="padding:1px;">
+				<a class="btn btn-default btn-block disabled">Page {{paginatorlist.number}} of {{paginatorlist.paginator.num_pages}}</a>
+			</div>
+		<div class="col-xs-2" style="padding:1px;">
+			{% if paginatorlist.has_next %}
+				<a class="btn btn-default btn-block" href="/trackings/{{paginatorlist.next_page_number}}">
+			{% else %}
+				<a class="btn btn-default btn-block disabled">
+			{% endif %}
+			<span class="glyphicon glyphicon-step-forward"></span></a>
+		</div>
+		<div class="col-xs-2" style="padding:1px;">
+			{% if paginatorlist.has_next %}
+				<a class="btn btn-default btn-block" href="/trackings/{{paginatorlist.paginator.num_pages}}">
+			{% else %}
+				<a class="btn btn-default btn-block disabled">
+			{% endif %}
+			<span class="glyphicon glyphicon-fast-forward"></span></a>
+		</div>
+	</div>
+{% else %}
+	<div class="well well-white" style="padding-top: 20px; padding-left:30px;">
+		<p>No changes</p>
+	</div>
+{% endif %}
+
+
+{% endblock content %}

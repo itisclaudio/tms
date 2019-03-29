@@ -1,0 +1,87 @@
+{% extends '_base.html' %}
+{% block title %}New Application{% endblock title %}
+{% block content %}
+
+<h1><i class="glyphicon glyphicon-send"></i> New Application</h1>
+<div class="well">
+
+	<form action="." method="POST" class="form-horizontal">
+		{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-group fieldWrapper">
+			<label for="id_profile" class="col-sm-3 control-label">Profile:</label>
+			<div class="col-sm-9">
+				{{ form.profile }}
+				{{ form.profile.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_opening" class="col-sm-3 control-label">Opening:</label>
+			<div class="col-sm-9">
+				{{ form.opening }}
+				{{ form.opening.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_rate" class="col-sm-3 control-label">Rate:</label>
+			<div class="col-sm-4">
+				{{ form.rate }}
+				{{ form.rate.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_submitted" class="col-sm-3 control-label">Submitted:</label>
+			<div class="col-sm-6">
+				{{ form.submitted }}
+				{{ form.submitted.errors }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-sm-offset-3">
+				<button id="save_button" class="btn  btn-primary btn-lg">Apply</button> 
+				<a class="btn btn-primary btn-lg" href="{% url 'view_applications' %}">Cancel</a>
+			</div>
+		</div>
+	</form>
+</div>
+<br>
+<div class="well" style="margin:0px"><!--7-->
+<h2 style="text-align:left;margin-top:5px; margin-bottom:5px;"><i class="glyphicon glyphicon-send"></i> Latest Applications:
+	<span class="label label-default" style="display:inline;">{{ counter }}</span>
+	<a class="btn btn-primary" title="See All"  href="{% url 'view_applications' %}">
+		<i class="glyphicon glyphicon-th-large"></i>
+	</a>
+</h2>
+{% if counter  > 0 %}
+	{% for obj in objs %}
+	<div class="well well-white">	
+		<a class="btn btn-info" title="Edit"  href="{% url 'view_applicationedit' id=obj.id %}">
+			<i class="glyphicon glyphicon-pencil"></i>
+		</a>
+		<a class="btn btn-info" title="New Activity"  href="{% url 'view_activitynew_application' application_id=obj.id %}">
+			<i class="glyphicon glyphicon-earphone icon-white"></i>
+		</a>
+		<a class="btn btn-primary" title="{{obj}}" href="{% url 'view_application' id=obj.id %}">
+			{{obj|truncatechars:82}}
+		</a>
+
+		<p style="margin-bottom:0px;">
+		Activities: {{obj.activities_count}}, Status: {{obj.get_status_display }}, Submited: {{obj.datetime|date:"SHORT_DATE_FORMAT"}}
+		</p>
+	</div>
+	{% endfor %}
+{% else %}
+	<div class="well well-white">
+		<p>There are no applications
+		{% if search %}
+			for <b>"{{search}}"</b>
+		{% endif %}
+		</p>
+		<a class="btn btn-primary" href="{% url 'view_applicationnew' %}" title="Add new application ">
+			<i class="glyphicon glyphicon-plus"></i> Create new application
+		</a>
+	</div>
+{% endif %}
+</div><!--7!-->
+
+{% endblock content %}

@@ -1,0 +1,17 @@
+{% extends '_base.html' %}
+{% block title %}PTMS - Error 500{% endblock %}
+{% block content %}
+<div class="jumbotron" style="text-align:center;">
+	<a href="{{ request.build_absolute_uri }}">
+	<img alt="Prosoft's Talent Management System" src="/media/images/prosoft_128.png" class="img-rounded" width="120px">
+	</a>
+	<br><br>
+	<h1 style="text-align:center;">URL Broken</h1>
+	<br>
+	<p class="smallfont">(Error 500)</p>
+	<p class="smallfont" style="text-align:center;">The URL you are trying to access:</p>
+	<p class="smallfont" style="text-align:center;color:red;">{{ request.build_absolute_uri }}</p>
+	<p class="smallfont" style="text-align:center;">doesn't exist or is broken</p>
+	<a class="btn btn-lg btn-primary" href="{% url 'view_main' %}" role="button">Home</a>	
+</div>
+{% endblock %}

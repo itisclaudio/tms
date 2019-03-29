@@ -1,0 +1,226 @@
+{% extends '_base.html' %}
+{% block title %}{{obj}} - Application{% endblock title %}
+{% block content %}
+
+<!--Modal-Processing -->
+<div class="modal fade" id="modal_processing" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="myModalLabel">Processing...</h1>
+      </div>
+      <div class="modal-body">
+		<div class="progress">
+			  <div class="progress-bar progress-bar-striped progress-bar-primary active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+			  </div>
+		</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal end -->
+
+<!--Modal to delete application -->
+<div class="modal fade" id="modal_delete_application" tabindex="-1" role="dialog" aria-labelledby="modal_delete_applicationLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalUnlinkSocialLabel">Delete Application</h2>
+      </div>
+      <div class="modal-body">
+		Are you sure you want to delete this acpplication?<br><br>
+		<blockquote>
+		<p><b>Application:</b><br>
+		{{ obj }}<br><br>
+		<b>Submitted:</b><br>
+		{{ obj.submitted}} ({{ obj.submitted|timesince }} ago)<br><br>
+		<b>Recruiter:</b><br>
+		{{obj.recruiter }}
+	  </p>
+	  </blockquote>
+      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		  <a id="use_photo" class="btn btn-primary" onclick="processing();" href="{% url 'view_application_delete' id=obj.id %}">Yes, delete</a>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal to delete application -->
+<div class="modal fade" id="modal_delete_alert" tabindex="-1" role="dialog" aria-labelledby="modal_delete_alertLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalUnlinkSocialLabel">Delete Application</h2>
+      </div>
+      <div class="modal-body">
+		<div id="modal_delete_msg"></div>
+      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Ok, close</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+	<div class="col-xs-5">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-send"></i> <b>Application</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_applicationnew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+				<li><a onclick="delete_obj();"><i class="glyphicon glyphicon-trash"></i> Delete</a></li>
+				<li><a href="{% url 'view_application_rpt' id=obj.id %}"><i class="glyphicon glyphicon-print"></i> Print</a></li>
+				<li><a href="{% url 'view_applications' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+				<li><a href="{% url 'view_remindernew' model_name='application' field_id=obj.id %}"><i class="glyphicon glyphicon-bell"></i> Create reminder</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-xs-7">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_application/" method="POST" style="display:inline;padding:0px;margin:0px;">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="input-group">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-search"></i>
+				</span>
+				<input type="text" class="form-control" name="search" id="id_search" placeholder="Search application"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="well well-white">
+
+	<form action="." method="POST" class="form-horizontal">
+		{% csrf_token %}
+		{{ form.non_field_errors }}
+
+		<div class="form-group fieldWrapper">
+			<label class="col-sm-3 control-label">Profile:</label>
+			<label class="col-sm-9 control-label" style="text-align: left;padding-top: 0px;">
+				<a class="btn btn-primary" title="{{obj.profile}}"  href="{% url 'view_profile' id=obj.profile.id %}">
+				{{ obj.profile|truncatechars:52 }}
+				</a>
+			</label>
+		</div>
+
+		<div class="form-group fieldWrapper">
+			<label class="col-sm-3 control-label">Opening:</label>
+			<label class="col-sm-9 control-label" style="text-align: left;padding-top: 0px;">
+				<a class="btn btn-primary" title="{{obj.opening}}"  href="{% url 'view_opening' id=obj.opening.id %}">
+				{{ obj.opening|truncatechars:52 }}
+				</a>
+			</label>
+		</div>
+
+		<div class="form-group fieldWrapper">
+			<label for="id_rate" class="col-sm-3 control-label">Rate:</label>
+			<div class="col-sm-4">
+				{{ form.rate }}
+				{{ form.rate.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_submitted" class="col-sm-3 control-label">Submitted:</label>
+			<div class="col-sm-6">
+				{{ form.submitted }}
+				{{ form.submitted.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_active" class="col-sm-3 control-label">Status:</label>
+			<div class="col-sm-3">
+				{{ form.active }}
+				{{ form.active.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label class="col-sm-3 control-label">Recruiter:</label>
+			<label class="col-sm-7 control-label" style="text-align: left;">
+			  {{obj.recruiter}}
+			</label>
+		</div>
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-3">
+				<button id="save_button" class="btn  btn-primary btn-lg">Save</button> 
+				<a class="btn btn-primary btn-lg" href="{% url 'view_application' id=obj.id %}">Cancel</a>
+			</div>
+		</div>
+	</form>
+</div>
+<p class="smallfont" style="text-align:right;margin-bottom:0px;">Created: {{obj.created}} | Updated: {{obj.updated}}</p>
+
+<br>
+{### ACTIVITIES HEAD ###}
+<div class="row">
+	<div class="col-xs-12">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-earphone"></i> <b>Related Activities</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_activitynew' %}"><i class="glyphicon glyphicon-plus"></i> New Activity</a></li>
+				<li><a href="{% url 'view_activities' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even not related)</a></li>
+			</ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+			<span class="label label-default" style="display:inline;">{{ counter }} / {{ total }}</span>
+		</h2>
+	</div>
+</div>
+{### ACTIVITIES HEAD - End ###}
+
+{### ACTIVITIES LIST ###}
+{% if counter  > 0 %}
+	<div class="list-group">
+		{% for obj in activities %}
+		 <a href="{% url 'view_activity' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p class="smallfont" style="margin-top:2px; margin-bottom:2px;"> {{ obj.get_type_display }} by {{obj.recruiter}}</p>
+			<p style="margin-bottom:2px;"><b>{{obj|truncatechars:78}}</b></p>
+			<p style="margin-bottom:0px;">{{obj.notes|truncatewords:20}}</p>
+		  </a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white" style="margin-bottom: 14px;">
+		<p>There are no activities</p>
+		<a class="btn btn-primary" href="{% url 'view_activitynew' %}" title="Add new activity to the system">
+			<i class="glyphicon glyphicon-plus"></i> Create new activity
+		</a>
+	</div>
+{% endif %}
+{### ACTIVITIES LIST - End ###}
+
+{% block extra-bottom %}
+<script type="text/javascript">
+	function processing(){
+		$("#modal_delete_application").modal('hide');
+		$("#modal_processing").modal('show');
+	};
+	{% if obj.recruiter = user %}
+		{# When application recruiter = to user logged, can delete #}
+		function delete_obj(){
+			if ({{total}} == 0) {
+				$("#modal_delete_application").modal('show');
+			} else if ({{total}} > 0) {
+				msg = "You can not delete this application since there are activities associated to it.</br>All activities related to this application should be deleted first.";
+				$('#modal_delete_msg').html(msg);
+				$("#modal_delete_alert").modal('show');
+			}
+			
+		};
+	{% else %}
+	{# When application recruiter != to user logged, can NOT delete #}
+		function delete_obj(){
+			msg = "You can not delete this application.</br>Only creator of the application or administrator can delete it";
+			$('#modal_delete_msg').html(msg);
+			$("#modal_delete_alert").modal('show');
+		};
+	{% endif %}
+</script>
+{% endblock %}
+
+{% endblock content %}

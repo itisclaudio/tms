@@ -1,0 +1,124 @@
+{% extends '_base.html' %}
+{% block title %}Applicants{% endblock title %}
+{% block content %}
+<div class="row">
+	<div class="col-xs-5">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-user"></i> <b>Applicants</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_applicantnew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+				<li><a href="{% url 'view_applicants' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+				{% if not search %}
+					<li><a href="{% url 'view_applicants_rpt' %}"><i class="glyphicon glyphicon-print"></i> Print All</a></li>
+				{% endif %}
+			</ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+			<span class="label label-default" style="display:inline;">{{ counter }}</span>
+		</h2>
+	</div>
+	<div class="col-xs-7">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_applicant/" method="POST" style="display:inline;padding:0px;margin:0px;">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="input-group">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-search"></i>
+				</span>
+				{% if search %}
+					<input value="{{search}}" type="text" class="form-control" name="search" id="id_search" placeholder="Search applicant"/>
+				{% else %}
+					<input type="text" class="form-control" name="search" id="id_search" placeholder="Search applicant"/>
+				{% endif %}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% if counter  > 0 %}
+	<div class="list-group">
+		{% for obj in objs %}
+		<a href="{% url 'view_applicant' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p style="margin-bottom:2px;"><b>{{obj.firstname|truncatechars:15}} {{obj.lastname|truncatechars:15}}</b></p>
+			<p style="margin-top:2px; margin-bottom:2px; line-height:14px;" class="smallfont">
+			<i class="glyphicon glyphicon-send" title="Profiles"></i>  {{obj.profiles_count}} | 
+			<i class="glyphicon glyphicon-send" title="Applications"></i>  {{obj.app_count}} |
+			<i class="glyphicon glyphicon-globe" title="Location"></i> 
+			{% if obj.country %}
+				{% if obj.country.code == 'US' %}
+					{% if obj.city %}
+						{{ obj.city }}, 
+					{% endif %}
+					<span title="{{obj.state.name}}">{{obj.state.code}}</span>
+				{% else %}
+					{{obj.country.name}}
+				{% endif %}
+			{% else %}
+				"<i>No country</i>"
+			{% endif %} |
+			
+			<b>Relocate:</b>
+			{% if obj.relocation == True %}
+				Open
+			{% endif %}
+			{% if obj.relocation == False %}
+				No
+			{% endif %} | 
+			
+			{% if obj.experience %}
+				<b>Experience:</b>
+				{% if obj.experience < 12 %}
+					{{obj.experience}} Months
+				{% endif %}
+				{% if obj.experience == 12 %}
+					1 Year
+				{% endif %}
+				{% if obj.experience > 12 %}
+					{% if obj.experience < 252 %}
+						{{obj.yearsexp}}
+						{% if obj.monthsexp > 0%}
+						+
+						{% endif %}
+						Years
+					{% else %}
+						20 years +
+					{% endif %}
+				{% endif %} |
+			{% endif %}
+			{% if obj.work_status %}
+				<b>Legal Status:</b>
+					{{ obj.get_work_status_display }} | 
+			{% endif %}
+			<b>Available:</b>
+			{% if obj.available == True %}
+				Yes
+			{% endif %}
+			{% if obj.available == False %}
+				No
+			{% endif %}
+			</p>
+		</a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white">
+		<p>There are no applicants
+		{% if search %}
+			for <b>"{{search}}"</b>
+		{% endif %}
+		</p>
+		<a class="btn btn-primary" href="{% url 'view_applicantnew' %}" title="Create new applicant">
+			<i class="glyphicon glyphicon-plus"></i> Create new applicant
+		</a>
+	</div>
+{% endif %}
+
+{% block focus %}
+	<script type="text/javascript">
+		document.getElementById('id_search').focus();
+	</script>
+{% endblock %}
+
+{% endblock content %}

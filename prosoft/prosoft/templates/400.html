@@ -1,0 +1,16 @@
+{% extends '_base.html' %}
+{% block title %}PTMS - Error 400{% endblock %}
+{% block content %}
+<div class="jumbotron" style="text-align:center;">
+	<a href="{{ request.build_absolute_uri }}">
+	<img alt="Prosoft's Talent Management System" src="/media/images/prosoft_128.png" class="img-rounded" width="120px">
+	</a>
+	<br><br>
+	<h1 style="text-align:center;">Sorry! something went wrong :(</h1>
+	<br>
+	<p class="smallfont">(Error 400) in:<br/>
+	<b style="color:red;">{{ request.build_absolute_uri }}</b>
+	</p>
+	<a class="btn btn-lg btn-primary" href="{% url 'view_main' %}" role="button">Home</a>	
+</div>
+{% endblock %}

@@ -1,0 +1,202 @@
+{% extends '_site_base.html' %}
+{% load static %}
+{% block extra-head %}
+	<!-- stylesheets -->
+	
+	<!--<link href="{% static 'dist/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" >-->
+	<link href="{% static 'css/main.css' %}" rel="stylesheet" >
+	
+	<!-- <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.js"></script>-->
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style type="text/css">
+      body {
+        background-color:#F4F8FB;
+		padding-top:60px;
+		margin-bottom: 60px;
+		/*padding-bottom:60px;*/
+		/*background-color:#F4F8FB;*/
+      }
+    </style>
+{% endblock extra-head %}
+{% block extra-content-top %}
+
+<!--Navbar (start)-->
+<nav class="navbar navbar-default navbar-fixed-top" style="margin-bottom:10px;">
+<div class = "container-fluid">
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header">
+		<a class="navbar-brand" style="padding-top:4px;padding-right:4px;" href="{% url 'view_main' %}">
+			<img alt="WorldFood.Guide" src="/media/images/prosoft-128x128-28.jpg" class="img-rounded" width="40">
+		</a>
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+		</button>
+	</div>
+	<!-- Collect the nav links, forms, and other content for toggling -->
+	<div class = "collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<form class="navbar-form navbar-left" role="search" action="/searchquick/" method="POST" style="padding-left:0px;padding-right:0px;width:180px;">
+			{% csrf_token %}
+			<div class="form-group" style="width:180px;">
+				<input type="text" class="form-control" name="search" id="id_search_inbar" placeholder="Search..." style="width:180px;"/>
+			</div>
+		</form>
+		<ul class = "nav navbar-nav" style="padding-right:4px;">
+			<li class="dropdown menu">
+				<a href="#" class="dropdown-toggle btn btn-default btn-menu" data-toggle="dropdown">Talent <b class="caret"></b></a>
+				<ul class = "dropdown-menu">
+					<!--<li><a href="/photonewnodish/">Photo Upload</a></li>-->
+					<li><a href="{% url 'view_applicantnew' %}">
+						<i class="glyphicon glyphicon-user"></i> New Applicant</a>
+					</li>
+					<li><a href="{% url 'view_applicants' %}">
+						<i class="glyphicon glyphicon-user"></i> All Applicants</a>
+					</li>
+					<li role="separator" class="divider"></li>
+					<li><a href="{% url 'view_profilenew' %}">
+						<i class="glyphicon glyphicon-education"></i> New Profile</a>
+					</li>
+					<li><a href="{% url 'view_profiles' %}">
+						<i class="glyphicon glyphicon-education"></i> All Profiles</a>
+					</li>
+				</ul>
+			</li>
+			<li class="dropdown menu">
+				<a href="#" class="dropdown-toggle btn btn-default btn-menu" data-toggle="dropdown">Jobs <b class="caret"></b></a>
+				<ul class = "dropdown-menu">
+					<li><a href="{% url 'view_vendornew' %}">
+						<i class="glyphicon glyphicon-shopping-cart"></i> New Vendor</a>
+					</li>
+					<li><a href="{% url 'view_vendors' %}">
+						<i class="glyphicon glyphicon-shopping-cart"></i> All Vendors</a>
+					</li>
+					<li role="separator" class="divider"></li>
+					{% if user.member.role < 3 %}
+					<li><a href="{% url 'view_openingnew' %}">
+						<i class="glyphicon glyphicon-briefcase"></i> New Opening</a>
+					</li>
+					{% endif %}
+					<li><a href="{% url 'view_openings' %}">
+						<i class="glyphicon glyphicon-briefcase"></i> All Openings</a>
+					</li>
+					<li role="separator" class="divider"></li>
+					<li><a href="{% url 'view_applicationnew' %}">
+						<i class="glyphicon glyphicon-send"></i> New Application</a>
+					</li>
+					<li><a href="{% url 'view_applications' %}">
+						<i class="glyphicon glyphicon-send"></i> All Applications</a>
+					</li>
+					<li role="separator" class="divider"></li>
+					<li><a href="{% url 'view_activitynew' %}">
+						<i class="glyphicon glyphicon-earphone"></i> New Activity</a>
+					</li>
+					<li><a href="{% url 'view_activities' %}">
+						<i class="glyphicon glyphicon-earphone"></i> All Activities</a>
+					</li>
+					<li role="separator" class="divider"></li>
+					<li><a href="{% url 'view_reminders' %}">
+						<i class="glyphicon glyphicon-bell"></i> All Reminders</a>
+					</li>
+					<li><a href="{% url 'view_remindernew' %}">
+						<i class="glyphicon glyphicon-bell"></i> New Reminder</a>
+					</li>
+					<li><a href="{% url 'view_reminders' active='3' private='3' mine='1' %}">
+						<i class="glyphicon glyphicon-bell"></i> My Reminders</a>
+					</li>
+					<li><a href="{% url 'view_reminders' active='3' private='1' mine='1' %}">
+						<i class="glyphicon glyphicon-bell"></i> My Private Reminders</a>
+					</li>
+					<li><a href="{% url 'view_reminders' active='1' private='1' mine='1' %}">
+						<i class="glyphicon glyphicon-bell"></i> My Private Active Reminders</a>
+					</li>
+					<li><a href="{% url 'view_reminders' active='0' private='1' mine='1' %}">
+						<i class="glyphicon glyphicon-bell"></i> My Private Inactive Reminders</a>
+					</li>					
+					</ul>
+			</li>
+			<li class="dropdown menu">
+				<a href="#" class="dropdown-toggle btn btn-default btn-menu" data-toggle="dropdown">Others <b class="caret"></b></a>
+				<ul class = "dropdown-menu">
+					<li><a href="{% url 'view_skillnew' %}">
+						<i class="glyphicon glyphicon-wrench"></i> New Skill</a>
+					</li>
+					<li><a href="{% url 'view_skills' %}">
+						<i class="glyphicon glyphicon-wrench"></i> All Skills</a>
+					</li>
+					<li role="separator" class="divider"></li>
+					<li><a href="{% url 'view_reports' %}">
+						<i class="glyphicon glyphicon-print"></i> All Reports</a>
+					</li>
+					<li role="separator" class="divider"></li>
+					<li><a href="{% url 'view_myprofile' %}">
+						<i class="glyphicon glyphicon-bullhorn"></i> My Profile</a>
+					</li>
+					{% if user.member.role < 3 %}
+					<li role="separator" class="divider"></li>
+					<li><a href="{% url 'view_recruiternew' %}">
+						<i class="glyphicon glyphicon-bullhorn"></i> New Recruiter</a>
+					</li>
+					<li><a href="{% url 'view_recruiters' %}">
+						<i class="glyphicon glyphicon-bullhorn"></i> All Recruiters</a>
+					</li>
+					<li role="separator" class="divider"></li>
+					<li><a href="{% url 'view_trackings' %}">
+						<i class="glyphicon glyphicon-sunglasses"></i> Tracked Changes</a>
+					</li>
+					{% endif %}
+					<li role="separator" class="divider"></li>
+					<li><a href="{% url 'view_logout' %}">
+						<i class="glyphicon glyphicon-log-out"></i> Logout</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<a href="/myprofile/">
+		<ul class="pull-right hidden-phone hidden-sm hidden-xs" style="margin:10px 0px 5px 0px;">
+			<li style="display:inline;"><b>{{user}}</b>
+			 </li>
+		</ul></a>
+	</div>
+	
+</div>
+</nav>
+<!--Navbar (end)-->
+
+<!--Body (start)-->
+<div class="container">
+<div class="row">
+
+	<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12"><!--Main Content (start)-->
+{% endblock extra-content-top %}
+
+{% block extra-content-botton %}
+	</div><!--Main Content (end)-->
+	<div class="col-lg-3 col-md-3 hidden-sm hidden-xs hidden-phone"><!--Side right bar (start)-->
+		{% if user.member.role < 3 %}
+			<a href="{% url 'view_trackings' %}" class="sidebar">Recent Changes...</a>
+			{% load trackings %}
+			{% show %}
+		{% endif %}
+		<p class="sidebar">Openings</p>
+		{% load openings %}
+		{% show %}
+		<p class="sidebar">My Reminders</p>
+		{% load reminders_private %}
+		{% show_reminders user %}
+		<p class="sidebar">Reminders</p>
+		{% load reminders %}
+		{% show_reminders %}
+	</div><!--Side right bar (end)-->
+
+</div><!--Row (End)-->
+</div><!--Body (End)-->
+<!--Stiky Footnote (start)-->
+<footer class="footer navbar navbar-default" style="padding-top:0px;margin-bottom:0px;margin-top:0px;">
+	<div class="container">
+		<p style="margin-top:8px;margin-bottom:0px;" class="navbar-text pull-left smallfont"> &copy; Prosoft Associates - Talent Management System (TMS) | Contact Us | Site Index</p>
+	</div>
+</footer>
+<!--Stiky Footnote (end)-->
+{% endblock %}

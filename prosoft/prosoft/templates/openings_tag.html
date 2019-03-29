@@ -1,0 +1,12 @@
+<div class="list-group" style="margin-bottom: 5px;">
+	{% if objs %}
+		{% for obj in objs %}
+		 <a href="{% url 'view_opening' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p class="smallfont" style="margin-bottom: 0px;"><b>{{obj.role|truncatechars:36}}</b><br>
+			{{obj|truncatechars:36}}</p>
+		  </a>
+		{% endfor %}
+	{% else %}
+		<li class="list-group-item">No Recent Openings</li>
+	{% endif %}
+</div>

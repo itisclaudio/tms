@@ -1,0 +1,161 @@
+{% extends '_base.html' %}
+{% block title %}Editing Job Opening{% endblock title %}
+{% block content %}
+
+<h1>Editing Job Opening</h1>
+<div class="well">
+	<form action="." method="POST" class="form-horizontal">
+		{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-group">
+			<label for="id_role" class="col-sm-3 control-label">Role:</label>
+			<div class="col-sm-9">
+				{{ form.role }}
+				{{ form.role.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_skills" class="col-sm-3 control-label">Main Skill(s): <br><em class="smallfont">Press control or command for multiple selections</em></label>
+			<div class="col-sm-9">
+			<select multiple="multiple" class="form-control" id="id_skills" name="skills">
+			{% for choice in form.skills.field.choices %}
+				<option value="{{choice.0}}" 
+					{% for skill in skills %}
+						{% ifequal skill.id choice.0 %}
+							selected="selected"
+						{% endifequal %}
+					{% endfor %}/>
+				{{choice.1|truncatechars:60}}</option>
+			{% endfor %}
+			</select>
+			<a class="btn btn-primary" href="{% url 'view_skillnew' %}" title="Add new Skill">New skill</a>
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_education" class="col-sm-3 control-label">Education:</label>
+			<div class="col-sm-6">
+				{{ form.education }}
+				{{ form.education.errors }}
+			</div>
+		</div>
+
+		<div class="form-group fieldWrapper">
+			<label for="id_rate" class="col-sm-3 control-label">Rate:</label>
+			<div class="col-sm-6">
+				{{ form.rate }}
+				{{ form.rate.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_posted" class="col-sm-3 control-label">Posted Date:</label>
+			<div class="col-sm-7">
+				{{ form.posted }}
+				{{ form.posted.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_startdate" class="col-sm-3 control-label">Start Date:</label>
+			<div class="col-sm-7">
+				{{ form.startdate }}
+				{{ form.startdate.errors }}
+			</div>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_city" class="col-sm-3 control-label">City / State:</label>
+			<div class="col-sm-4">
+				{{ form.city }}
+				{{ form.city.errors }}
+			</div>
+			<div class="col-sm-4">
+				{{ form.state }}
+				{{ form.state.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_duration_months" class="col-sm-3 control-label">Duration (YY)(MM):</label>
+			<div class="col-sm-3">
+				{{ form.duration_years }}
+				{{ form.duration_years.errors }}
+			</div>
+			<div class="col-sm-3">
+				{{ form.duration_months }}
+				{{ form.duration_months.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_exp_months" class="col-sm-3 control-label">Experience (YY)(MM):</label>
+			<div class="col-sm-3">
+				{{ form.exp_years }}
+				{{ form.exp_years.errors }}
+			</div>
+			<div class="col-sm-3">
+				{{ form.exp_months }}
+				{{ form.exp_months.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_level" class="col-sm-3 control-label">Level:</label>
+			<div class="col-sm-6">
+				{{ form.level }}
+				{{ form.level.errors }}
+			</div>
+		</div>		
+		<div class="form-group fieldWrapper">
+			<label for="id_contract" class="col-sm-3 control-label">Contrac Type:</label>
+			<div class="col-sm-6">
+				{{ form.contract }}
+				{{ form.contract.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_work_auth" class="col-sm-3 control-label">Authorization:</label>
+			<div class="col-sm-6">
+				{{ form.work_auth }}
+				{{ form.work_auth.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_vendor" class="col-sm-3 control-label">Vendor:</label>
+			<div class="col-sm-6">
+				{{ form.vendor }}
+				{{ form.vendor.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_endclientinfo" class="col-sm-3 control-label">End-client information:</label>
+			<div class="col-sm-9">
+				{{ form.endclientinfo }}
+				{{ form.endclientinfo.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_partnerinfo" class="col-sm-3 control-label">Partner information:</label>
+			<div class="col-sm-9">
+				{{ form.partnerinfo }}
+				{{ form.partnerinfo.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_responsibilities" class="col-sm-3 control-label">Responsibilities:</label>
+			<div class="col-sm-9">
+				{{ form.responsibilities }}
+				{{ form.responsibilities.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_open" class="col-sm-3 control-label" style="margin-top: 0px;">Open:</label>
+			<div class="col-sm-6">
+				{{ form.open }}
+				{{ form.open.errors }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-sm-offset-3">
+				<button id="save_button" class="btn  btn-primary btn-lg">Save</button> 
+				<a class="btn btn-primary btn-lg" href="{% url 'view_opening' id=obj.id %}">Cancel</a>
+			</div>
+		</div>
+	</form>
+</div>
+{% endblock content %}

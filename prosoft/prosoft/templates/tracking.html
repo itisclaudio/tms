@@ -1,0 +1,91 @@
+{% extends '_base.html' %}
+{% block title %}Change Detail{% endblock title %}
+{% block content %}
+
+<h1 style="margin-bottom:4px;vertical-align:text-bottom;">
+	<i class="glyphicon glyphicon-sunglasses"></i> Change Detail
+	<form action="{% url 'trackingdelete' obj.id %}" method="post" style="display:inline;">
+		{% csrf_token %}
+		<input type="hidden" name="tracking_id" value="{{obj.id}}"/>
+		<button class="btn btn-primary" type="submit">
+			<i class="glyphicon glyphicon-trash"></i> 
+		</button>	
+	</form>
+	<a class="btn btn-primary" title="See All"  href="{% url 'view_trackings' %}">
+		<i class="glyphicon glyphicon-th-large"></i>
+	</a>
+</h1>
+<div class="well well-white">
+<dl class="dl-horizontal">
+	
+	<dt>Recruiter:</dt>
+	<dd>
+	<a class="btn btn-primary" href="/recruiter_profile/{{obj.recruiter.id}}" title="Go to Recruiter">
+		{{obj.recruiter.username}}
+	</a>	
+	</dd>
+
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	
+	<dt>Date and Time:</dt>
+	<dd>{{obj.datetime|date:"m/d/Y - g:ia" }}</dd>
+
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+
+	<dt>Type:</dt>
+	<dd>
+	{% if obj.type == '2' %}
+		<span class="label label-success" title="Add" style="padding:3px 5px 3px 7px;">
+			<i class="fa fa-plus"></i>
+		</span> 
+	{% elif obj.type == '1' %}
+		<span class="label label-info" title="Edit" style="padding:3px 4px 3px 7px;">
+			<i class="glyphicon glyphicon-pencil icon-white"></i>
+		</span> 
+	{% elif obj.type == '3' %}
+		<span class="label label-danger" title="Delete" style="padding:3px 5px 3px 7px;">
+			<i class="fa fa-minus"></i>
+		</span> 
+	{% endif %}&nbsp{{obj.get_type_display }}</dd>
+	{% if obj.entity %}
+		<hr style="margin-top: 5px;margin-bottom: 5px;">
+		<dt>Entity:</dt>
+		<dd>
+		{% if obj.entity_id %}
+			<a class="btn btn-primary" href="/{{obj.entity}}/{{obj.entity_id}}" title="Go to entity">
+				{{ obj.entity|title }}
+			</a>
+		{% else %}
+			{{ obj.entity|title }}
+		{% endif %}
+		</dd>
+	{% endif %}
+
+	{% if obj.entity_field %}
+		<hr style="margin-top: 5px;margin-bottom: 5px;">
+		<dt>Entity Field:</dt>
+		<dd>{{ obj.entity_field|title }}</dd>
+	{% endif %}
+	
+	{% if obj.old %}
+		<hr style="margin-top: 5px;margin-bottom: 5px;">
+		<dt>Old Value:</dt>
+		<dd>{{ obj.old }}</dd>
+	{% endif %}
+
+	{% if obj.new %}
+		<hr style="margin-top: 5px;margin-bottom: 5px;">
+		<dt>New Value:</dt>
+		<dd>{{ obj.new }}</dd>
+	{% endif %}
+	
+	{% if obj.extrainfo %}
+		<hr style="margin-top: 5px;margin-bottom: 5px;">
+		<dt></dt>
+		<dd>{{ obj.extrainfo|safe }}</dd>
+	{% endif %}
+	
+</dl>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,98 @@
+{% extends '_base.html' %}
+{% block title %}{{obj}} - Profile{% endblock title %}
+{% block content %}
+
+<h1 class="report"><i class="glyphicon glyphicon-education"></i> Profile</h1>
+<p style="margin-top:0px;text-align:center;">Prosoft's Talent Management System</p>
+
+<table class="table table-list table-white" style="margin-bottom:0px;" width="100%">
+  <col width="25%">
+  <col width="75%">
+<tr>
+	<th style="text-align:right;">Applicant : </th>
+	<td style="text-align:left;">{{ obj.applicant }}</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Main Skill(s) : </th>
+	<td style="text-align:left;">
+	{% if obj.skills.all %}
+		{% for p in obj.skills.all %}
+				{{p.name}}
+		{% endfor %}
+	{% else %}
+		<i>No Main Skill(s)</i>
+	{% endif %}
+	</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Experience : </th>
+	<td style="text-align:left;">
+	  {% if obj.experience %}
+			{% if obj.experience < 12 %}
+				{{obj.experience}} Months
+			{% endif %}
+			{% if obj.experience == 12 %}
+				1 Year
+			{% endif %}
+			{% if obj.experience > 12 %}
+				{{obj.yearsexp}}
+				{% if obj.monthsexp > 0%}
+				+
+				{% endif %}
+				Years
+			{% endif %}
+	  {% else %}
+			<i>No info</i>
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;vertical-align:top">Salary Expectations: </th>
+	<td style="text-align:left;">
+	  {% if salary != "" %}
+		{{obj.salary}}
+	  {% else %}
+		<i>No info</i>
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;vertical-align:top">Documents : </th>
+	<td style="text-align:left;">
+	  {% if documents %}
+		<ol>
+		{% for obj in documents %}
+			<li>
+			{{obj.get_type_display}} - {{ obj.datetime|date:"N j, Y"}}
+			</li>
+		{% endfor %}
+		</ol>
+	  {% else %}
+		<i>No Documents</i>
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;vertical-align:top"> Applications : </th>
+	<td style="text-align:left;">
+	  {% if applications|length  > 0 %}
+		<ol>
+		{% for obj in applications %}
+			<li>
+			{{ obj.opening|truncatechars:60 }} - {{ obj.datetime|date:"SHORT_DATE_FORMAT"}} - {{obj.recruiter}} - {{obj.get_status_display }}
+			</li>
+		{% endfor %}
+		</ol>
+	  {% else %}
+		No Applications
+	  {% endif %}
+	</td>
+</tr>
+
+
+</table>
+
+{% endblock content %}

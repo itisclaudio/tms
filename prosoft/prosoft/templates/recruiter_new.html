@@ -1,0 +1,60 @@
+{% extends '_base.html' %}
+{% block title %}New Recruiter{% endblock title %}
+{% block content %}
+
+<h1><i class="glyphicon glyphicon-briefcase"></i> New Recruiter</h1>
+<div class="well">
+	<form action="." method="POST" class="form-horizontal">
+		{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-group">
+			<label for="id_username" class="col-sm-4 control-label">Username:</label>
+			<div class="col-sm-6">
+				{{ form.username }}
+				{{ form.username.errors }}
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="id_first_name" class="col-sm-4 control-label">First name:</label>
+			<div class="col-sm-6">
+				{{ form.first_name }}
+				{{ form.first_name.errors }}
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="id_last_name" class="col-sm-4 control-label">Last name:</label>
+			<div class="col-sm-6">
+				{{ form.last_name }}
+				{{ form.last_name.errors }}
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="id_email" class="col-sm-4 control-label">Email:</label>
+			<div class="col-sm-6">
+				{{ form.email }}
+				{{ form.email.errors }}
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="id_temp_pass" class="col-sm-4 control-label">Temporary Password:</label>
+			<div class="col-sm-6">
+				{{ form.temp_pass }}
+				{{ form.temp_pass.errors }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-sm-offset-4">
+				<button id="save_button" class="btn  btn-primary btn-lg">Save</button> 
+				<a class="btn btn-primary btn-lg" href="{% url 'view_main' %}">Cancel</a>
+			</div>
+		</div>
+	</form>
+</div>
+
+{% block focus %}
+	<script type="text/javascript">
+		document.getElementById('id_userame').focus();
+	</script>
+{% endblock %}
+
+{% endblock content %}

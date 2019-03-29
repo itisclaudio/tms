@@ -1,0 +1,12 @@
+<div class="list-group" style="margin-bottom: 5px;">
+	{% if objs %}
+		{% for obj in objs %}
+		 <a href="{% url 'view_reminder' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p class="smallfont" style="margin-bottom: 0px;"><b>{{obj.datetime|date:"M d" }}</b> by <b>{{obj.recruiter}}</b><br>
+			{{obj.content|truncatewords:10 }}</p>
+		  </a>
+		{% endfor %}
+	{% else %}
+		<li class="list-group-item">No Recent Reminders</li>
+	{% endif %}
+</div>

@@ -1,0 +1,298 @@
+{% extends '_base.html' %}
+{% block title %}Search Results{% endblock title %}
+{% block content %}
+
+<h1 style="text-align:center;">Search Results
+	{% if search %}
+		: <span class="label label-default" style="display:inline;">{{ search }}</span>
+	{% endif %}
+</h1>
+<br>
+
+{## PROFILES - START ##}
+<div class="well well-white">
+<div class="row">
+	<div class="col-sm-6" style="padding-right:2px;">
+		<h2 style="margin-bottom:4px;vertical-align:text-bottom;margin-top:0px;">
+			<i class="glyphicon glyphicon-education"></i> Profiles
+			<span class="label label-default" style="display:inline;">{{ profiles_counter }}</span>
+			<a class="btn btn-primary" href="{% url 'view_profilenew' %}" title="Add new profile to the system">
+				<i class="glyphicon glyphicon-plus"></i>
+			</a>
+			<a class="btn btn-primary" title="See All"  href="{% url 'view_profiles' %}">
+				<i class="glyphicon glyphicon-th-large"></i>
+			</a>
+		</h2>
+	</div>
+	<div class="col-sm-6" style="padding-left:2px; padding-right:2px;">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_profile/" method="POST" style="padding-left:4px;padding-right:0px;width:200px;margin-top: 0px;margin-bottom:0px; margin-right:60px;">
+			{% csrf_token %}
+			<div class="form-group" style="width:200px;">
+				<div class="input-group">
+				<span class="input-group-addon">
+						<i class="glyphicon glyphicon-search"></i>
+				</span>
+				<input type="text" class="form-control" name="search" id="id_search" placeholder="Search profile" style="width:200px;"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{% if profiles_counter  > 0 %}
+	{% for obj in profiles %}
+	<div class="well well-white">	
+		<a class="btn btn-info" title="Edit"  href="{% url 'view_profileedit' id=obj.id %}">
+			<i class="glyphicon glyphicon-pencil icon-white"></i>
+		</a>
+		<a class="btn btn-info" title="See all related applications available"  href="{% url 'view_applicationnew_profile' profile_id=obj.id %}">
+			<i class="glyphicon glyphicon-send icon-white"></i>
+		</a>
+		<a class="btn btn-primary" title="{{obj}}"  href="{% url 'view_profile' id=obj.id %}">
+			{{obj|truncatechars:82}}
+		</a>
+		<p style="margin-bottom:0px;">
+			<b><i class="glyphicon glyphicon-send" title="Applications"></i></b> {{obj.app_count}}
+			| <b>Relocate:</b>
+			{% if obj.applicant.relocation == True %}
+				Open
+			{% endif %}
+			{% if obj.applicant.relocation == False %}
+				No
+			{% endif %}
+			{% if obj.experience %}| <b>Experience:</b>
+				{% if obj.experience < 12 %}
+					{{obj.experience}} Months
+				{% endif %}
+				{% if obj.experience == 12 %}
+					1 Year
+				{% endif %}
+				{% if obj.experience > 12 %}
+					{{obj.yearsexp}}
+					{% if obj.monthsexp > 0%}
+					+
+					{% endif %}
+					Years
+				{% endif %}
+			{% endif %}
+			{% if obj.applicant.availability %}
+			| <b>Availability:</b>
+				{% now "Y-m-d" as todays_date %}
+				{% if obj.applicant.availability|date:"Y-m-d" <= todays_date %}
+				   Immediate
+				{% else %}
+					{{obj.applicant.availability }}
+				{% endif %}
+			{% endif %}
+			{% if obj.salary %}| <b>Salary Expectations:</b>
+				{{obj.salary}}
+			{% endif %}
+			| <b>Status:</b>
+			{% if obj.applicant.work_status %}
+				{{obj.applicant.get_work_status_display}}
+			{% endif %}
+		</p>
+	</div>
+	{% endfor %}
+{% else %}
+	<div class="well">
+		<p>There are no profiles
+			{% if search %}
+				for <b>"{{search}}"</b>
+			{% endif %}
+		</p>
+		<a class="btn btn-primary" href="{% url 'view_profilenew' %}" title="Add new profile to the system">
+			<i class="glyphicon glyphicon-plus"></i> Create new profile
+		</a>
+	</div>
+{% endif %}
+</div>
+{## PROFILES - END ##}
+
+<br>
+
+{## APPLICANT - START ##}
+<div class="well well-white">
+<div class="row">
+	<div class="col-sm-6" style="padding-right:2px;">
+		<h2 style="margin-bottom:4px;vertical-align:text-bottom;margin-top:0px;">
+			<i class="glyphicon glyphicon-user"></i> Applicants 
+			<span class="label label-default" style="display:inline;">{{ counter_applicants }}</span>
+			<a class="btn btn-primary" href="{% url 'view_applicantnew' %}" title="Add new applicant to the system">
+				<i class="glyphicon glyphicon-plus"></i>
+			</a>
+			<a class="btn btn-primary" title="See All"  href="{% url 'view_applicants' %}">
+				<i class="glyphicon glyphicon-th-large"></i>
+			</a>
+		</h2>
+	</div>
+	<div class="col-sm-6" style="padding-left:2px; padding-right:2px;">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_applicant/" method="POST" style="padding-left:4px;padding-right:0px;width:200px;margin-top: 0px;margin-bottom:0px; margin-right:60px;">
+			{% csrf_token %}
+			<div class="form-group" style="width:200px;">
+				<div class="input-group">
+				<span class="input-group-addon">
+						<i class="glyphicon glyphicon-search"></i>
+				</span>
+				<input type="text" class="form-control" name="search" id="id_search" placeholder="Search applicant" style="width:200px;"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="well">
+{% if counter_applicants > 0 %}
+	<table class="table table-hover table-list table-white" style="margin-bottom:0px;">
+	<thead>
+	<tr>
+		<th>Actions</th>
+		<th style="text-align:left;">Name</th>
+		<th><i class="glyphicon glyphicon-education" title="Profiles"></i></th>
+		<th><i class="glyphicon glyphicon-send" title="Applications"></i></th>
+		<th>Location</th>
+        <th>Relocate</th>
+		<th>Total Exp</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for obj in applicants %}
+	<tr>
+		<td>
+			<a class="btn btn-info" href="{% url 'view_profilenew_appicant' applicant_id=obj.id %}" title="Add new profile for {{obj}}">
+				<i class="glyphicon glyphicon-education"></i>
+			</a>
+		</td>
+		<td style="text-align:left;">
+			<a class="btn btn-primary" title="{{obj.firstname}} {{obj.lastname}}" href="{% url 'view_applicant' id=obj.id %}">{{obj.firstname|truncatechars:15}} {{obj.lastname|truncatechars:15}}</a>
+		</td>
+		<td>{{obj.profiles_count}}</td>
+		<td>{{obj.app_count}}</td>
+		<td>
+			{% if obj.country %}
+				{% if obj.country.code == 'US' %}
+					{% if obj.city %}
+						{{ obj.city }}, 
+					{% endif %}
+					<span title="{{obj.state.name}}">{{obj.state.code}}</span>
+				{% else %}
+					{{obj.country.name}}
+				{% endif %}
+			{% else %}
+				No Info
+			{% endif %}
+		</td>
+        <td>
+			{% if obj.relocation == True %}
+				Open
+			{% endif %}
+			{% if obj.relocation == False %}
+				No
+			{% endif %}
+		</td>
+		<td>
+		{% if obj.experience %}
+			{% if obj.experience < 12 %}
+				{{obj.experience}} Months
+			{% endif %}
+			{% if obj.experience == 12 %}
+				1 Year
+			{% endif %}
+			{% if obj.experience > 12 %}
+				{% if obj.experience < 252 %}
+					{{obj.yearsexp}}
+					{% if obj.monthsexp > 0%}
+					+
+					{% endif %}
+					Years
+				{% else %}
+					20 years +
+				{% endif %}
+			{% endif %}
+		{% else %}
+			No Info
+		{% endif %}
+		</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+{% else %}
+	<p>There are no applicants 
+	{% if search %}
+		for <b>"{{search}}"</b>
+	{% endif %}
+	</p>
+	<a class="btn btn-primary" href="{% url 'view_applicantnew' %}" title="Add new applicant to the system">
+		<i class="glyphicon glyphicon-plus"></i> Create new applicant
+	</a>
+{% endif %}
+</div>
+</div>
+{## APPLICANT - END ##}
+
+<br>
+
+<div class="well well-white">{% comment %} Start Applications {% endcomment %}
+<div class="row">
+	<div class="col-sm-6" style="padding-right:2px;">
+		<h2 style="margin-bottom:4px;vertical-align:text-bottom;margin-top:0px;">
+			<i class="glyphicon glyphicon-send"></i> Applications
+			<span class="label label-default" style="display:inline;">{{ applications_counter }}</span>
+			<a class="btn btn-primary" href="{% url 'view_applicationnew' %}" title="Add new applications to the system">
+				<i class="glyphicon glyphicon-plus"></i> 
+			</a>
+			<a class="btn btn-primary" title="See All"  href="{% url 'view_applications' %}">
+				<i class="glyphicon glyphicon-th-large"></i>
+			</a>
+		</h2>
+	</div>
+	<div class="col-sm-6" style="padding-left:2px; padding-right:2px;">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_application/" method="POST" style="padding-left:4px;padding-right:0px;width:200px;margin-top: 0px;margin-bottom:0px; margin-right:60px;">
+			{% csrf_token %}
+			<div class="form-group" style="width:200px;">
+				<div class="input-group">
+				<span class="input-group-addon">
+						<i class="glyphicon glyphicon-search"></i>
+				</span>
+				<input type="text" class="form-control" name="search" id="id_search" placeholder="Search application" style="width:200px;"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% if applications_counter  > 0 %}
+	{% for obj in applications %}
+	<div class="well well-white">
+		<a class="btn btn-info" title="New Activity"  href="{% url 'view_activitynew_application' application_id=obj.id %}">
+			<i class="glyphicon glyphicon-earphone icon-white"></i>
+		</a>
+		{% if obj.active = True %}
+			<a class="btn btn-primary" title="{{obj}}" href="{% url 'view_application' id=obj.id %}">
+				{{obj|truncatechars:82}}
+			</a>
+		{% else %}
+			<a class="btn btn-danger" title="{{obj}}" href="{% url 'view_application' id=obj.id %}">
+				{{obj|truncatechars:82}}
+			</a>
+		{% endif %}
+		<p style="margin-bottom:0px;margin-top:2px;">
+		Activities: {{obj.activities_count}}, Submited: {{obj.datetime|date:"SHORT_DATE_FORMAT"}}
+		</p>
+	</div>
+	{% endfor %}
+{% else %}
+	<div class="well well-white">
+		<p>There are no applications
+		{% if search %}
+			for <b>"{{search}}"</b>
+		{% endif %}
+		</p>
+		<a class="btn btn-primary" href="{% url 'view_applicationnew' %}" title="Add new application to the system">
+			<i class="glyphicon glyphicon-plus"></i> Create new application
+		</a>
+	</div>
+{% endif %}
+</div>{% comment %} End Applications {% endcomment %}
+
+{% endblock content %}

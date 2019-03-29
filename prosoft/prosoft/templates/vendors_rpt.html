@@ -1,0 +1,37 @@
+{% extends '_base.html' %}
+{% block title %}Vendors Report{% endblock title %}
+{% block content %}
+
+<h1 class="report"><i class="glyphicon glyphicon-shopping-cart"></i> Vendors
+<span class="label label-default" style="display:inline;vertical-align: text-top;">{{ counter }}</span>
+</h1>
+<p style="margin-top:0px;text-align:center;">Prosoft's Talent Management System</p>
+{% if counter  > 0 %}
+	<table class="table table-hover table-list table-white" style="margin-bottom:0px;">
+	<tbody>
+	{% for obj in objs %}
+	<tr>
+		<td style="text-align:left;vertical-align:top;" width="16px"><p style="margin-bottom:2px;"><b>{{forloop.counter}}.</b></p></td>
+		<td style="text-align:left;">
+			<p style="margin-bottom:2px;"><b>{{obj}}</b></p>
+			<p style="margin-bottom:0px;" class="smallfont">
+				<i class="glyphicon glyphicon-briefcase" title="Openings"></i> : {{obj.ope_count}}
+					{% if obj.contactname %} | Contact:
+						{{obj.contactname}}
+					{% endif %}
+					{% if obj.email %} | Email:
+						{{obj.email}}
+					{% endif %}
+			</p>
+		</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+{% else %}
+	<div class="well well-white">
+		<p>There are no vendors</p>
+	</div>
+{% endif %}
+
+{% endblock content %}

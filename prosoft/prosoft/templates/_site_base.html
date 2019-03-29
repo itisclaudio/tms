@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{% block title %}{% endblock %}</title>
+<!-- Start-Home screen Icons -->
+	<!--Favicon-->
+	<link rel="shortcut icon" href="{{ MEDIA_URL }}/media/images/favicon_16.png" type="image/x-icon">
+	<link rel="icon" href="{{ MEDIA_URL }}/media/images/favicon_16.png" type="image/x-icon">
+<!-- End-Home screen Icons -->
+
+<!-- These two are what you want to use by default -->
+
+<!-- For Font Awesome Icons -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+{% block extra-head %}{% endblock %}
+{% block super-extra-head %}{% endblock %}
+</head>
+<body id="bootstrap-overrides">
+{% block extra-content-top %}{% endblock %}
+{% block content %}{% endblock %}
+{% block extra-content-botton %}{% endblock %}
+
+</body>
+<script src="{% static 'dist/jquery/jquery-3.2.1.slim.min.js' %}"></script>
+<script src="{% static 'dist/bootstrap/js/bootstrap.min.js' %}"></script>
+<script>
+    $(function() {
+        $(".dropdown").hover(
+            function(){ $(this).addClass('open') },
+            function(){ $(this).removeClass('open') }
+        );
+    });
+</script>
+{% block extra-bottom %}{% endblock %}
+</html>

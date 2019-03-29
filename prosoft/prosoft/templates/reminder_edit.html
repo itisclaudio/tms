@@ -1,0 +1,113 @@
+{% extends '_base.html' %}
+{% block title %}Edit Reminder{% endblock title %}
+{% block content %}
+
+<h1> <i class="glyphicon glyphicon-time"></i> Edit Reminder</h1>
+
+<div class="well">
+	<form action="." method="POST" class="form-horizontal">
+		{% csrf_token %}
+		{{ form.non_field_errors }}
+		
+		{% if obj.model_name %}
+			<div class="form-group fieldWrapper">
+				<label class="col-sm-2 control-label">{{ obj.model_name|title }}:</label>
+				<div class="col-sm-9">
+					<h2 style="margin-top: 10px;margin-bottom: 0px;">
+						{{model}}
+					</h2>
+				</div>
+			</div>
+		{% endif %}
+		
+		<div class="form-group fieldWrapper">
+			<label class="col-sm-2 control-label">Recruiter:</label>
+			<div class="col-sm-9">
+				<p style="margin-top: 10px;margin-bottom: 0px;font-size: 18px;">
+					{{user}}
+				</p>
+			</div>
+		</div>
+
+		<div class="form-group fieldWrapper">
+			<label class="col-sm-2 control-label">Date Time:</label>
+			<div class="col-sm-9">
+				<p style="margin-top:10px; margin-bottom:0px; padding-top:4px; font-size: 18px;">
+					{% now "jS F Y H:i" %}
+				</p>
+			</div>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_private" class="col-sm-2 control-label">Private?:</label>
+			<div class="col-sm-5" style="text-align:bottom;">
+				{{ form.private }}
+				{{ form.private.errors }}
+			</div>
+		</div>
+
+		<div class="form-group fieldWrapper">
+			<label for="id_active" class="col-sm-2 control-label">Active?:</label>
+			<div class="col-sm-5" style="text-align:bottom;">
+				{{ form.active }}
+				{{ form.active.errors }}
+			</div>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_content" class="col-sm-2 control-label">Content:</label>
+			<div class="col-sm-10">
+				{{ form.content }}
+				{{ form.content.errors }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-10 col-sm-offset-2">
+				<button id="save_button" class="btn  btn-primary btn-lg">Save</button> 
+				<a class="btn btn-primary btn-lg" href="{% url 'view_reminder' id=obj.id %}">Cancel</a>
+			</div>
+		</div>
+
+			
+
+	</form>
+</div>
+<br>
+
+<div class="well" style="margin:0px">
+<h2 style="text-align:left; margin-top:0px;">Latest Activities</h2>
+{% if activities|length  > 0 %}
+	<table class="table table-hover table-list table-white" style="margin-bottom:0px;">
+	<thead>
+	<tr>
+		<th>When</th>
+		<th>Recruiter</th>
+		<th>Type</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for obj in activities %}
+	<tr>
+		<td style="text-align:left;">
+			<a class="btn btn-primary" href="{% url 'view_activity' id=obj.id %}">
+			{{ obj.datetime}} ({{ obj.datetime|timesince }} ago)
+			</a>
+		</td>
+		<td>
+			{{obj.recruiter}}
+		</td>
+		<td>
+			{{obj.get_type_display }}
+		</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+{% else %}
+	<div class="well well-white">
+		<p>There are no activities</p>
+	</div>
+{% endif %}
+</div>
+
+{% endblock content %}

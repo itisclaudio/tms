@@ -1,0 +1,75 @@
+{% extends '_base.html' %}
+{% block title %}Applications{% endblock title %}
+{% block content %}
+<div class="row">
+	<div class="col-xs-5">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-send"></i> <b> {% if title_my %}{{title_my}}{% endif %} Applications</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_applicationnew' %}" title="Create new application"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+				<li><a href="{% url 'view_applications' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+				{% if not search %}
+					<li><a href="{% url 'view_applications_rpt'%}"><i class="glyphicon glyphicon-print"></i> Print All</a></li>
+				{% endif %}
+			</ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+			<span class="label label-default" style="display:inline;">{{ counter }}</span>
+		</h2>
+	</div>
+	<div class="col-xs-7">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_application/" method="POST" style="display:inline;padding:0px;margin:0px;">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="input-group">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-search"></i>
+				</span>
+				{% if  search != "" %}
+					<input value="{{search}}" type="text" class="form-control" name="search" id="id_search" placeholder="Search application"/>
+				{% else %}
+					<input type="text" class="form-control" name="search" id="id_search" placeholder="Search application"/>
+				{% endif %}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% if counter  > 0 %}
+	<div class="list-group">
+		{% for obj in objs %}
+		<a href="{% url 'view_application' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p style="margin-bottom:2px;"><b>{{obj|truncatechars:82}}</b></p>
+			<p style="margin-top:2px; margin-bottom:2px; line-height:14px;" class="smallfont">
+			<i class="glyphicon glyphicon-earphone" title="Activities"></i>  {{obj.activities_count}} | 
+			<b>Submitted:</b> {{obj.submitted|date:"SHORT_DATE_FORMAT"}}
+			{% if obj.rate %}
+				| <b>Rate:</b>
+					{{ obj.rate }}
+			{% endif %}
+			</p>
+		</a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white">
+		<p>There are no applications
+		{% if search %}
+			for <b>"{{search}}"</b>
+		{% endif %}
+		</p>
+		<a class="btn btn-primary" href="{% url 'view_applicationnew' %}" title="Add new application to the system">
+			<i class="glyphicon glyphicon-plus"></i> Create new application
+		</a>
+	</div>
+{% endif %}
+
+{% block focus %}
+	<script type="text/javascript">
+		document.getElementById('id_search').focus();
+	</script>
+{% endblock %}
+
+{% endblock content %}

@@ -1,0 +1,15 @@
+<div class="list-group" style="margin-bottom: 5px;">
+	{% if objs %}
+		{% for obj in objs %}
+		 <a href="{% url 'view_tracking' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p class="smallfont" style="margin-bottom: 0px;">
+			<b>{{obj.datetime|date:"N j"}}</b> by <b>{{obj.recruiter|truncatechars:10}}</b><br>
+			<b>{{obj.get_type_display }}</b>: {% if obj.entity %} {{obj.entity}} {% endif %}
+			{% if obj.entity_field %} | {{obj.entity_field}} {% endif %}
+			</p>
+		  </a>
+		{% endfor %}
+	{% else %}
+		<li class="list-group-item">No Recent Changes</li>
+	{% endif %}
+</div>

@@ -1,0 +1,246 @@
+{% extends '_base.html' %}
+{% block title %}{{obj}}{% endblock title %}
+{% block content %}
+
+<h1 class="report"><i class="glyphicon glyphicon-briefcase"></i> Job Opening</h1>
+<p style="margin-top:0px;text-align:center;">Prosoft's Talent Management System</p>
+
+<table class="table table-list table-white" style="margin-bottom:0px;" width="100%">
+  <col width="30%">
+  <col width="70%">
+<tr>
+	<th style="text-align:right;">Role : </th>
+	<td style="text-align:left;">{{ obj.role }}</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Main Skill(s) : </th>
+	<td style="text-align:left;">
+	{% if obj.skills.all %}
+		{% for p in obj.skills.all %}
+			{{p.name}}.
+		{% endfor %}
+	{% else %}
+		No Main Skill(s) 
+	{% endif %}
+	</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Education : </th>
+	<td style="text-align:left;">
+	{% if obj.education %}
+		{{ obj.get_education_display }}
+	{% else %}
+	   <i>"No info"</i>
+  {% endif %}
+	</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Rate : </th>
+	<td style="text-align:left;">
+	{% if obj.rate %}
+		{{ obj.rate }}
+	{% else %}
+	   <i>"No info"</i>
+  {% endif %}
+	</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Posted : </th>
+	<td style="text-align:left;">{{ obj.posted}} ({{ obj.posted|timesince }} ago)</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Start date : </th>
+	<td style="text-align:left;">
+  {% if obj.startdate %}
+	{% now "Y-m-d" as todays_date %}
+	{% if obj.startdate|date:"Y-m-d" <= todays_date %}
+	   Immediate - {{ obj.startdate}}
+	{% else %}
+		{{ obj.startdate}} ({{ obj.startdate|timeuntil }})
+	{% endif %}
+  {% else %}
+	 ??
+  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;">Location : </th>
+	<td style="text-align:left;">
+		{% if obj.city or obj.state %}
+			{{ obj.city }} {{ obj.state }}
+		{% endif %}
+	</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Duration : </th>
+	<td style="text-align:left;">
+	  {% if obj.duration %}
+		{% if obj.duration > 11 %}
+			{% if obj.duration < 72 %}
+				{{obj.yearsdur}}
+					{% if obj.monthsdur > 0 %}
+						+
+					{% endif %}
+					years
+			{% else %}
+				Full Time
+			{% endif %}
+		{% else %}
+			{{obj.monthsdur}} Month(s)
+		{% endif %}
+	  {% else %}
+		<i>"No info"</i>
+	  {% endif %}
+	</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Experience : </th>
+	<td style="text-align:left;">
+	  {% if obj.experience %}
+		{% if obj.experience > 11 %}
+			{% if obj.experience < 252 %}
+				{{obj.yearsexp}}
+					{% if obj.monthsexp > 0 %}
+						+
+					{% endif %}
+					years
+			{% else %}
+				20 years +
+			{% endif %}
+		{% else %}
+			{{obj.monthsexp}} Month(s)
+		{% endif %}
+	  {% else %}
+		<i>"No info"</i>
+	  {% endif %}
+	</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Level : </th>
+	<td style="text-align:left;">
+	{% if obj.level %}
+		{{ obj.get_level_display }}
+	{% else %}
+		<i>"No info"</i>
+  {% endif %}
+	</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Contract Type : </th>
+	<td style="text-align:left;">
+	  {% if obj.contract %}
+		{{ obj.get_contract_display }}
+		{% else %}
+			<i>"No info"</i>
+	  {% endif %}
+	</td>
+</tr>
+<tr>
+	<th style="text-align:right;">Work Authorization : </th>
+	<td style="text-align:left;">
+	{% if obj.work_auth %}
+		{{ obj.get_work_auth_display }}
+	{% else %}
+		<i>"No info"</i>
+	{% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;vertical-align:top;">Vendor info : </th>
+	<td style="text-align:left;">
+	  {% if obj.vendor %}
+			{{ obj.vendor|urlizetrunc:65|escape|linebreaks }}
+		{% else %}
+			<i>"No info"</i>
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;vertical-align:top;">End-client info : </th>
+	<td style="text-align:left;">
+	  {% if obj.endclientinfo %}
+			{{ obj.endclientinfo|urlizetrunc:65|escape|linebreaks }}
+		{% else %}
+			<i>"No info"</i>
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;vertical-align:top;">Partner info : </th>
+	<td style="text-align:left;">
+	  {% if obj.partnerinfo %}
+			{{ obj.partnerinfo|urlizetrunc:65|escape|linebreaks }}
+		{% else %}
+			<i>"No info"</i>
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;">Status : </th>
+	<td style="text-align:left;">
+	  {% if obj.open == None %}
+		<i>"No info"</i>
+		{% else %}
+			{% if obj.open == True %}
+				Open
+			{% else %}
+				Closed
+			{% endif %}	
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;vertical-align:top;">Responsibilities : </th>
+	<td style="text-align:left;">
+	  {% if obj.responsibilities %}
+			{{ obj.responsibilities|urlizetrunc:65|escape|linebreaks }}
+		{% else %}
+			<i>"No info"</i>
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;vertical-align:top">Submitted Applications : </th>
+	<td style="text-align:left;">
+	  {% if applications|length  > 0 %}
+		<ol>
+		{% for obj in applications %}
+			<li>
+			{{ obj.profile|truncatechars:56 }} - {{obj.get_status_display}} - {{ obj.datetime|date:"N j, Y"}}
+			</li>
+		{% endfor %}
+		</ol>
+	  {% else %}
+		No applications submited
+	  {% endif %}
+	</td>
+</tr>
+
+<tr>
+	<th style="text-align:right;vertical-align:top">Compatible Profiles : </th>
+	<td style="text-align:left;">
+	  {% if profiles|length  > 0 %}
+		<ol>
+		{% for obj in profiles %}
+			<li>
+			{{ obj|truncatechars:60 }}
+			</li>
+		{% endfor %}
+		</ol>
+	  {% else %}
+		No compatible profiles
+	  {% endif %}
+	</td>
+</tr>
+
+
+</table>
+
+{% endblock content %}

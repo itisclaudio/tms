@@ -1,0 +1,156 @@
+{% extends '_base.html' %}
+{% block title %}Vendor{% endblock title %}
+{% block content %}
+
+{## VENDOR ##}
+<div class="row">
+	<div class="col-xs-5">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-shopping-cart"></i> <b>Vendor</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_vendoredit' id=obj.id %}"><i class="glyphicon glyphicon-pencil"></i> Edit</a></li>
+				<li><a href="{% url 'view_vendornew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+				<li><a href="{% url 'view_vendordelete' id=obj.id %}"><i class="glyphicon glyphicon-trash"></i> Delete</a></li>
+				<li><a href="{% url 'view_vendors' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+				<li><a href="{% url 'view_remindernew' model_name='vendor' field_id=obj.id %}"><i class="glyphicon glyphicon-bell"></i> Create reminder</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-xs-7">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_vendor/" method="POST" style="display:inline;padding:0px;margin:0px;">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="input-group">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-search"></i>
+				</span>
+				<input type="text" class="form-control" name="search" id="id_search" placeholder="Search vendor"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="well well-white">
+<dl class="dl-horizontal">
+	
+	<dt>Vendor:</dt>
+	<dd>{{ obj.name }}</dd>
+  
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+
+	<dt>Contact:</dt>
+	{% if obj.contactname %}
+		<dd>{{ obj.contactname}}</dd>
+	{% else %}
+		<dd><i>"No info"</i></dd>
+	{% endif %}
+  
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+		
+	<dt>Email:</dt>
+	{% if obj.email %}
+		<dd>{{obj.email }}</dd>
+	{% else %}
+		<dd><i>"No info"</i></dd>
+	{% endif %}
+  
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	
+	<dt>Phone number:</dt>
+	{% if obj.phone %}
+		<dd>{{ obj.phone }}</dd>
+	{% else %}
+		<dd><i>"No info"</i></dd>
+	{% endif %}
+
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	
+	<dt>Address:</dt>
+	{% if obj.address %}
+		<dd>{{obj.address }}</dd>
+	{% else %}
+		<dd><i>"No info"</i></dd>
+	{% endif %}
+
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	
+	<dt>Extra info:</dt>
+	{% if obj.moreinfo %}
+		<dd>{{obj.moreinfo }}</dd>
+	{% else %}
+		<dd><i>"No info"</i></dd>
+	{% endif %}
+	
+</dl>
+</div>
+<p class="smallfont" style="text-align:right;margin-bottom:0px;">Created: {{obj.created}} | Updated: {{obj.updated}}</p>
+{## VENDOR - end ##}
+
+{## OPENINGS ##}
+<div class="row">
+	<div class="col-xs-12">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-briefcase"></i> <b>Related Openings</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_openingnew' %}"><i class="glyphicon glyphicon-plus"></i> New Opening</a></li>
+				<li><a href="{% url 'view_openings' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even not related)</a></li>
+			</ul>
+		</div>
+		<div style="vertical-align:text-bottom; display:inline;">
+		<span class="label label-default">{{ counter }}</span> of <span class="label label-default" style="display:inline;">{{ total }}</span>
+		</div>
+	</div>
+</div>
+
+{% if counter  > 0 %}
+	<div class="list-group">
+		{% for opening in openings %}
+		 <a href="{% url 'view_opening' id=opening.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p style="margin-bottom:2px;"><b>{{opening|truncatechars:78}}</b></p>
+			<p style="margin-top:2px; margin-bottom:0px; line-height:14px;" class="smallfont">
+			<i class="glyphicon glyphicon-send" title="Applications"></i> {{opening.app_count}}
+			{% if opening.rate %}| <b>Rate:</b>
+				{{opening.rate}}
+			{% endif %}
+			{% if opening.experience %}| <b>Experience:</b>
+				{% if opening.experience < 12 %}
+					{{opening.experience}} Months
+				{% endif %}
+				{% if opening.experience == 12 %}
+					1 Year
+				{% endif %}
+				{% if opening.experience > 12 %}
+					{{opening.yearsexp}}
+					{% if opening.monthsexp > 0%}
+					+
+					{% endif %}
+					Years
+				{% endif %}
+			{% endif %}
+			{% if opening.startdate %}| <b>Start date:</b>
+				{% now "Y-m-d" as todays_date %}
+				{% if opening.startdate|date:"Y-m-d" <= todays_date %}
+				   Immediate
+				{% else %}
+					{{opening.startdate }}
+				{% endif %}
+			{% endif %}
+			</p>
+		  </a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white">
+		<p>There are no openings</p>
+		<a class="btn btn-primary" href="{% url 'view_openingnew' %}" title="Add new opening to the system">
+			<i class="glyphicon glyphicon-plus"></i> Create new opening
+		</a>
+	</div>
+{% endif %}
+
+{## OPENINGS - end ##}
+
+{% endblock content %}

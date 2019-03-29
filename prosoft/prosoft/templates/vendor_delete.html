@@ -1,0 +1,37 @@
+{% extends '_base.html' %}
+{% block title %}Delete: {{obj}}{% endblock title %}
+{% block content %}
+
+<h1>Delete Vendor</h1>
+
+	{% if info = 1 %}
+	<div class="well well-white" style="margin-bottom:10px;">
+		<p><a href="{% url 'view_vendor' id=obj.id %}">{{obj.name}}</a> 
+		Vendor can not be deleted because the following items are associated with it.</p>
+		<p>To delete <a href="{% url 'view_vendor' id=obj.id %}">{{obj.name}}</a>. The opening(s) below has(have) to be deleted or dissociated first.</p>
+		{% for opening in openings %}
+			<p><a class="btn btn-info" href="{% url 'view_opening' id=opening.id %}">Opening: {{opening}}</a></p>
+		{% endfor %}
+	</div>
+	<a class="btn btn-primary" href="{% url 'view_vendor' id=obj.id %}">Cancel</a>
+	{% else %}
+	<div class="well well-white" style="margin-bottom:10px;">
+		<p><b>Are you sure you want to delete the Vendor below for ever?</b></p>
+		<a class="btn btn-info" title="Edit"  href="{% url 'view_vendoredit' id=obj.id %}">
+			<i class="glyphicon glyphicon-pencil icon-white"></i>
+		</a>
+		<a class="btn btn-primary" title="{{obj.name}}" href="{% url 'view_vendor' id=obj.id %}">{{obj.name|truncatechars:80}}</a>
+		<p style="margin-bottom:0px;margin-top:4px;">
+		{% if obj.description %} 
+			{{obj.description|truncatewords:50}}
+		{% endif %}
+		</p>
+	</div>
+		<form action="." method="POST">
+		{% csrf_token %}
+			<button class="btn btn-primary" type="submit"/>Yes delete</button>
+			<a class="btn btn-primary" href="{% url 'view_vendor' id=obj.id %}">Cancel</a>
+		</form>
+	{% endif %}
+
+{% endblock content %}

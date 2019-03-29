@@ -1,0 +1,47 @@
+{% extends '_base.html' %}
+{% block title %}Reminders Report{% endblock title %}
+{% block content %}
+
+<h1 class="report"><i class="glyphicon glyphicon-bell"></i> 
+ {% if title_my %}{{title_my}}{% endif %} {% if title_all %}{{title_all}}{% endif %} {% if title_private %}{{title_private}}{% endif %} 
+Reminders
+<span class="label label-default" style="display:inline;vertical-align: text-top;">{{ counter }}</span>
+</h1>
+<p style="margin-top:0px;text-align:center;">Prosoft's Talent Management System</p>
+
+{% if counter  > 0 %}
+	<table class="table table-list table-white" style="margin-bottom:0px;">
+	<tbody>
+	{% for obj in objs %}
+		<tr>
+			<td style="text-align:left;vertical-align:top;" width="28px"><p style="margin-bottom:2px;"><b>{{forloop.counter}}.</b></p></td>
+			<td style="text-align:left;">
+				<p style="margin-bottom:2px;"><b>{{obj.datetime|date:"M d, H:i"}}
+				{% if obj.active = False %}
+					(Inactive)
+				{% endif %}
+				{% if obj.private = True %}
+					(Private)
+				{% endif %}
+				</b>
+				<i class="smallfont" style="margin-top:2px; margin-bottom:6px;">by {{obj.recruiter}}
+				  {% if obj.model_name %}
+					Related to {{obj.model_name|title}}
+				  {% endif %}
+				</i>
+				<p style="margin-bottom:0px;">{{ obj.content|truncatewords:36 }}</p>
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+{% else %}
+	<div class="well well-white" style="text-align:center;">
+		<p style="margin-bottom:10px;">There are no reminders</p>
+		<a class="btn btn-primary" href="{% url 'view_remindernew' %}" title="Add new reminder to the system">
+			<i class="glyphicon glyphicon-plus"></i> Create new reminder
+		</a>
+	</div>
+{% endif %}
+
+{% endblock content %}

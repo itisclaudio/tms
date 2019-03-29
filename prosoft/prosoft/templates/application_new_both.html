@@ -1,0 +1,109 @@
+{% extends '_base.html' %}
+{% block title %}New Application{% endblock title %}
+{% block content %}
+
+<h1><i class="glyphicon glyphicon-send"></i> New Application</h1>
+<div class="well">
+
+	<form action="." method="POST" class="form-horizontal">
+		{% csrf_token %}
+		{{ form.non_field_errors }}
+
+		<div class="form-group fieldWrapper">
+			<label class="col-sm-3 control-label">Opening:</label>
+			<label class="col-sm-9 control-label" style="text-align: left;padding-top: 0px;">
+				<a class="btn btn-primary" title="{{opening}}"  href="{% url 'view_opening' id=opening.id %}">
+				{{ opening|truncatechars:72}} 
+				</a>
+			</label>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label class="col-sm-3 control-label">Profile:</label>
+			<label class="col-sm-9 control-label" style="text-align: left;padding-top: 0px;">
+				<a class="btn btn-primary" title="{{opening}}"  href="{% url 'view_opening' id=opening.id %}">
+				{{ profile|truncatechars:62}} 
+				</a>
+			</label>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_rate" class="col-sm-3 control-label">Rate:</label>
+			<div class="col-sm-4">
+				{{ form.rate }}
+				{{ form.rate.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_submitted" class="col-sm-3 control-label">Submitted:</label>
+			<div class="col-sm-7">
+				{{ form.submitted }}
+				{{ form.submitted.errors }}
+				<a class="btn btn-primary" id="today" title="Set today'date" style="vertical-align: unset;">Today</a>
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label class="col-sm-3 control-label">Recruiter:</label>
+			<label class="col-sm-9 control-label" style="text-align: left;">
+			  {{user}}
+			</label>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-sm-offset-3">
+				<button id="save_button" class="btn btn-primary btn-lg">Apply</button> 
+				<a class="btn btn-primary btn-lg" href="{% url 'view_main' %}">Cancel</a>
+			</div>
+		</div>
+	</form>
+</div>
+<br>
+<div class="well">
+<h2 style="text-align:left;margin-bottom: 2px;margin-top: 0px;"><i class="glyphicon glyphicon-send"></i> Latest Applications:
+	<span class="label label-default" style="display:inline;">{{ counter }}</span> of <span class="label label-default" style="display:inline;">{{ total }}</span>
+	<a class="btn btn-primary" title="See All"  href="{% url 'view_applications' %}">
+		<i class="glyphicon glyphicon-th-large"></i>
+	</a>
+</h2>
+{% if counter  > 0 %}
+	{% for obj in applications %}
+	<div class="well well-white">
+		<a class="btn btn-info" title="New Activity"  href="{% url 'view_activitynew_application' application_id=obj.id %}">
+			<i class="glyphicon glyphicon-earphone icon-white"></i>
+		</a>
+		{% if obj.active = True %}
+			<a class="btn btn-primary" title="{{obj}}" href="{% url 'view_application' id=obj.id %}">
+				{{obj|truncatechars:82}}
+			</a>
+		{% else %}
+			<a class="btn btn-danger" title="{{obj}}" href="{% url 'view_application' id=obj.id %}">
+				{{obj|truncatechars:82}}
+			</a>
+		{% endif %}
+		<p style="margin-bottom:0px;margin-top:2px;">
+			<b>Activities:</b> {{obj.activities_count}} | <b>Submited:</b> {{obj.datetime|date:"SHORT_DATE_FORMAT"}}
+		</p>
+	</div>
+	{% endfor %}
+{% else %}
+	<div class="well well-white">
+		<p>There are no applications</p>
+	</div>
+{% endif %}
+</div>
+
+{% endblock content %}
+
+{% block extra-bottom %}
+<script>
+$( function() {;
+	//Set today's date in field
+	$( "#today" ).click(function() {
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+		$("#id_submitted_month").val(mm);
+		$("#id_submitted_day").val(dd);
+		$("#id_submitted_year").val(yyyy);
+		});
+	});
+</script>
+{% endblock %}

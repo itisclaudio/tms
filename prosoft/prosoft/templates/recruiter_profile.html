@@ -1,0 +1,108 @@
+{% extends '_base.html' %}
+{% block title %}{{obj}} - Profile{% endblock title %}
+{% block content %}
+
+{## RECRUITER PROFILE HEAD ##}
+<div class="row">
+	<div class="col-xs-5">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-bullhorn"></i> <b>Recruiter</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_profileedit' id=obj.id %}"><i class="glyphicon glyphicon-pencil"></i> Edit</a></li>
+				<li><a href="{% url 'view_profilenew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+				{% if user.member.role < 3 %}
+					<li><a href=""><i class="glyphicon glyphicon-trash"></i> Delete</a></li>
+				{% endif %}
+				<li><a href="{% url 'view_profile_rpt' id=obj.id %}"><i class="glyphicon glyphicon-print"></i> Print</a></li>
+				<li><a href="{% url 'view_recruiters' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-xs-7">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_profile/" method="POST" style="display:inline;padding:0px;margin:0px;">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="input-group">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-search"></i>
+				</span>
+				<input type="text" class="form-control" name="search" id="id_search" placeholder="Search profile"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="well well-white">
+	<dl class="dl-horizontal">
+	
+		<dt>Username:</dt>
+		<dd>{{ obj.username }}</dd>
+		
+		<hr style="margin-top: 5px;margin-bottom: 5px;">
+
+		<dt>Names:</dt>
+		<dd>
+		{% if obj.first_name or obj.last_name %}
+			{{obj.first_name|truncatechars:15}} {{obj.last_name|truncatechars:15}}
+		{% else %}
+			No Names
+		{% endif %}
+		</dd>
+		
+		<hr style="margin-top: 5px;margin-bottom: 5px;">
+				
+		<dt>Email:</dt>
+		<dd>
+		{% if obj.email %}
+			{{ obj.email }}
+		{% else %}
+			No Email
+		{% endif %}
+		</dd>
+
+	</dl>
+</div>
+<br>
+
+{### ACTIVITIES HEAD ###}
+<div class="row">
+	<div class="col-xs-12">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-briefcase"></i> <b>Recruiter activities</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_activitynew' %}"><i class="glyphicon glyphicon-plus"></i> New Activity</a></li>
+				<li><a href="{% url 'view_activities' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even not related)</a></li>
+			</ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+			<span class="label label-default" style="display:inline;">{{ counter }} / {{ total }}</span>
+		</h2>
+	</div>
+</div>
+{### ACTIVITIES HEAD - End ###}
+
+{### ACTIVITIES LIST ###}
+{% if counter  > 0 %}
+	<div class="list-group">
+		{% for obj in objs %}
+		 <a href="{% url 'view_activity' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p class="smallfont" style="margin-top:2px; margin-bottom:2px;"> {{ obj.get_type_display }} by {{obj.recruiter}}</p>
+			<p style="margin-bottom:2px;"><b>{{obj|truncatechars:78}}</b></p>
+			<p style="margin-bottom:0px;">{{obj.notes|truncatewords:20}}</p>
+		  </a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white" style="margin-bottom: 14px;">
+		<p>There are no activities</p>
+		<a class="btn btn-primary" href="{% url 'view_activitynew' %}" title="Add new activity to the system">
+			<i class="glyphicon glyphicon-plus"></i> Create new activity
+		</a>
+	</div>
+{% endif %}
+{### ACTIVITIES LIST - End ###}
+
+{% endblock content %}

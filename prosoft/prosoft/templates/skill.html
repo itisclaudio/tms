@@ -1,0 +1,188 @@
+{% extends '_base.html' %}
+{% block title %}{{obj}}{% endblock title %}
+{% block content %}
+
+<div class="row">
+	<div class="col-xs-5">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-wrench"></i> <b>Skill</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_skilledit' id=obj.id %}"><i class="glyphicon glyphicon-pencil"></i> Edit</a></li>
+				<li><a href="{% url 'view_skillnew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+				<li><a href="{% url 'view_skilldelete' id=obj.id %}"><i class="glyphicon glyphicon-trash"></i> Delete</a></li>
+				<li><a href="{% url 'view_skills' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-xs-7">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_skill/" method="POST" style="display:inline;padding:0px;margin:0px;">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="input-group">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-search"></i>
+				</span>
+				<input type="text" class="form-control" name="search" id="id_search" placeholder="Search skill"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="well well-white">
+<dl class="dl-horizontal">
+	
+  <dt>Name:</dt>
+  <dd>{{obj.name}}</dd>
+
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	
+  <dt>Description:</dt>
+	  {% if obj.description %}
+		<dd>{{ obj.description|urlizetrunc:65|escape|linebreaks }}</dd>
+		{% else %}
+		<dd>??</dd>
+	  {% endif %}
+
+</dl>
+</div>
+
+</br>
+
+{### PROFILES ###}
+<div class="row">
+	<div class="col-xs-12">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-education"></i> <b>Compatible Profiles</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_profilenew' %}" title="Create new application"><i class="glyphicon glyphicon-education"></i> New Profile</a></li>
+				<li><a href="{% url 'view_profiles' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even Not Related)</a></li>
+			</ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+			<span class="label label-default" style="display:inline;">{{profiles_counter}} / {{profiles_total}}</span>
+		</h2>
+	</div>
+</div>
+{% if profiles_counter  > 0 %}
+	<div class="list-group">
+		{% for profile in profiles %}
+		<a href="{% url 'view_profile' id=profile.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p style="margin-bottom:2px;"><b>{{profile|truncatechars:82}}</b></p>
+			<p style="margin-top:2px; margin-bottom:2px; line-height:14px;" class="smallfont">
+			<i class="glyphicon glyphicon-send" title="Applications"></i>  {{profile.app_count}} 
+			| <b>Relocate:</b>
+			{% if profile.applicant.relocation == True %}
+				Open
+			{% endif %}
+			{% if profile.applicant.relocation == False %}
+				No
+			{% endif %}
+			{% if profile.experience %}| <b>Experience:</b>
+				{% if profile.experience < 12 %}
+					{{profile.experience}} Months
+				{% endif %}
+				{% if profile.experience == 12 %}
+					1 Year
+				{% endif %}
+				{% if profile.experience > 12 %}
+					{{profile.yearsexp}}
+					{% if profile.monthsexp > 0%}
+					+
+					{% endif %}
+					Years
+				{% endif %}
+			{% endif %}
+			| <b>Available:</b>
+			{% if profile.applicant.available == True %}
+				Yes
+			{% else %}
+				No
+			{% endif %}		
+			{% if profile.salary %}| <b>Salary Expectations:</b>
+				{{profile.salary}}
+			{% endif %}
+			</p>
+		</a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white" style="margin-bottom: 14px;">
+		<p>There are no profiles
+		{% if search %}
+			for <b>"{{search}}"</b>
+		{% endif %}
+		</p>
+	</div>
+{% endif %}
+
+{### PROFILES - End ###}
+
+{### OPENINGS ###}
+<div class="row">
+	<div class="col-xs-12">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-briefcase"></i> <b>Related Openings</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_openingnew' %}"><i class="glyphicon glyphicon-plus"></i> New Opening</a></li>
+				<li><a href="{% url 'view_openings' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even not related)</a></li>
+			</ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+		<span class="label label-default" style="display:inline;">{{ opening_counter }} / {{ openings_total }}</span>
+		</h2>
+	</div>
+</div>
+
+{% if opening_counter  > 0 %}
+	<div class="list-group">
+		{% for opening in openings %}
+		 <a href="{% url 'view_opening' id=opening.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p style="margin-bottom:2px;"><b>{{opening|truncatechars:78}}</b></p>
+			<p style="margin-top:2px; margin-bottom:0px; line-height:14px;" class="smallfont">
+			<i class="glyphicon glyphicon-send" title="Applications"></i> {{opening.app_count}}
+			{% if opening.rate %}| <b>Rate:</b>
+				{{opening.rate}}
+			{% endif %}
+			{% if opening.experience %}| <b>Experience:</b>
+				{% if opening.experience < 12 %}
+					{{opening.experience}} Months
+				{% endif %}
+				{% if opening.experience == 12 %}
+					1 Year
+				{% endif %}
+				{% if opening.experience > 12 %}
+					{{opening.yearsexp}}
+					{% if opening.monthsexp > 0%}
+					+
+					{% endif %}
+					Years
+				{% endif %}
+			{% endif %}
+			{% if opening.startdate %}| <b>Start date:</b>
+				{% now "Y-m-d" as todays_date %}
+				{% if opening.startdate|date:"Y-m-d" <= todays_date %}
+				   Immediate
+				{% else %}
+					{{opening.startdate }}
+				{% endif %}
+			{% endif %}
+			</p>
+		  </a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white" style="margin-bottom: 14px;">
+		<p>There are no openings</p>
+		<a class="btn btn-primary" href="{% url 'view_openingnew' %}" title="Add new opening to the system">
+			<i class="glyphicon glyphicon-plus"></i> Create new opening
+		</a>
+	</div>
+{% endif %}
+
+{### OPENINGS - End ###}
+
+{% endblock content %}

@@ -1,0 +1,350 @@
+{% extends '_base.html' %}
+{% block title %}{{obj}} - Opening{% endblock title %}
+{% block content %}
+<div class="row">
+	<div class="col-xs-5">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-briefcase"></i> <b>Opening</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_openingedit' id=obj.id %}"><i class="glyphicon glyphicon-pencil"></i> Edit</a></li>
+				<li><a href="{% url 'view_openingnew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+				<li><a href="{% url 'view_openingdelete' id=obj.id %}"><i class="glyphicon glyphicon-trash"></i> Delete</a></li>
+				<li><a href="{% url 'view_opening_rpt' id=obj.id %}"><i class="glyphicon glyphicon-print"></i> Print</a></li>
+				<li><a href="{% url 'view_openings' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+				<li><a href="{% url 'view_remindernew' model_name='opening' field_id=obj.id %}"><i class="glyphicon glyphicon-bell"></i> Create reminder</a></li>
+				<li><a href="{% url 'view_applicationnew_opening' opening_id=obj.id %}"><i class="glyphicon glyphicon-send"></i> Apply</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-xs-7">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_opening/" method="POST" style="display:inline;padding:0px;margin:0px;">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="input-group">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-search"></i>
+				</span>
+				{% if search %}
+					<input value="{{search}}" type="text" class="form-control" name="search" id="id_search" placeholder="Search Opening" style="width:140px;"/>
+				{% else %}
+					<input type="text" class="form-control" name="search" id="id_search" placeholder="Search opening" style="width:140px;"/>
+				{% endif %}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="well well-white">
+<dl class="dl-horizontal">
+
+{% if obj.open == False %}	
+	<dt>Status:</dt>
+		<dd><b style="color:red;">Closed</b></dd>
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+{% endif %}	
+
+	
+  <dt>Role:</dt>
+  <dd>{{obj.role}}</dd>
+ <hr style="margin-top: 5px;margin-bottom: 5px;">
+
+  <dt>Main Skill(s):</dt>
+  <dd>
+	{% if obj.skills.all %}
+		{% for p in obj.skills.all %}
+			<a class="btn btn-primary" title="{{p.name}}: {{ p.description }}" href="{% url 'view_skill' id=p.id %}">
+				{{p.name}}
+			</a>
+		{% endfor %}
+	{% else %}
+		No Main Skill(s) 
+	{% endif %}
+  </dd>
+   <hr style="margin-top: 5px;margin-bottom: 5px;">	
+	
+  <dt>Education:</dt>
+  {% if obj.education %}
+	<dd>{{ obj.get_education_display }}</dd>
+	{% else %}
+	<dd><i>"No info"</i></dd>
+  {% endif %}
+
+  <hr style="margin-top: 5px;margin-bottom: 5px;">
+
+  <dt>Rate:</dt>
+	  {% if obj.rate %}
+		<dd>{{ obj.rate }}</dd>
+		{% else %}
+		<dd><i>"No info"</i></dd>
+	  {% endif %}
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+
+  <dt>Posted:</dt>
+  {% if obj.posted %}
+		<dd>{{ obj.posted}} ({{ obj.posted|timesince }} ago)</dd>
+  {% else %}
+	<dd><i>"No info"</i></dd>
+  {% endif %}
+  
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	
+  <dt>Start date:</dt>
+  {% if obj.startdate %}
+	{% now "Y-m-d" as todays_date %}
+	{% if obj.startdate|date:"Y-m-d" <= todays_date %}
+	   <dd>Immediate - {{ obj.startdate}}</dd>
+	{% else %}
+		<dd>{{ obj.startdate}} ({{ obj.startdate|timeuntil }})</dd>
+	{% endif %}
+  {% else %}
+	<dd><i>"No info"</i></dd>
+  {% endif %}
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	
+
+
+  <dt>City / State:</dt>
+  <dd>
+		{% if obj.city or obj.state %}
+			{{ obj.city }} {{ obj.state }}
+		{% else %}
+			<i>"No info"</i>
+		{% endif %}
+  </dd>
+  
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	
+  <dt>Duration:</dt>	  
+  {% if obj.duration %}
+	{% if obj.duration > 11 %}
+		{% if obj.duration < 72 %}
+			<dd>{{obj.yearsdur}}
+				{% if obj.monthsdur > 0 %}
+					+
+				{% endif %}
+				years
+			</dd>
+		{% else %}
+			<dd>Full Time</dd>
+		{% endif %}
+	{% else %}
+		<dd>{{obj.monthsdur}} Month(s)</dd>
+	{% endif %}
+  {% else %}
+	<dd><i>"No info"</i></dd>
+  {% endif %}
+	  
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	  
+   <dt>Experience:</dt>
+  {% if obj.experience %}
+	{% if obj.experience > 11 %}
+		{% if obj.experience < 252 %}
+			<dd>{{obj.yearsexp}}
+				{% if obj.monthsexp > 0 %}
+					+
+				{% endif %}
+				years
+			</dd>
+		{% else %}
+			<dd>20 years +</dd>
+		{% endif %}
+	{% else %}
+		<dd>{{obj.monthsexp}} Month(s)</dd>
+	{% endif %}
+  {% else %}
+	<dd><i>"No info"</i></dd>
+  {% endif %}
+
+  
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	
+  <dt>Level:</dt>
+  {% if obj.level %}
+	<dd>{{ obj.get_level_display }}</dd>
+	{% else %}
+	<dd><i>"No info"</i></dd>
+  {% endif %}
+  
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	
+  <dt>Contract Type:</dt>
+  {% if obj.contract %}
+	<dd>{{ obj.get_contract_display }}</dd>
+	{% else %}
+	<dd><i>"No info"</i></dd>
+  {% endif %}
+  
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	
+  <dt>Work Authorization:</dt>
+	  {% if obj.work_auth %}
+		<dd>{{ obj.get_work_auth_display }}</dd>
+		{% else %}
+		<dd><i>"No info"</i></dd>
+	  {% endif %}
+	  
+<hr style="margin-top: 5px;margin-bottom: 5px;">
+  <dt>Vendor:</dt>
+	  {% if obj.vendor %}
+		<dd>
+		<a class="btn btn-primary" title="{{obj.name}}" href="{% url 'view_vendor' id=obj.vendor.id %}">
+			{{ obj.vendor|urlizetrunc:65 }}
+		</a>
+		</dd>
+		{% else %}
+		<dd><i>"No info"</i></dd>
+	  {% endif %}
+	  
+<hr style="margin-top: 5px;margin-bottom: 5px;">
+  <dt>End-client info:</dt>
+	  {% if obj.endclientinfo %}
+		<dd>{{ obj.endclientinfo|urlizetrunc:65|escape|linebreaks }}</dd>
+		{% else %}
+		<dd><i>"No info"</i></dd>
+	  {% endif %}
+
+<hr style="margin-top: 5px;margin-bottom: 5px;">
+  <dt>Partner info:</dt>
+	  {% if obj.partnerinfo %}
+		<dd>{{ obj.partnerinfo|urlizetrunc:65|escape|linebreaks }}</dd>
+		{% else %}
+		<dd><i>"No info"</i></dd>
+	  {% endif %}
+	  
+<hr style="margin-top: 5px;margin-bottom: 5px;">
+  <dt>Responsibilities:</dt>
+	  {% if obj.responsibilities %}
+		<dd>{{ obj.responsibilities|urlizetrunc:65|escape|linebreaks }}</dd>
+		{% else %}
+		<dd><i>"No info"</i></dd>
+	  {% endif %}
+
+</dl>
+</div>
+<p class="smallfont" style="text-align:right;margin-bottom:0px;">Created: {{obj.created}} | Updated: {{obj.updated}}</p>
+{### PROFILE - END ###}
+
+</hr>
+
+{### APPLICATIONS ###}
+<div class="row">
+	<div class="col-xs-12">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-send"></i> <b> {% if title_my %}{{title_my}}{% endif %} Submitted Applications</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_applicationnew' %}" title="Create new application"><i class="glyphicon glyphicon-plus"></i> New Application</a></li>
+				<li><a href="{% url 'view_applications' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even Not Related)</a></li>
+			</ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+			<span class="label label-default" style="display:inline;">{{counter}} / {{total}}</span>
+		</h2>
+	</div>
+</div>
+
+{% if counter  > 0 %}
+	<div class="list-group">
+		{% for application in applications %}
+		<a href="{% url 'view_application' id=application.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p style="margin-bottom:2px;"><b>{{application|truncatechars:82}}</b></p>
+			<p style="margin-top:2px; margin-bottom:2px; line-height:14px;" class="smallfont">
+			<i class="glyphicon glyphicon-earphone" title="Activities"></i>  {{application.activities_count}} | 
+			<b>Submitted:</b> {{application.submitted|date:"SHORT_DATE_FORMAT"}}
+			{% if application.rate %}
+				| <b>Rate:</b>
+					{{ application.rate }}
+			{% endif %}
+			</p>
+		</a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white" style="margin-bottom: 14px;">
+		<p>There are no applications
+		{% if search %}
+			for <b>"{{search}}"</b>
+		{% endif %}
+		</p>
+		<a class="btn btn-primary" href="{% url 'view_applicationnew' %}" title="Add new application to the system">
+			<i class="glyphicon glyphicon-plus"></i> Create new application
+		</a>
+	</div>
+{% endif %}
+
+{#### APPLICATIONS - end ####}
+
+{### PROFILES ###}
+<div class="row">
+	<div class="col-xs-12">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-education"></i> <b>Compatible Profiles</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_profilenew' %}" title="Create new application"><i class="glyphicon glyphicon-education"></i> New Profile</a></li>
+				<li><a href="{% url 'view_profiles' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even Not Related)</a></li>
+			</ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+			<span class="label label-default" style="display:inline;">{{profiles_counter}} / {{profiles_total}}</span>
+		</h2>
+	</div>
+</div>
+{% if profiles_counter  > 0 %}
+	<div class="list-group">
+		{% for profile in profiles %}
+		<a href="{% url 'view_profile' id=profile.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p style="margin-bottom:2px;"><b>{{profile|truncatechars:82}}</b></p>
+			<p style="margin-top:2px; margin-bottom:2px; line-height:14px;" class="smallfont">
+			<i class="glyphicon glyphicon-send" title="Applications"></i>  {{profile.app_count}} 
+			| <b>Relocate:</b>
+			{% if profile.applicant.relocation == True %}
+				Open
+			{% endif %}
+			{% if profile.applicant.relocation == False %}
+				No
+			{% endif %}
+			{% if profile.experience %}| <b>Experience:</b>
+				{% if profile.experience < 12 %}
+					{{profile.experience}} Months
+				{% endif %}
+				{% if profile.experience == 12 %}
+					1 Year
+				{% endif %}
+				{% if profile.experience > 12 %}
+					{{profile.yearsexp}}
+					{% if profile.monthsexp > 0%}
+					+
+					{% endif %}
+					Years
+				{% endif %}
+			{% endif %}
+			| <b>Available:</b>
+			{% if profile.applicant.available == True %}
+				Yes
+			{% else %}
+				No
+			{% endif %}		
+			{% if profile.salary %}| <b>Salary Expectations:</b>
+				{{profile.salary}}
+			{% endif %}
+			</p>
+		</a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white">
+		<p>There are no profiles
+		{% if search %}
+			for <b>"{{search}}"</b>
+		{% endif %}
+		</p>
+	</div>
+{% endif %}
+
+{### PROFILES - End ###}
+
+{% endblock content %}

@@ -1,0 +1,147 @@
+{% extends '_base.html' %}
+{% block title %}Activity{% endblock title %}
+{% block content %}
+
+<!--Modal to delete activity -->
+<div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="modalUnlinkSocialLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalUnlinkSocialLabel">Delete Activity</h2>
+      </div>
+      <div class="modal-body">
+		Are you sure you want to delete this activity?<br><br>
+		<blockquote>
+		<p><b>Application:</b><br>
+		{{ obj.application }}<br><br>
+		<b>Date:</b><br>
+		{{ obj.datetime}} ({{ obj.datetime|timesince }} ago)<br><br>
+		<b>Type:</b><br>
+		{{obj.get_type_display }}<br><br>
+		<b>Notes:</b><br>
+		{{obj.notes|truncatewords:40 }}
+	  </p>
+	  </blockquote>
+      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		  <a id="use_photo" class="btn btn-primary" href="{% url 'view_activity_delete' id=obj.id %}">Yes, delete</a>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+	<div class="col-xs-5">
+		<div class="dropdown" style="display:inline;">
+		  <button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-earphone"></i> <b>Activity</b> <span class="caret"></span>
+		  </button>
+		  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			<li><a href="{% url 'view_activityedit' id=obj.id %}"><i class="glyphicon glyphicon-pencil"></i> Edit</a></li>
+			<li><a href="{% url 'view_activitynew_application' application_id=obj.application.id %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+			{% if user = obj.recruiter %}
+				<li><a onclick="delete_obj();"><i class="glyphicon glyphicon-trash"></i> Delete</a></li>
+			{% endif %}
+			<li><a href="{% url 'view_activity_rpt' id=obj.id %}"><i class="glyphicon glyphicon-print"></i> Print</a></li>
+			<li><a href="{% url 'view_activities' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+			<li><a href="{% url 'view_remindernew' model_name='activity' field_id=obj.id %}"><i class="glyphicon glyphicon-bell"></i> Create reminder</a></li>
+		  </ul>
+		</div>
+	</div>
+	<div class="col-xs-7">
+		<form class="navbar-form pull-right" role="search" action="/qsearch_activity/" method="POST" style="display:inline;padding:0px;margin:0px;">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="input-group">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-search"></i>
+				</span>
+				<input type="text" class="form-control" name="search" id="id_search" placeholder="Search activity"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="well well-white">
+<dl class="dl-horizontal">
+	
+  <dt>Application:</dt>
+  <dd>
+	<a class="btn btn-primary" href="{% url 'view_application' id=obj.application.id %}">
+		{{ obj.application }}
+		</a></dd>
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+	
+  <dt>Recruiter:</dt>
+  <dd>{{ obj.recruiter }}</dd>
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+
+  <dt>When:</dt>
+  <dd>{{ obj.datetime}} ({{ obj.datetime|timesince }} ago)</dd>
+	<hr style="margin-top: 5px;margin-bottom: 5px;">
+		
+  <dt>Type:</dt>
+  <dd>{{obj.get_type_display }}</dd>
+	<hr style="margin-top: 5px;margin-bottom: 5px;">		
+	
+  <dt>Notes:</dt>
+  {% if obj.notes %}
+	<dd>{{ obj.notes|urlizetrunc:65|escape|linebreaks }}</dd>
+	{% else %}
+	<dd>??</dd>
+  {% endif %}
+
+</dl>
+</div>
+
+</br>
+
+{### ACTIVITIES HEAD ###}
+<div class="row">
+	<div class="col-xs-12">
+		<div class="dropdown" style="display:inline;">
+			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-briefcase"></i> <b>Latest Activities</b> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'view_activitynew' %}"><i class="glyphicon glyphicon-plus"></i> New Activity</a></li>
+				<li><a href="{% url 'view_activities' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even not related)</a></li>
+			</ul>
+		</div>
+		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+			<span class="label label-default" style="display:inline;">{{ counter }} / {{ total }}</span>
+		</h2>
+	</div>
+</div>
+{### ACTIVITIES HEAD - End ###}
+
+{### ACTIVITIES LIST ###}
+{% if counter  > 0 %}
+	<div class="list-group">
+		{% for obj in objs %}
+		 <a href="{% url 'view_activity' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p class="smallfont" style="margin-top:2px; margin-bottom:2px;"> {{ obj.get_type_display }} by {{obj.recruiter}}</p>
+			<p style="margin-bottom:2px;"><b>{{obj|truncatechars:78}}</b></p>
+			<p style="margin-bottom:0px;">{{obj.notes|truncatewords:20}}</p>
+		  </a>
+		{% endfor %}
+	</div>
+{% else %}
+	<div class="well well-white" style="margin-bottom: 14px;">
+		<p>There are no activities</p>
+		<a class="btn btn-primary" href="{% url 'view_activitynew' %}" title="Add new activity to the system">
+			<i class="glyphicon glyphicon-plus"></i> Create new activity
+		</a>
+	</div>
+{% endif %}
+{### ACTIVITIES LIST - End ###}
+
+{% block extra-bottom %}
+	<script type="text/javascript">
+		function delete_obj(){
+			$("#modal_delete").modal('show');
+		};
+	</script>
+{% endblock %}
+
+{% endblock content %}

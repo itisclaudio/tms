@@ -1,0 +1,156 @@
+{% extends '_base.html' %}
+{% block title %}New profile 
+	{% if obj %}
+		for:  {{obj}}
+	{% endif %}
+{% endblock title %}
+{% block content %}
+
+<h1><i class="glyphicon glyphicon-education"></i> New profile 
+{% if obj %}
+	for: {{obj}}
+{% endif %}
+</h1>
+<div class="well">
+
+	<form action="." method="POST" enctype='multipart/form-data' class="form-horizontal">
+		{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-group fieldWrapper">
+			<label for="id_applicant" class="col-sm-3 control-label">Applicant:</label>
+			<div class="col-sm-5">
+				{{ form.applicant }} 
+				{{ form.applicant.errors }}
+			</div>
+			<div class="col-sm-3">
+			<a class="btn btn-primary" href="{% url 'view_applicantnew' %}" title="Add new Skill">
+				<i class="glyphicon glyphicon-plus"></i> New applicant
+			</a>
+			</div>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_skills" class="col-sm-3 control-label">Main Skill(s): <br><em class="smallfont">Press control or command for multiple selections</em></label>
+			<div class="col-sm-9">
+			<select multiple="multiple" class="form-control" id="id_skills" name="skills">
+			{% for choice in form.skills.field.choices %}
+				<option value="{{choice.0}}" 
+					{% for skill in skills %}
+						{% ifequal skill.name choice.1 %}
+							selected="selected"
+						{% endifequal %}
+					{% endfor %}/>
+				{{choice.1|truncatechars:60}}</option>
+			{% endfor %}
+			</select>
+			{{ form.skills.errors }}
+			<a class="btn btn-primary" href="{% url 'view_skillnew' %}" title="Add new Skill">
+				<i class="glyphicon glyphicon-plus"></i> New skill
+			</a>
+			</div>
+		</div>
+		
+		<div class="form-group fieldWrapper">
+			<label for="id_exp_months" class="col-sm-3 control-label">Experience:</label>
+			<div class="col-sm-3">
+				{{ form.exp_years }}
+				{{ form.exp_years.errors }}
+			</div>
+			<div class="col-sm-3">
+				{{ form.exp_months }}
+				{{ form.exp_months.errors }}
+			</div>
+		</div>
+		<div class="form-group fieldWrapper">
+			<label for="id_salary_cur" class="col-sm-3 control-label">Salary Expectations:</label>
+			<div class="col-sm-4">
+				{{ form.salary }}
+				{{ form.salary.errors }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-sm-offset-3">
+				<button id="save_button" class="btn  btn-primary btn-lg">Save</button>
+				{% if obj %}
+					<a class="btn btn-primary btn-lg" href="{% url 'view_applicant' id=obj.id %}">Cancel</a>
+				{% else %}
+					<a class="btn btn-primary btn-lg" href="{% url 'view_main' %}">Cancel</a>
+				{% endif %}
+			</div>
+		</div>
+	</form>
+</div>
+<br>
+<h2 style="text-align:left;"><i class="glyphicon glyphicon-education"></i> Latest Profiles: 
+<span class="label label-default" style="display:inline;">{{ counter }}</span> of <span class="label label-default" style="display:inline;">{{ total }}</span>
+	<a class="btn btn-primary" title="See All"  href="{% url 'view_profiles' %}">See all
+		<i class="glyphicon glyphicon-th-large"></i>
+	</a>
+</h2>
+
+{% if counter  > 0 %}
+	{% for obj in profiles %}
+	<div class="well well-white">
+		<a class="btn btn-info" title="Edit"  href="{% url 'view_profileedit' id=obj.id %}">
+			<i class="glyphicon glyphicon-pencil icon-white"></i>
+		</a>
+		<a class="btn btn-info" title="Apply to a Job"  href="{% url 'view_applicationnew_profile' profile_id=obj.id %}">
+			<i class="glyphicon glyphicon-send icon-white"></i>
+		</a>
+		<a class="btn btn-primary" title="{{obj}}"  href="{% url 'view_profile' id=obj.id %}">
+			{{obj|truncatechars:82}}
+		</a>
+		<p style="margin-bottom:0px;margin-top:2px;">
+		<b>Date:</b> {{obj.datetime|date:"N j, Y"}} | 
+		<b>Applictions:</b> {{obj.app_count}} |
+		<b>Relocate:</b>
+		{% if obj.applicant.relocation == True %}
+			Open
+		{% endif %}
+		{% if obj.applicant.relocation == False %}
+			No
+		{% endif %}
+		{% if obj.experience %}| <b>Experience:</b>
+			{% if obj.experience < 12 %}
+				{{obj.experience}} Months
+			{% endif %}
+			{% if obj.experience == 12 %}
+				1 Year
+			{% endif %}
+			{% if obj.experience > 12 %}
+				{{obj.yearsexp}}
+				{% if obj.monthsexp > 0%}
+				+
+				{% endif %}
+				Years
+			{% endif %}
+		{% endif %}
+		{% if obj.applicant.availability %}
+		| <b>Availability: </b>
+			{% now "Y-m-d" as todays_date %}
+			{% if obj.applicant.availability|date:"Y-m-d" <= todays_date %}
+			   Immediate
+			{% else %}
+				{{obj.applicant.availability }}
+			{% endif %}
+		{% endif %}
+		</p>
+	</div>
+	{% endfor %}
+{% else %}
+	<div class="well well-white">
+		<p>There are no profiles
+		{% if search %}
+			for <b>"{{search}}"</b>
+		{% endif %}
+		</p>
+	</div>
+{% endif %}
+
+{% block focus %}
+	<script type="text/javascript">
+		document.getElementById('id_search').focus();
+	</script>
+{% endblock %}
+
+{% endblock content %}

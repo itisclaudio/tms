@@ -1,0 +1,99 @@
+{% extends '_base.html' %}
+{% block title %}Reminders{% endblock title %}
+{% block content %}
+
+<div class="row">
+	<div class="col-sm-8" style="padding-right:2px;">
+		<h1 style="margin-bottom:4px;vertical-align:text-bottom;">
+		<i class="glyphicon glyphicon-bell"></i> {% if title_my %}{{title_my}}{% endif %} {% if title_all %}{{title_all}}{% endif %} {% if title_private %}{{title_private}}{% endif %} Reminders 
+			<span class="label label-default" style="display:inline;">{{ counter }}</span>
+			<a class="btn btn-primary" href="{% url 'view_remindernew' %}" title="Create new reminder">
+				<i class="glyphicon glyphicon-plus"></i>
+			</a>
+			{% if search %}
+				{% if  search = "" %}
+					<a class="btn btn-primary" href="{% url 'view_activities_rpt' %}" title="Report">
+						<i class="glyphicon glyphicon-print"></i>
+					</a>
+				{% endif %}
+				<a class="btn btn-primary" title="See All"  href="{% url 'view_reminders' %}">
+					<i class="glyphicon glyphicon-th-large"></i>
+				</a>
+			{% else %}
+				<a class="btn btn-primary" href="{% url 'view_activities_rpt' %}" title="Report">
+					<i class="glyphicon glyphicon-print"></i>
+				</a>			
+			{% endif %}
+		</h1>
+	</div>
+	<div class="col-sm-4" style="padding-left:2px; padding-right:2px;"> 
+		<form class="navbar-form pull-right" role="search" action="/qsearch_reminder/" method="POST" style="padding-left:4px;padding-right:0px;width:200px;margin-top: 0px;margin-bottom:0px; margin-right:60px;">
+			{% csrf_token %}
+			<div class="form-group" style="width:200px;">
+				<div class="input-group">
+				<span class="input-group-addon">
+						<i class="glyphicon glyphicon-search"></i>
+				</span>
+				{% if search %}
+					<input value="{{search}}" type="text" class="form-control" name="search" id="id_search" placeholder="Search reminder" style="width:200px;"/>
+				{% else %}
+					<input type="text" class="form-control" name="search" id="id_search" placeholder="Search reminder" style="width:200px;"/>
+				{% endif %}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="well" style="margin:0px"><!--7-->
+{% if counter  > 0 %}
+	{% for obj in objs %}
+	<div class="well well-white">	
+		<a class="btn btn-info" title="Edit"  href="{% url 'view_reminderedit' id=obj.id %}">
+			<i class="glyphicon glyphicon-pencil icon-white"></i>
+		</a>
+		{% if obj.active = True %}
+			<a class="btn btn-primary" title="{{obj.datetime}}" href="{% url 'view_reminder' id=obj.id %}">
+				{{obj.datetime|date:"M d, H:i"}}
+				{% if obj.private = True %}
+					(Private)
+				{% endif %}
+			</a>
+		{% else %}
+			<a class="btn btn-danger" title="{{obj.datetime}}" href="{% url 'view_reminder' id=obj.id %}">
+				{{obj.datetime|date:"M d, H:i"}}
+				{% if obj.private = True %}
+					(Private)
+				{% endif %}
+			</a>
+		{% endif %}
+		<p class="smallfont" style="margin-top:2px; margin-bottom:6px;">by <a href="/recruiter_profile/{{user.id}}/">{{obj.recruiter}}</a>
+		  {% if obj.model_name %}
+			Related to {{obj.model_name|title}}
+		  {% endif %}
+		</p>
+		<p style="margin-bottom:0px;">{{ obj.content|truncatewords:20 }}</p>
+	</div>
+	{% endfor %}
+{% endif %}
+{% if counter  == 0 %}
+<div class="well well-white">
+	<p style="margin-bottom:10px;">There are no reminders
+		{% if search %}
+			for <b>"{{search}}"</b>
+		{% endif %}
+	</p>
+	<a class="btn btn-primary" href="{% url 'view_remindernew' %}" title="Add new reminder to the system">
+		<i class="glyphicon glyphicon-plus"></i> Create new reminder
+	</a>
+</div>
+{% endif %}
+</div><!--7!-->
+
+{% block focus %}
+	<script type="text/javascript">
+		document.getElementById('id_search').focus();
+	</script>
+{% endblock %}
+
+{% endblock content %}

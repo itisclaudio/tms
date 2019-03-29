@@ -1,0 +1,38 @@
+{% extends '_base.html' %}
+{% block title %}Changes History{% endblock title %}
+{% block content %}
+
+<h1 style="margin-bottom:4px;vertical-align:text-bottom;">Changes History
+		<span class="label label-default" style="display:inline;">{{ logCount }}</span>
+</h1>
+
+<div class="well well-white" style="padding-top: 20px; padding-left:30px;">		
+	{% if logs %}
+		<ul class="list-group">
+			{% for log in logs %}
+				<li class="list-group-item">
+					{% if log.action_flag == 1 %}
+						<span class="label label-success" title="Add" style="padding:3px 5px 3px 7px;">
+							<i class="fa fa-plus"></i>
+						</span>
+					{% elif log.action_flag == 2 %}
+						<span class="label label-info" title="Edit" style="padding:3px 4px 3px 7px;">
+							<i class="glyphicon glyphicon-pencil icon-white"></i>
+						</span>
+					{% elif log.action_flag == 3 %}
+						<span class="label label-danger" title="Delete" style="padding:3px 5px 3px 7px;">
+							<i class="fa fa-minus"></i>
+						</span>
+					{% endif %} 
+					<span style="margin-left:5px;">{{ log.action_time|date:"m/d/Y - g:ia" }} 
+					<b>{{ log.content_type|capfirst }}</b>: {{ log }}, {{ log.object_id }}| {{ log.user.username }}
+					</span>
+				</li>
+			 {% endfor %}
+		</ul>
+	{% else %}
+		<p>This object doesn't have a change history. It probably wasn't added via this admin site.</p>
+	{% endif %}
+</div>
+
+{% endblock content %}

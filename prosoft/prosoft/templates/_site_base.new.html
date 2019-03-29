@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{% block title %}{% endblock %}</title>
+<!-- Start-Home screen Icons -->
+	<link rel="apple-touch-icon" sizes="57x57" href="http://worldfood.guide/media/images/icons/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="http://worldfood.guide/media/images/icons/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="http://worldfood.guide/media/images/icons/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="http://worldfood.guide/media/images/icons/apple-icon-144x144.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="http://worldfood.guide/media/images/icons/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="http://worldfood.guide/media/images/icons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="http://worldfood.guide/media/images/icons/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="http://worldfood.guide/media/images/icons/favicon-16x16.png">
+<!-- End-Home screen Icons -->
+<!-- These two are what you want to use by default -->
+<link rel="apple-touch-icon" href="http://worldfood.guide/media/images/worldfoodguide-icon-57.jpg">
+<link rel="apple-touch-icon-precomposed" href="http://worldfood.guide/media/images/worldfoodguide-icon-57.jpg">
+<!-- For Font Awesome Icons -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<!-- For Android and Apple -->
+<link rel="shortcut icon" href="http://worldfood.guide/media/images/worldfoodguide-icon-57.jpg"/>
+<!-- This one works for anything below iOS 4.2 -->
+<link rel="apple-touch-icon-precomposed apple-touch-icon" href="http://worldfood.guide/media/images/worldfoodguide-icon-57.jpg">
+<link href="{% static 'css/_main.css' %}" rel="stylesheet" >
+<link rel="shortcut icon" type="image/x-icon" href="http://worldfood.guide/media/images/icons/favicon.ico" >
+<link href="{{ MEDIA_URL }}/media/images/icons/favicon.png" rel="icon" type="image/x-icon">
+<!--<link href="{{ MEDIA_URL }}/media/images/icons/favicon.ico" rel="icon">-->
+<!-- START:Style for icon-uploading -->
+<style>
+	#bootstrap-overrides .ui-autocomplete-loading {
+		background: white url("{{ MEDIA_URL }}/media/images/loading16x16.gif") right center no-repeat;
+	}
+</style>
+<!-- END:Style for icon-uploading -->
+<!-- Start: Google_Verification -->
+	<meta name="google-site-verification" content="wDS7Q95Df3bN7JBqWOkl6xnB-7xdHIuyU3s0NDNf4Q0" />
+<!-- END: GoogleVerification -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+{% block extra-head %}{% endblock %}
+{% block super-extra-head %}{% endblock %}
+</head>
+<body id="bootstrap-overrides">
+{% block extra-content-top %}{% endblock %}
+{% block content %}{% endblock %}
+{% block extra-content-botton %}{% endblock %}
+
+</body>
+<script src="{% static 'dist/jquery/jquery-1.12.0.min.js' %}"></script>
+<script src="{% static 'dist/bootstrap/js/bootstrap.min.js' %}"></script>
+{% block extra-bottom %}{% endblock %}
+</html>
