@@ -4,7 +4,7 @@ from .base import *
 #print "in production.py"
 
 DEBUG = False
-
+ALLOWED_HOSTS = ['prosoft-tms.herokuapp.com']
 INSTALLED_APPS += (
 	'django.contrib.admin',
 )
