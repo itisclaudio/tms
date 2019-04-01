@@ -1,1 +1,1 @@
-web:gunicorn prosoft.wsgi
+web: gunicorn prosoft.wsgi
