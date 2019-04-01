@@ -1,1 +1,1 @@
-web: gunicorn prosoft.prosoft.wsgi:files --log-file -
+web: gunicorn prosoft.wsgi:application --log-file -
