@@ -24,12 +24,13 @@ urlpatterns = [
 	url(r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete', name='password_reset_complete'),
 ]
 
-##For debug_toolbar (Only production):
-#if settings.DEBUG:
-#	import debug_toolbar
-#	urlpatterns = [
-#		url(r'^__debug__/', include(debug_toolbar.urls)),
-#	] + urlpatterns
+#For debug_toolbar (Only production):
+if settings.DEBUG:
+	print "settings.DEBUG = True, Load debug_toolbar"
+	import debug_toolbar
+	urlpatterns = [
+		url(r'^__debug__/', include(debug_toolbar.urls)),
+	] + urlpatterns
 	
 #To handle Errors
 handler500 = myerror500
