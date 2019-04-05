@@ -3,7 +3,7 @@ from .base import *
 # Override base.py settings here
 #print "in production.py"
 
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['prosoft-tms.herokuapp.com']
 INSTALLED_APPS += (
 	'django.contrib.admin',
