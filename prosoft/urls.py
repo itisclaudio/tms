@@ -25,7 +25,8 @@ urlpatterns = [
 ]
 
 #For debug_toolbar (Only production):
-if settings.DEBUG:
+#if settings.DEBUG:
+if 1=2:
 	print "settings.DEBUG = True, Load debug_toolbar"
 	import debug_toolbar
 	urlpatterns = [
