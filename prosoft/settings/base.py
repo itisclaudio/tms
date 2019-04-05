@@ -4,7 +4,8 @@
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-print "in base.py"
+print "in base.py, BASE_DIR:"
+print BASE_DIR
 
 DEBUG = False
 

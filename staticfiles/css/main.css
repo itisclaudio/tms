@@ -1,0 +1,172 @@
+/* My Custome Stylesheet */
+
+/* First, pell un Bootstrap;s stylesheet */
+@import url(../dist/bootstrap/css/bootstrap.min.css);
+
+html {
+  /*So navbar stays in the bottom*/
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+	/*padding-top: 0px;*/
+	font-size: 16px;
+	line-height: 20px;
+	/*color:#993300;*/
+	font-family: Arial, Helvetica, sans-serif;
+	}
+
+h1 { font-size:22px;
+	font-weight:bold;
+	line-height: 24px;
+	text-align:left; 
+	color:#004262;
+	text-align:left;
+	margin: 2px 0px 0px -2px;
+	}
+	
+h2 {
+	font-size: 20px;
+	line-height: 22px;
+	text-align: left;
+	color: #006699;
+	font-weight: bold;
+	}
+
+h3 {
+	font-size:18px; 
+	line-height: 20px;
+	color: #007EBB;
+	text-align:left;
+	}
+
+h4 {font-size:16px; 
+	line-height: 18px;
+	font-weight: bold;
+	color: #0098E1;
+	text-align:left;
+	/*font-family:"eras", serif;*/
+	}
+	
+.sidebar {
+	font-size:16px; 
+	line-height: 20px;
+    margin-bottom: 2px;
+	font-weight: bold;
+	color: #0098E1;
+	text-align:left;
+	font-family: Verdana, Geneva, sans-serif;
+	}
+	
+p, li, td, .btn {
+	font-size:14px; 
+	line-height: 16px;
+	/*font-family:"eras_med", serif;*/
+	}
+	
+.form-group {
+    margin-bottom: 7px;
+}
+
+.form-control{
+	height: 30px;
+	/*font-size: 16px;
+	line-height: 18px;*/
+ }
+
+.smallfont {
+	font-size:12px; 
+	line-height: 12px;
+	color:#999;
+	/*font-family:"eras", serif;*/
+	}
+
+.btn-lg {
+	font-size:18px; 
+	font-weight: bold;
+	/*line-height: 20px;*/
+	/*font-family:"eras", serif;*/
+	}
+
+.menu a{ 
+	font-size:18px;
+	font-weight: bold;
+	color:#993300;
+	padding: 0px; 
+	margin: 0px;
+	/*font-family: "eras";*/
+	}
+	
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 50px;
+  background-color: #f5f5f5;
+}
+
+ .label{
+	font-size:16px; 
+	line-height: 20px;
+	padding-bottom:3px;
+	font-family:"Times New Roman", Times, serif; text-transform:uppercase; 
+	/*vertical-align:top;*/
+}
+	
+/*Dropdown menu backgroud color*/
+.dropdown-menu li > a:hover, .dropdown-menu li > a:focus, .dropdown-submenu:hover > a
+{background-color:#6FA8D7; background-image:none; }	
+
+a { color:#6FA8D7;}
+a:hover
+{
+	color:#6FA8D7;
+}
+
+.navbar, .navbar-default, .navbar-fixed-top{
+	padding: 0px;
+	margin-bottom: 0px;
+	background-color:#FFFFFF;
+}
+
+.well{
+	padding: 10px;
+	margin: 0px;
+}
+
+.well-white{
+	background-color:white;
+}
+
+/*For Main menu button size*/
+#bootstrap-overrides .btn-menu{
+	padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 4px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+
+/* My own stiling */
+
+.report
+ {
+	text-align:center;
+	}
+
+.table-white  {
+ background-color: #ffffff;
+ }
+ 
+ @media (min-width: 1200px) {
+    .container{
+        width: 1200px !important;
+    }
+}
+@media (min-width: 992px){
+	.container {
+		width: 98%;
+}
