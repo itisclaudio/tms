@@ -24,9 +24,10 @@ urlpatterns = [
 	url(r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete', name='password_reset_complete'),
 ]
 
+
 #For debug_toolbar (Only production):
 #if settings.DEBUG:
-if 1==2:
+if settings.LOCAL_DEV:
 	print "settings.DEBUG = True, Load debug_toolbar"
 	import debug_toolbar
 	urlpatterns = [
