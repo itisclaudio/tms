@@ -9,6 +9,9 @@ INSTALLED_APPS += (
 	'django.contrib.admin',
 )
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get(SECRET_KEY,'afl549q&v2eppw3reii)7wozdiol47n)hr7^fis*g#5a!-e04=')
+
 MIDDLEWARE_CLASSES = (
 	'whitenoise.middleware.WhiteNoiseMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
