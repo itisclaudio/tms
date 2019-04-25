@@ -1,4 +1,5 @@
 {% extends '_site_base.html' %}
+{% load static %}
 {% block extra-head %}
 	<!-- stylesheets -->
 	
@@ -39,7 +40,7 @@
 <div class="well">
 {% if next %}
 	<form action="/login/?next={{next}}" method="POST" >
-{%else%}
+{% else %}
 	<form action="/login/" method="POST">
 {% endif %}
 		{% if mensa = 1 %}
