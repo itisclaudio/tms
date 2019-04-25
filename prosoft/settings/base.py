@@ -114,11 +114,3 @@ UPLOAD_DOCS = 'prosoft/media/docs'
 
 MEDIA_ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.dirname(__file__)),'media/'))
 MEDIA_URL = '/media/'
-
-#To send emails
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'worldfoodguideapp@gmail.com'
-EMAIL_HOST_PASSWORD = 'wfgpass1'
-ADMINS = (('Claudio', 'itisclaudio@gmail.com'),) # A tuple that lists people who get code error notifications. When DEBUG=False
