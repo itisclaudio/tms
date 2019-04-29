@@ -1,8 +1,8 @@
 #BASE
 #====
-Django==1.8
-#psycopg2==2.6.1
-psycopg2
+#Django==1.8
+Django==1.11.20
+psycopg2==2.6.1
 sqlparse==0.2.4
 
 #DEVELOPMENT
@@ -12,8 +12,17 @@ sqlparse==0.2.4
 
 #PRODUCTION
 #===========
-gunicorn==19.9.0
-whitenoise==4.1.2
+boto3==1.9.137
+botocore==1.12.137
 dj-database-url==0.5.0
-boto3
-django-storages
+django-storages==1.7.1
+docutils==0.14
+futures==3.2.0
+gunicorn==19.9.0
+jmespath==0.9.4
+python-dateutil==2.8.0
+pytz==2019.1
+s3transfer==0.2.0
+six==1.12.0
+urllib3==1.24.2
+whitenoise==4.1.2
