@@ -4,7 +4,7 @@ from .base import *
 #print "in production.py"
 
 DEBUG = True
-ALLOWED_HOSTS = ['prosoft-tms.herokuapp.com']
+ALLOWED_HOSTS = ['prosoft-tms.herokuapp.com','prosoft-tms-production.herokuapp.com/']
 INSTALLED_APPS += (
 	'django.contrib.admin',
 	'storages',#App needed for Amazon AWS S3

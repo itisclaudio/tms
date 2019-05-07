@@ -663,18 +663,22 @@ def applicantdocnew_view(request, applicant):
 	form = applicantdocnew_Form()
 	cxt = {'form':form,'obj':obj,'documents':documents}
 	return render_to_response('applicantdoc_new.html',cxt,context_instance=RequestContext(request))
-
+#000
 def applicant_doc_delete_view(request, id):
 	try:
 		obj = Applicant_Doc.objects.get(pk=id)
 		applicant = obj.applicant
 		extra = '<b>Applicant: </b> %s<br/><b>Type:</b> %s<br/><b>Document:</b> %s' % (applicant ,obj.get_type_display(), str(obj.document).replace ("docs/", ""))
 		RegisterTracking(request.user,'3',timezone.localtime(timezone.now()),applicant._meta.model_name,applicant.id,'Document',None,None,extra)
+		## Deleting actual file in media/docs:
+		ruta = str(obj.document.path)
+		os.remove(ruta)
+		## Deleting database row:
 		obj.delete()
 		return redirect('view_applicant', id = applicant.id)
 	except Applicant_Doc.DoesNotExist:
 		raise Http404()
-	
+#111
 def applicantdelete_view(request, id):
 	if str(request.user) == "Visitor":
 		raise Http404
@@ -692,6 +696,9 @@ def applicantdelete_view(request, id):
 			if not Profile.objects.filter(applicant=obj).exists():
 				if docs_count > 0:
 					## There are docs, delete them
+				#if instance.file:
+					#if os.path.isfile(instance.file.path):
+						#os.remove(instance.file.path)
 					for doc in documents:
 						ruta = str(doc.document.path)
 						os.remove(ruta)
@@ -1373,7 +1380,7 @@ def profiledocnew_view(request, profile):
 	form = profiledocnew_Form()
 	cxt = {'form':form,'obj':obj,'documents':documents}
 	return render_to_response('profiledoc_new.html',cxt,context_instance=RequestContext(request))		
-#111
+
 def profilenew_view(request, applicant=None):
 	if str(request.user) == "Visitor":
 		raise Http404
@@ -1984,7 +1991,6 @@ def vendoredit_view(request, id):
 	ctx = {'form':form,'obj':obj}
 	return render_to_response('vendor_edit.html',ctx,context_instance=RequestContext(request))
 	
-#111
 def vendordelete_view(request, id):
 	if str(request.user) == "Visitor":
 		raise Http404
@@ -2086,7 +2092,7 @@ def skillnew_view(request):
 	form= skill_Form()
 	ctx = {'form':form}
 	return render_to_response('skill_new.html',ctx,context_instance=RequestContext(request))
-#111
+
 def skilldelete_view(request, id):
 	if str(request.user) == "Visitor":
 		raise Http404
