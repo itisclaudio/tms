@@ -81,62 +81,62 @@
 	</form>
 </div>
 <br>
-<h2 style="text-align:left;"><i class="glyphicon glyphicon-education"></i> Latest Profiles: 
-<span class="label label-default" style="display:inline;">{{ counter }}</span> of <span class="label label-default" style="display:inline;">{{ total }}</span>
-	<a class="btn btn-primary" title="See All"  href="{% url 'view_profiles' %}">See all
-		<i class="glyphicon glyphicon-th-large"></i>
-	</a>
+<div class="dropdown" style="display:inline;">
+	<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-education"></i> <b>Latest Profiles</b> <span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+		<li><a href="{% url 'view_profiles' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+		{% if not search %}
+			<li><a href="{% url 'view_profiles_rpt' %}"><i class="glyphicon glyphicon-print"></i> Print All</a></li>		
+		{% endif %}
+	</ul>
+</div>
+<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
+	<span class="label label-default" style="display:inline;">{{ counter }}</span> of <span class="label label-default" style="display:inline;">{{ total }}</span>
 </h2>
 
 {% if counter  > 0 %}
-	{% for obj in profiles %}
-	<div class="well well-white">
-		<a class="btn btn-info" title="Edit"  href="{% url 'view_profileedit' id=obj.id %}">
-			<i class="glyphicon glyphicon-pencil icon-white"></i>
-		</a>
-		<a class="btn btn-info" title="Apply to a Job"  href="{% url 'view_applicationnew_profile' profile_id=obj.id %}">
-			<i class="glyphicon glyphicon-send icon-white"></i>
-		</a>
-		<a class="btn btn-primary" title="{{obj}}"  href="{% url 'view_profile' id=obj.id %}">
-			{{obj|truncatechars:82}}
-		</a>
-		<p style="margin-bottom:0px;margin-top:2px;">
-		<b>Date:</b> {{obj.datetime|date:"N j, Y"}} | 
-		<b>Applictions:</b> {{obj.app_count}} |
-		<b>Relocate:</b>
-		{% if obj.applicant.relocation == True %}
-			Open
-		{% endif %}
-		{% if obj.applicant.relocation == False %}
-			No
-		{% endif %}
-		{% if obj.experience %}| <b>Experience:</b>
-			{% if obj.experience < 12 %}
-				{{obj.experience}} Months
+	<div class="list-group">
+		{% for obj in profiles %}
+		 <a href="{% url 'view_profile' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
+			<p style="margin-bottom:2px;"><b>{{obj|truncatechars:78}}</b></p>
+			<p style="margin-top:2px; margin-bottom:0px; line-height:14px;" class="smallfont">
+			<i class="glyphicon glyphicon-send" title="Applications"></i>  {{obj.app_count}} 
+			| <b>Relocate:</b>
+			{% if obj.applicant.relocation == True %}
+				Open
 			{% endif %}
-			{% if obj.experience == 12 %}
-				1 Year
+			{% if obj.applicant.relocation == False %}
+				No
 			{% endif %}
-			{% if obj.experience > 12 %}
-				{{obj.yearsexp}}
-				{% if obj.monthsexp > 0%}
-				+
+			{% if obj.experience %}| <b>Experience:</b>
+				{% if obj.experience < 12 %}
+					{{obj.experience}} Months
 				{% endif %}
-				Years
+				{% if obj.experience == 12 %}
+					1 Year
+				{% endif %}
+				{% if obj.experience > 12 %}
+					{{obj.yearsexp}}
+					{% if obj.monthsexp > 0%}
+					+
+					{% endif %}
+					Years
+				{% endif %}
 			{% endif %}
-		{% endif %}
-		{% if obj.applicant.availability %}
-		| <b>Availability: </b>
-			{% now "Y-m-d" as todays_date %}
-			{% if obj.applicant.availability|date:"Y-m-d" <= todays_date %}
-			   Immediate
+			| <b>Available:</b>
+			{% if obj.applicant.available == True %}
+				Yes
 			{% else %}
-				{{obj.applicant.availability }}
+				No
+			{% endif %}		
+			{% if obj.salary %}| <b>Salary Expectations:</b>
+				{{obj.salary}}
 			{% endif %}
-		{% endif %}
-		</p>
+			</p>
+		  </a>
+		{% endfor %}
 	</div>
-	{% endfor %}
 {% else %}
 	<div class="well well-white">
 		<p>There are no profiles
