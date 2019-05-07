@@ -670,23 +670,13 @@ def applicant_doc_delete_view(request, id):
 		applicant = obj.applicant
 		extra = '<b>Applicant: </b> %s<br/><b>Type:</b> %s<br/><b>Document:</b> %s' % (applicant ,obj.get_type_display(), str(obj.document).replace ("docs/", ""))
 		RegisterTracking(request.user,'3',timezone.localtime(timezone.now()),applicant._meta.model_name,applicant.id,'Document',None,None,extra)
-		## Deleting actual file in media/docs:
-		#from django.core.files.storage import default_storage as storage
-		#image = Image.open(obj.document)
-		#fh = storage.open(obj.document.name, "w")
-		#format = 'jpg'  # You need to set the correct image format here
-		#image.delete(fh, format)
-		#fh.close()
-		#ruta = str(obj.document.path) #path doesn't work in production
-		#ruta = str(obj.document.name)
-		#os.remove(ruta)
+		##Deleting the file:
 		obj.document.delete()
-		## Deleting database row:
 		obj.delete()
 		return redirect('view_applicant', id = applicant.id)
 	except Applicant_Doc.DoesNotExist:
 		raise Http404()
-#111
+
 def applicantdelete_view(request, id):
 	if str(request.user) == "Visitor":
 		raise Http404
@@ -1355,6 +1345,8 @@ def profile_doc_delete_view(request, id):
 		profile = obj.profile
 		extra = '<b>Profile: </b> %s<br/><b>Type:</b> %s<br/><b>Document:</b> %s' % (profile ,obj.get_type_display(), str(obj.location).replace ("docs/", ""))
 		RegisterTracking(request.user,'3',timezone.localtime(timezone.now()),profile._meta.model_name,profile.id,'Document',None,None,extra)
+		##Deleting the file:
+		obj.location.delete()
 		obj.delete()
 		return redirect('view_profile', id = profile.id)
 	except Profile_Doc.DoesNotExist:
