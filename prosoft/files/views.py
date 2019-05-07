@@ -671,8 +671,16 @@ def applicant_doc_delete_view(request, id):
 		extra = '<b>Applicant: </b> %s<br/><b>Type:</b> %s<br/><b>Document:</b> %s' % (applicant ,obj.get_type_display(), str(obj.document).replace ("docs/", ""))
 		RegisterTracking(request.user,'3',timezone.localtime(timezone.now()),applicant._meta.model_name,applicant.id,'Document',None,None,extra)
 		## Deleting actual file in media/docs:
-		ruta = str(obj.document.path)
-		os.remove(ruta)
+		#from django.core.files.storage import default_storage as storage
+		#image = Image.open(obj.document)
+		#fh = storage.open(obj.document.name, "w")
+		#format = 'jpg'  # You need to set the correct image format here
+		#image.delete(fh, format)
+		#fh.close()
+		#ruta = str(obj.document.path) #path doesn't work in production
+		#ruta = str(obj.document.name)
+		#os.remove(ruta)
+		obj.document.delete()
 		## Deleting database row:
 		obj.delete()
 		return redirect('view_applicant', id = applicant.id)
