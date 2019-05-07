@@ -115,7 +115,7 @@
   {% if documents %}
 	{% for obj in documents %}
 		<a style="margin-left:0px; margin-bottom:4px; padding: 3px 6px;" id='{{ obj.location.name|slice:"5:" }}' name="delete_document_{{obj.id}}" class="btn btn-danger" data-toggle="modal" data-target="#modal_delete" title="Delete document"><li class="glyphicon glyphicon-remove"></li></a> 
-		<a target="_blank" href="{{ MEDIA_URL }}/media/{{ obj.location }}">{{ obj.location.name|slice:"5:" }}</a></br>
+		<a target="_blank" href="{{ obj.location.url }}">{{ obj.location.name|slice:"5:" }}</a></br>
 	{% endfor %}
   {% else %}
 		No Documents</br>
