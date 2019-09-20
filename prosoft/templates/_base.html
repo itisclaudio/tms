@@ -1,5 +1,5 @@
 {% extends '_site_base.html' %}
-{% load staticfiles %}
+{% comment %} {% load staticfiles %} {% endcomment %}
 {% load static %}
 {% block extra-head %}
 	<!-- stylesheets -->
@@ -28,7 +28,10 @@
 	<!-- Brand and toggle get grouped for better mobile display -->
 	<div class="navbar-header">
 		<a class="navbar-brand" style="padding-top:4px;padding-right:4px;" href="{% url 'view_main' %}">
-			<img alt="WorldFood.Guide" src="/media/images/prosoft-128x128-28.jpg" class="img-rounded" width="40">
+		{% comment %}
+			<img alt="Talent Management System" src="/media/images/prosoft-128x128-28.jpg" class="img-rounded" width="40">
+		{% endcomment %}
+		<img alt="Talent Management System" src="{% static 'images/prosoft-128x128-28.jpg' %}" class="img-rounded" width="40">
 		</a>
 		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
 				<span class = "icon-bar"></span>
