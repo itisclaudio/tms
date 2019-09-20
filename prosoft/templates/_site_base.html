@@ -5,8 +5,12 @@
 <title>{% block title %}{% endblock %}</title>
 <!-- Start-Home screen Icons -->
 	<!--Favicon-->
-	<link rel="shortcut icon" href="{{ MEDIA_URL }}/media/images/favicon_16.png" type="image/x-icon">
-	<link rel="icon" href="{{ MEDIA_URL }}/media/images/favicon_16.png" type="image/x-icon">
+	{% comment %}
+		<link rel="shortcut icon" href="{{ MEDIA_URL }}/media/images/favicon_16.png" type="image/x-icon">
+		<link rel="icon" href="{{ MEDIA_URL }}/media/images/favicon_16.png" type="image/x-icon">
+	{% endcomment %}
+	<link rel="shortcut icon" href="{% static 'images/favicon_16.png' %}" type="image/x-icon">
+	<link rel="icon" href="{% static 'images/favicon_16.png' %}" type="image/x-icon">
 <!-- End-Home screen Icons -->
 
 <!-- These two are what you want to use by default -->
