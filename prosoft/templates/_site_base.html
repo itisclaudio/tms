@@ -4,7 +4,10 @@
 <head>
 <title>{% block title %}{% endblock %}</title>
 <!-- For Font Awesome Icons -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% comment %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% endcomment %}
+<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
 
 <!-- stylesheets -->
 <link href="{% static 'css/main.css' %}" rel="stylesheet" >
