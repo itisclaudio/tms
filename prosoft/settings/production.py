@@ -6,7 +6,6 @@ from .base import *
 DEBUG = True
 ALLOWED_HOSTS = ['prosoft-tms.herokuapp.com','prosoft-tms-production.herokuapp.com/']
 INSTALLED_APPS += (
-	'django.contrib.admin',
 	'storages',#App needed for Amazon AWS S3
 )
 
@@ -14,7 +13,6 @@ INSTALLED_APPS += (
 SECRET_KEY = os.environ.get('SECRET_KEY','afl549q&v2eppw3reii)7wozdiol47n)hr7^fis*g#5a!-e04=')
 
 MIDDLEWARE_CLASSES = (
-	'whitenoise.middleware.WhiteNoiseMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.common.CommonMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
@@ -56,7 +54,18 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_QUERYSTRING_AUTH = False#Doesn't add signature after media files
+MEDIAFILES_LOCATION = 'media'
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'custom_storages.MediaRootS3BotoStorage'
+STATICFILES_STORAGE = 'custom_storages.StaticRootS3BotoStorage'
+S3DIRECT_REGION = 'us-west-2'
+S3_URL = 'https://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+
+MEDIA_ROOT = os.path.join(S3_URL, "media")
+STATIC_URL = S3_URL + 'static/'
+MEDIA_URL = S3_URL + 'media/'
+ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 #To send emails
 EMAIL_USE_TLS = True
