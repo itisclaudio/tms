@@ -4,7 +4,7 @@ from .base import *
 #print "in production.py"
 
 DEBUG = True
-ALLOWED_HOSTS = ['tms-s.herokuapp.com','tms-s-production.herokuapp.com/']
+ALLOWED_HOSTS = ['tms-s.herokuapp.com','tms-s-production.herokuapp.com/','prosoft-tms-stage.s3.amazonaws.com']
 INSTALLED_APPS += (
 	'storages',#App needed for Amazon AWS S3
 )
