@@ -3,20 +3,19 @@
 <html lang="en">
 <head>
 <title>{% block title %}{% endblock %}</title>
+<!-- For Font Awesome Icons -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+<!-- stylesheets -->
+<link href="{% static 'css/main.css' %}" rel="stylesheet" >
+
 <!-- Start-Home screen Icons -->
 	<!--Favicon-->
-	{% comment %}
-		<link rel="shortcut icon" href="{{ MEDIA_URL }}/media/images/favicon_16.png" type="image/x-icon">
-		<link rel="icon" href="{{ MEDIA_URL }}/media/images/favicon_16.png" type="image/x-icon">
-	{% endcomment %}
 	<link rel="shortcut icon" href="{% static 'images/favicon_16.png' %}" type="image/x-icon">
 	<link rel="icon" href="{% static 'images/favicon_16.png' %}" type="image/x-icon">
 <!-- End-Home screen Icons -->
 
 <!-- These two are what you want to use by default -->
-
-<!-- For Font Awesome Icons -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 {% block extra-head %}{% endblock %}
