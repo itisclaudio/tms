@@ -17,6 +17,7 @@ class LoginRequiredMiddleware:
 	loaded. You'll get an error if they aren't.
 	"""
 	def process_request(self, request):
+		print "in LoginRequiredMiddleware"
 		assert hasattr(request, 'user'), "The Login Required middleware\
 	requires authentication middleware to be installed. Edit your\
 	MIDDLEWARE_CLASSES setting to insert\
@@ -32,6 +33,7 @@ class LoginRequiredMiddleware:
 
 class AddControlToHeader(object):
     def process_request(self, request):
+		print "in AddControlToHeader"
 		#self.get_response = get_response
 		#response = self.get_response(request)
 		#request['Access-Control-Allow-Origin'] = "prosoft-tms-stage.s3.amazonaws.com"
