@@ -29,3 +29,11 @@ class LoginRequiredMiddleware:
 				#return HttpResponseRedirect(settings.LOGIN_URL)
 				fullURL = "%s?next=%s" % (settings.LOGIN_URL,urlquote(request.get_full_path()))
 				return HttpResponseRedirect(fullURL)
+
+class AddControlToHeader(object):
+    def process_request(self, request):
+		#self.get_response = get_response
+		#response = self.get_response(request)
+		#request['Access-Control-Allow-Origin'] = "prosoft-tms-stage.s3.amazonaws.com"
+		request.META['Access-Control-Allow-Origin'] = "prosoft-tms-stage.s3.amazonaws.com"
+		return request

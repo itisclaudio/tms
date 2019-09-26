@@ -15,7 +15,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY','afl549q&v2eppw3reii)7wozdiol47n)hr7^fi
 MIDDLEWARE_CLASSES = (
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.common.CommonMiddleware',
-	'prosoft.libs.middleware2.AddControlToHeader',
+	'prosoft.libs.middleware.AddControlToHeader',
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'prosoft.libs.middleware.LoginRequiredMiddleware',

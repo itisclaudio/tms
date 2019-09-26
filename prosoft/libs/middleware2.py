@@ -1,3 +1,7 @@
+class AddControlToHeader(object):
+    def process_exception(self, request, exception):
+        return None
+
 class AddControlToHeader:
 	def __init__(self, get_response):
 		self.get_response = get_response
