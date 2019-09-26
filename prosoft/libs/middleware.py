@@ -38,5 +38,6 @@ class AddControlToHeader(object):
 		#self.get_response = get_response
 		#response = self.get_response(request)
 		#request['Access-Control-Allow-Origin'] = "prosoft-tms-stage.s3.amazonaws.com"
-		response['Access-Control-Allow-Origin'] = "prosoft-tms-stage.s3.amazonaws.com"
+		response.__setitem__('Access-Control-Allow-Origin', "prosoft-tms-stage.s3.amazonaws.com")
+		#response['Access-Control-Allow-Origin'] = "prosoft-tms-stage.s3.amazonaws.com"
 		return response
