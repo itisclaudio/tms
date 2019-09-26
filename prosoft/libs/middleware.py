@@ -31,11 +31,6 @@ class LoginRequiredMiddleware:
 				return HttpResponseRedirect(fullURL)
 
 class AddControlToHeader:
-    """
-    Middleware to add 'Access-Control-Allow-Origin' to the header
-	of every request to allow 'prosoft-tms-stage.s3.amazonaws.com'
-	to serve external fonts for bootstrap 	https://stackoverflow.com/questions/36099244/how-to-add-an-http-header-to-all-django-responses/36099405	https://stackoverflow.com/questions/22355540/access-control-allow-origin-in-django-app-when-accessed-with-phonegap
-    """
 	def __init__(self, get_response):
 		self.get_response = get_response
 
