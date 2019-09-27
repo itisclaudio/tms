@@ -1311,6 +1311,8 @@ def profile_view(request, id):
 	openings_total = Opening.objects.filter(tag_qs).exclude(application__in = exclude_list).distinct().count()
 	openings = Opening.objects.filter(tag_qs).exclude(application__in=exclude_list).prefetch_related('skills').annotate(app_count=Count('applications')).select_related('state').distinct()
 	objs_counter = openings.count()
+	print "Access-Control-Allow-Origin: "
+	print str(request.META.get('Access-Control-Allow-Origin'))
 	cxt = {'obj':obj,'applications':applications,'openings':openings,'documents':documents,'counter':objs_counter,'total':openings_total}
 	return render_to_response('profile.html',cxt,context_instance=RequestContext(request))
 	
