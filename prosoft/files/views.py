@@ -99,6 +99,8 @@ def main_view(request):
 	openings_tot_c = openings_tot.count()
 	openings = openings_tot[:7]
 	openings_counter = openings.count()
+	print "request.META['Access-Control-Allow-Origin']:"
+	print request.META['Access-Control-Allow-Origin']
 
 	cxt = {
 		'applicants':applicants,'applicants_tot_c':applicants_tot_c,'applicants_counter':applicants_counter,
