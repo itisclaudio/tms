@@ -106,6 +106,7 @@ def main_view(request):
 		'activities':activities ,'activities_tot_c':activities_tot_c, 'activities_counter':activities_counter,
 		'openings':openings, 'openings_tot_c':openings_tot_c, 'openings_counter':openings_counter,
 		}
+	request.META['Access-Control-Allow-Origin'] = "*"
 	return render_to_response('_main.html',cxt,context_instance=RequestContext(request))
 	
 def searchquick_view(request):
