@@ -38,6 +38,9 @@ except ImportError:
 				
 class AddControlToHeader(MiddlewareMixin):
 	def process_request(self, request):
+		request.META['Access-Control-Allow-Origin'] = "prosoft-tms-stage.s3.amazonaws.com"
+"""
+	def process_request(self, request):
 		# Process the request
 		request.META['Access-Control-Allow-Origin'] = "prosoft-tms-stage.s3.amazonaws.com"
 		#pass
@@ -50,3 +53,4 @@ class AddControlToHeader(MiddlewareMixin):
 		#response.__setitem__('Access-Control-Allow-Origin', "prosoft-tms-stage.s3.amazonaws.com")
 		response['Access-Control-Allow-Origin'] = "prosoft-tms-stage.s3.amazonaws.com"
 		return response
+"""
