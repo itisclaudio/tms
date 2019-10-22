@@ -37,8 +37,9 @@ except ImportError:
 	MiddlewareMixin = object
 				
 class AddControlToHeader(MiddlewareMixin):
-	def process_request(self, request):
-		request.META['Access-Control-Allow-Origin'] = "*"
+	def process_response(self, request, response):
+		response["Access-Control-Allow-Origin"] = "*"
+		return response
 """
 	def process_request(self, request):
 		# Process the request
