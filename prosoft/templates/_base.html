@@ -75,11 +75,11 @@
 					<li role="separator" class="divider"></li>
 					{% if user.member.role < 3 %}
 					<li><a href="{% url 'view_openingnew' %}">
-						<i class="glyphicon glyphicon-briefcase"></i> New Opening</a>
+						<i class="fa fa-briefcase" aria-hidden="true"></i> New Opening</a>
 					</li>
 					{% endif %}
 					<li><a href="{% url 'view_openings' %}">
-						<i class="glyphicon glyphicon-briefcase"></i> All Openings</a>
+						<i class="fa fa-briefcase" aria-hidden="true"></i> All Openings</a>
 					</li>
 					<li role="separator" class="divider"></li>
 					<li><a href="{% url 'view_applicationnew' %}">

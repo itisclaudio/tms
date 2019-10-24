@@ -10,7 +10,7 @@
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 			{% if user.member.role < 3 %}
-				<li><a href="{% url 'view_recruiternew' %}"><i class="glyphicon glyphicon-briefcase"></i> New Recruiter</a></li>
+				<li><a href="{% url 'view_recruiternew' %}"><i class="fa fa-briefcase" aria-hidden="true"></i> New Recruiter</a></li>
 			{% endif %}
 				<li><a href="{% url 'view_recruiters' %}"><i class="fa fa-th-large" aria-hidden="true"></i> See all</a></li>
 				{% if not search %}
