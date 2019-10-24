@@ -24,7 +24,7 @@
 			<div class="form-group">
 				<div class="input-group">
 				<span class="input-group-addon">
-					<i class="glyphicon glyphicon-search"></i>
+					<i class="fa fa-search" aria-hidden="true"></i>
 				</span>
 				{% if search %}
 					<input value="{{search}}" type="text" class="form-control" name="search" id="id_search" placeholder="Search applicant"/>
@@ -45,7 +45,7 @@
 			<p style="margin-top:2px; margin-bottom:2px; line-height:14px;" class="smallfont">
 			<i class="fa fa-graduation-cap" aria-hidden="true" title="Profiles"></i>  {{obj.profiles_count}} | 
 			<i class="fa fa-paper-plane" aria-hidden="true" title="Applications"></i>  {{obj.app_count}} |
-			<i class="glyphicon glyphicon-globe" title="Location"></i> 
+			<i class="fa fa-globe" aria-hidden="true" title="Location"></i> 
 			{% if obj.country %}
 				{% if obj.country.code == 'US' %}
 					{% if obj.city %}

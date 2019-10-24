@@ -18,7 +18,7 @@
 			<i class="glyphicon glyphicon-education" title="Profiles"></i> : {{obj.profiles_count}} | 
 			<i class="fa fa-paper-plane" aria-hidden="true" title="Applications"></i> : {{obj.app_count}} |
 			{% if obj.country %}
-			<i class="glyphicon glyphicon-globe" title="Location"></i> : 
+			<i class="fa fa-globe" aria-hidden="true" title="Location"></i> : 
 				{% if obj.country.code == 'US' %}
 					{% if obj.city %}
 						{{ obj.city }}, 
