@@ -44,7 +44,7 @@
 			<p style="margin-bottom:2px;"><b>{{obj.firstname|truncatechars:15}} {{obj.lastname|truncatechars:15}}</b></p>
 			<p style="margin-top:2px; margin-bottom:2px; line-height:14px;" class="smallfont">
 			<i class="glyphicon glyphicon-send" title="Profiles"></i>  {{obj.profiles_count}} | 
-			<i class="glyphicon glyphicon-send" title="Applications"></i>  {{obj.app_count}} |
+			<i class="fa fa-paper-plane" aria-hidden="true" title="Applications"></i>  {{obj.app_count}} |
 			<i class="glyphicon glyphicon-globe" title="Location"></i> 
 			{% if obj.country %}
 				{% if obj.country.code == 'US' %}

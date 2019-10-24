@@ -299,7 +299,7 @@
 		<a href="{% url 'view_profile' id=profile.id %}" class="list-group-item" style="padding: 6px 12px;">
 			<p style="margin-bottom:2px;"><b>{{profile|truncatechars:82}}</b></p>
 			<p style="margin-top:2px; margin-bottom:2px; line-height:14px;" class="smallfont">
-			<i class="glyphicon glyphicon-send" title="Applications"></i>  {{profile.app_count}} 
+			<i class="fa fa-paper-plane" aria-hidden="true" title="Applications"></i>  {{profile.app_count}} 
 			| <b>Relocate:</b>
 			{% if profile.applicant.relocation == True %}
 				Open

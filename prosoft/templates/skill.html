@@ -72,7 +72,7 @@
 		<a href="{% url 'view_profile' id=profile.id %}" class="list-group-item" style="padding: 6px 12px;">
 			<p style="margin-bottom:2px;"><b>{{profile|truncatechars:82}}</b></p>
 			<p style="margin-top:2px; margin-bottom:2px; line-height:14px;" class="smallfont">
-			<i class="glyphicon glyphicon-send" title="Applications"></i>  {{profile.app_count}} 
+			<i class="fa fa-paper-plane" aria-hidden="true" title="Applications"></i>  {{profile.app_count}} 
 			| <b>Relocate:</b>
 			{% if profile.applicant.relocation == True %}
 				Open
@@ -143,7 +143,7 @@
 		 <a href="{% url 'view_opening' id=opening.id %}" class="list-group-item" style="padding: 6px 12px;">
 			<p style="margin-bottom:2px;"><b>{{opening|truncatechars:78}}</b></p>
 			<p style="margin-top:2px; margin-bottom:0px; line-height:14px;" class="smallfont">
-			<i class="glyphicon glyphicon-send" title="Applications"></i> {{opening.app_count}}
+			<i class="fa fa-paper-plane" aria-hidden="true" title="Applications"></i> {{opening.app_count}}
 			{% if opening.rate %}| <b>Rate:</b>
 				{{opening.rate}}
 			{% endif %}
