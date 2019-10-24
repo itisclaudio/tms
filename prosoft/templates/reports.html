@@ -1,15 +1,15 @@
 {% extends '_base.html' %}
 {% block title %}Reports{% endblock title %}
 {% block content %}
-<h1 style="text-align:center;"><i class="glyphicon glyphicon-print"></i> Reports</h1>
+<h1 style="text-align:center;"><i class="fa fa-print" aria-hidden="true"></i> Reports</h1>
 <div class="row">
   <div class="col-sm-6 thumbnail well well-white">
 		<h2 style="text-align:center;">Talent</h2>
 		<a class="btn btn-lg btn-block btn-primary" href="{% url 'view_applicants_rpt' %}" title="All applicants report">
-			<i class="glyphicon glyphicon-user"></i> All Applicants
+			<i class="fa fa-user" aria-hidden="true"></i> All Applicants
 		</a>
 		<a class="btn btn-lg btn-block btn-primary" href="{% url 'view_profiles_rpt' %}" title="All profiles report">
-			<i class="glyphicon glyphicon-education"></i> All Profiles
+			<i class="fa fa-graduation-cap" aria-hidden="true"></i> All Profiles
 		</a>
   </div>
   
@@ -23,7 +23,7 @@
 			<i class="glyphicon glyphicon-briefcase"></i> All Openings
 		</a>
 		<a class="btn btn-lg btn-block btn-primary" href="{% url 'view_applications_rpt' %}" title="All applications report">
-			<i class="glyphicon glyphicon-send"></i> All Applications
+			<i class="fa fa-paper-plane" aria-hidden="true"></i> All Applications
 		</a>
 		<a class="btn btn-lg btn-block btn-primary" href="{% url 'view_activities_rpt' %}" title="All activities report">
 			<i class="glyphicon glyphicon-earphone"></i> All Activities
@@ -35,22 +35,22 @@
 	<div class="thumbnail well  well-white">
 		<h2 style="text-align:center;">Reminders</h2>
 		<a class="btn btn-lg btn-block btn-primary" href="{% url 'view_reminders_rpt' %}" title="All reminders report">
-			<i class="glyphicon glyphicon-bell"></i> All Reminders
+			<i class="fa fa-bell" aria-hidden="true"></i> All Reminders
 		</a>
 		<a class="btn btn-lg btn-block btn-primary" href="{% url 'view_reminders_rpt' active='1' private='3' mine='3' %}" title="All reminders report">
-			<i class="glyphicon glyphicon-bell"></i> All Active Reminders
+			<i class="fa fa-bell" aria-hidden="true"></i> All Active Reminders
 		</a>
 		<a class="btn btn-lg btn-block btn-primary" href="{% url 'view_reminders_rpt' active='0' private='3' mine='3' %}" title="All reminders report">
-			<i class="glyphicon glyphicon-bell"></i> All Inactive Reminders
+			<i class="fa fa-bell" aria-hidden="true"></i> All Inactive Reminders
 		</a>
 		<a class="btn btn-lg btn-block btn-primary" href="{% url 'view_reminders_rpt' active='3' private='1' mine='1' %}" title="My private reminders report">
-			<i class="glyphicon glyphicon-bell"></i> My Private Reminders
+			<i class="fa fa-bell" aria-hidden="true"></i> My Private Reminders
 		</a>
 		<a class="btn btn-lg btn-block btn-primary" href="{% url 'view_reminders_rpt' active='1' private='1' mine='1' %}" title="My private active reminders report">
-			<i class="glyphicon glyphicon-bell"></i> My Private Active Reminders
+			<i class="fa fa-bell" aria-hidden="true"></i> My Private Active Reminders
 		</a>
 		<a class="btn btn-lg btn-block btn-primary" href="{% url 'view_reminders_rpt' active='0' private='1' mine='1' %}" title="My private inactive reminders report">
-			<i class="glyphicon glyphicon-bell"></i> My Private Inactive Reminders
+			<i class="fa fa-bell" aria-hidden="true"></i> My Private Inactive Reminders
 		</a>
 	</div>
 	</div>

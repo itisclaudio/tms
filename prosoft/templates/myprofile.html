@@ -79,8 +79,8 @@
 			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-earphone"></i> <b>Latest Activities</b> <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-				<li><a href="{% url 'view_activitynew' %}"><i class="glyphicon glyphicon-plus"></i> New Activity</a></li>
-				<li><a href="{% url 'view_activities' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even not related)</a></li>
+				<li><a href="{% url 'view_activitynew' %}"><i class="fa fa-plus" aria-hidden="true"></i> New Activity</a></li>
+				<li><a href="{% url 'view_activities' %}"><i class="fa fa-th-large" aria-hidden="true"></i> See all (Even not related)</a></li>
 			</ul>
 		</div>
 		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
@@ -105,7 +105,7 @@
 	<div class="well well-white" style="margin-bottom: 14px;">
 		<p>There are no activities</p>
 		<a class="btn btn-primary" href="{% url 'view_activitynew' %}" title="Add new activity to the system">
-			<i class="glyphicon glyphicon-plus"></i> Create new activity
+			<i class="fa fa-plus" aria-hidden="true"></i> Create new activity
 		</a>
 	</div>
 {% endif %}

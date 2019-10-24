@@ -5,16 +5,16 @@
 <div class="row">
 	<div class="col-xs-5">
 		<div class="dropdown" style="display:inline;">
-			<button style="vertical-align:bottom; font-size:18px;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-bell"></i> <b>Reminder</b> <span class="caret"></span>
+			<button style="vertical-align:bottom; font-size:18px;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-bell" aria-hidden="true"></i> <b>Reminder</b> <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-				<li><a href="{% url 'view_vendoredit' id=obj.id %}"><i class="glyphicon glyphicon-pencil"></i> Edit</a></li>
-				<li><a href="{% url 'view_remindernew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+				<li><a href="{% url 'view_vendoredit' id=obj.id %}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></li>
+				<li><a href="{% url 'view_remindernew' %}"><i class="fa fa-plus" aria-hidden="true"></i> New</a></li>
 				{% if user = obj.recruiter %}
-					<li><a href="{% url 'view_reminderdelete' id=obj.id %}"><i class="glyphicon glyphicon-trash"></i> Delete</a></li>
+					<li><a href="{% url 'view_reminderdelete' id=obj.id %}"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
 				{% endif %}
-				<li><a href="{% url 'view_reminders' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
-				<li><a href="{% url 'view_remindernew' model_name='reminder' field_id=obj.id %}"><i class="glyphicon glyphicon-bell"></i> Create reminder</a></li>
+				<li><a href="{% url 'view_reminders' %}"><i class="fa fa-th-large" aria-hidden="true"></i> See all</a></li>
+				<li><a href="{% url 'view_remindernew' model_name='reminder' field_id=obj.id %}"><i class="fa fa-bell" aria-hidden="true"></i> Create reminder</a></li>
 			</ul>
 		</div>
 	</div>
@@ -82,7 +82,7 @@
 </div>
 <br>
 <div class="well" style="margin:0px"><!--7-->
-<h2 style="text-align:left;margin-top: 0px;"><i class="glyphicon glyphicon-bell"></i> Latest Reminders
+<h2 style="text-align:left;margin-top: 0px;"><i class="fa fa-bell" aria-hidden="true"></i> Latest Reminders
 	<span class="label label-default" style="display:inline;">{{ counter }}</span>
 	<a class="btn btn-primary" href="{% url 'view_remindernew' %}" title="Add new reminder">
 		<i class="glyphicon glyphicon-plus icon-white"></i>
@@ -122,7 +122,7 @@
 <div class="well well-white">
 	<p style="margin-bottom:10px;">There are no reminders</p>
 	<a class="btn btn-primary" href="{% url 'view_remindernew' %}" title="Add new reminder to the system">
-		<i class="glyphicon glyphicon-plus"></i> Create new reminder
+		<i class="fa fa-plus" aria-hidden="true"></i> Create new reminder
 	</a>
 </div>
 {% endif %}

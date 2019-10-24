@@ -7,13 +7,13 @@
 			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-briefcase"></i> <b>Opening</b> <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-				<li><a href="{% url 'view_openingedit' id=obj.id %}"><i class="glyphicon glyphicon-pencil"></i> Edit</a></li>
-				<li><a href="{% url 'view_openingnew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
-				<li><a href="{% url 'view_openingdelete' id=obj.id %}"><i class="glyphicon glyphicon-trash"></i> Delete</a></li>
-				<li><a href="{% url 'view_opening_rpt' id=obj.id %}"><i class="glyphicon glyphicon-print"></i> Print</a></li>
-				<li><a href="{% url 'view_openings' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
-				<li><a href="{% url 'view_remindernew' model_name='opening' field_id=obj.id %}"><i class="glyphicon glyphicon-bell"></i> Create reminder</a></li>
-				<li><a href="{% url 'view_applicationnew_opening' opening_id=obj.id %}"><i class="glyphicon glyphicon-send"></i> Apply</a></li>
+				<li><a href="{% url 'view_openingedit' id=obj.id %}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></li>
+				<li><a href="{% url 'view_openingnew' %}"><i class="fa fa-plus" aria-hidden="true"></i> New</a></li>
+				<li><a href="{% url 'view_openingdelete' id=obj.id %}"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
+				<li><a href="{% url 'view_opening_rpt' id=obj.id %}"><i class="fa fa-print" aria-hidden="true"></i> Print</a></li>
+				<li><a href="{% url 'view_openings' %}"><i class="fa fa-th-large" aria-hidden="true"></i> See all</a></li>
+				<li><a href="{% url 'view_remindernew' model_name='opening' field_id=obj.id %}"><i class="fa fa-bell" aria-hidden="true"></i> Create reminder</a></li>
+				<li><a href="{% url 'view_applicationnew_opening' opening_id=obj.id %}"><i class="fa fa-paper-plane" aria-hidden="true"></i> Apply</a></li>
 			</ul>
 		</div>
 	</div>
@@ -233,11 +233,11 @@
 <div class="row">
 	<div class="col-xs-12">
 		<div class="dropdown" style="display:inline;">
-			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-send"></i> <b> {% if title_my %}{{title_my}}{% endif %} Submitted Applications</b> <span class="caret"></span>
+			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-paper-plane" aria-hidden="true"></i> <b> {% if title_my %}{{title_my}}{% endif %} Submitted Applications</b> <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-				<li><a href="{% url 'view_applicationnew' %}" title="Create new application"><i class="glyphicon glyphicon-plus"></i> New Application</a></li>
-				<li><a href="{% url 'view_applications' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even Not Related)</a></li>
+				<li><a href="{% url 'view_applicationnew' %}" title="Create new application"><i class="fa fa-plus" aria-hidden="true"></i> New Application</a></li>
+				<li><a href="{% url 'view_applications' %}"><i class="fa fa-th-large" aria-hidden="true"></i> See all (Even Not Related)</a></li>
 			</ul>
 		</div>
 		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
@@ -270,7 +270,7 @@
 		{% endif %}
 		</p>
 		<a class="btn btn-primary" href="{% url 'view_applicationnew' %}" title="Add new application to the system">
-			<i class="glyphicon glyphicon-plus"></i> Create new application
+			<i class="fa fa-plus" aria-hidden="true"></i> Create new application
 		</a>
 	</div>
 {% endif %}
@@ -281,11 +281,11 @@
 <div class="row">
 	<div class="col-xs-12">
 		<div class="dropdown" style="display:inline;">
-			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-education"></i> <b>Compatible Profiles</b> <span class="caret"></span>
+			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <b>Compatible Profiles</b> <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-				<li><a href="{% url 'view_profilenew' %}" title="Create new application"><i class="glyphicon glyphicon-education"></i> New Profile</a></li>
-				<li><a href="{% url 'view_profiles' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even Not Related)</a></li>
+				<li><a href="{% url 'view_profilenew' %}" title="Create new application"><i class="fa fa-graduation-cap" aria-hidden="true"></i> New Profile</a></li>
+				<li><a href="{% url 'view_profiles' %}"><i class="fa fa-th-large" aria-hidden="true"></i> See all (Even Not Related)</a></li>
 			</ul>
 		</div>
 		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">

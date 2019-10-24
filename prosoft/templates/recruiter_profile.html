@@ -9,13 +9,13 @@
 			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-bullhorn"></i> <b>Recruiter</b> <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-				<li><a href="{% url 'view_profileedit' id=obj.id %}"><i class="glyphicon glyphicon-pencil"></i> Edit</a></li>
-				<li><a href="{% url 'view_profilenew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
+				<li><a href="{% url 'view_profileedit' id=obj.id %}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></li>
+				<li><a href="{% url 'view_profilenew' %}"><i class="fa fa-plus" aria-hidden="true"></i> New</a></li>
 				{% if user.member.role < 3 %}
-					<li><a href=""><i class="glyphicon glyphicon-trash"></i> Delete</a></li>
+					<li><a href=""><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
 				{% endif %}
-				<li><a href="{% url 'view_profile_rpt' id=obj.id %}"><i class="glyphicon glyphicon-print"></i> Print</a></li>
-				<li><a href="{% url 'view_recruiters' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+				<li><a href="{% url 'view_profile_rpt' id=obj.id %}"><i class="fa fa-print" aria-hidden="true"></i> Print</a></li>
+				<li><a href="{% url 'view_recruiters' %}"><i class="fa fa-th-large" aria-hidden="true"></i> See all</a></li>
 			</ul>
 		</div>
 	</div>
@@ -73,8 +73,8 @@
 			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-briefcase"></i> <b>Recruiter activities</b> <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-				<li><a href="{% url 'view_activitynew' %}"><i class="glyphicon glyphicon-plus"></i> New Activity</a></li>
-				<li><a href="{% url 'view_activities' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even not related)</a></li>
+				<li><a href="{% url 'view_activitynew' %}"><i class="fa fa-plus" aria-hidden="true"></i> New Activity</a></li>
+				<li><a href="{% url 'view_activities' %}"><i class="fa fa-th-large" aria-hidden="true"></i> See all (Even not related)</a></li>
 			</ul>
 		</div>
 		<h2 class="hidden-xs" style="display:inline; vertical-align:super;">
@@ -99,7 +99,7 @@
 	<div class="well well-white" style="margin-bottom: 14px;">
 		<p>There are no activities</p>
 		<a class="btn btn-primary" href="{% url 'view_activitynew' %}" title="Add new activity to the system">
-			<i class="glyphicon glyphicon-plus"></i> Create new activity
+			<i class="fa fa-plus" aria-hidden="true"></i> Create new activity
 		</a>
 	</div>
 {% endif %}

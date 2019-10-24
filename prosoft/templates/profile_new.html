@@ -6,7 +6,7 @@
 {% endblock title %}
 {% block content %}
 
-<h1><i class="glyphicon glyphicon-education"></i> New profile 
+<h1><i class="fa fa-graduation-cap" aria-hidden="true"></i> New profile 
 {% if obj %}
 	for: {{obj}}
 {% endif %}
@@ -24,7 +24,7 @@
 			</div>
 			<div class="col-sm-3">
 			<a class="btn btn-primary" href="{% url 'view_applicantnew' %}" title="Add new Skill">
-				<i class="glyphicon glyphicon-plus"></i> New applicant
+				<i class="fa fa-plus" aria-hidden="true"></i> New applicant
 			</a>
 			</div>
 		</div>
@@ -45,7 +45,7 @@
 			</select>
 			{{ form.skills.errors }}
 			<a class="btn btn-primary" href="{% url 'view_skillnew' %}" title="Add new Skill">
-				<i class="glyphicon glyphicon-plus"></i> New skill
+				<i class="fa fa-plus" aria-hidden="true"></i> New skill
 			</a>
 			</div>
 		</div>
@@ -82,12 +82,12 @@
 </div>
 <br>
 <div class="dropdown" style="display:inline;">
-	<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-education"></i> <b>Latest Profiles</b> <span class="caret"></span>
+	<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <b>Latest Profiles</b> <span class="caret"></span>
 	</button>
 	<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-		<li><a href="{% url 'view_profiles' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+		<li><a href="{% url 'view_profiles' %}"><i class="fa fa-th-large" aria-hidden="true"></i> See all</a></li>
 		{% if not search %}
-			<li><a href="{% url 'view_profiles_rpt' %}"><i class="glyphicon glyphicon-print"></i> Print All</a></li>		
+			<li><a href="{% url 'view_profiles_rpt' %}"><i class="fa fa-print" aria-hidden="true"></i> Print All</a></li>		
 		{% endif %}
 	</ul>
 </div>

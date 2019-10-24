@@ -2,7 +2,7 @@
 {% block title %}Reminders Report{% endblock title %}
 {% block content %}
 
-<h1 class="report"><i class="glyphicon glyphicon-bell"></i> 
+<h1 class="report"><i class="fa fa-bell" aria-hidden="true"></i> 
  {% if title_my %}{{title_my}}{% endif %} {% if title_all %}{{title_all}}{% endif %} {% if title_private %}{{title_private}}{% endif %} 
 Reminders
 <span class="label label-default" style="display:inline;vertical-align: text-top;">{{ counter }}</span>
@@ -39,7 +39,7 @@ Reminders
 	<div class="well well-white" style="text-align:center;">
 		<p style="margin-bottom:10px;">There are no reminders</p>
 		<a class="btn btn-primary" href="{% url 'view_remindernew' %}" title="Add new reminder to the system">
-			<i class="glyphicon glyphicon-plus"></i> Create new reminder
+			<i class="fa fa-plus" aria-hidden="true"></i> Create new reminder
 		</a>
 	</div>
 {% endif %}

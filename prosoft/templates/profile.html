@@ -27,13 +27,13 @@
 			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <b>Profile</b> <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-				<li><a href="{% url 'view_profileedit' id=obj.id %}"><i class="glyphicon glyphicon-pencil"></i> Edit</a></li>
-				<li><a href="{% url 'view_profilenew' applicant=obj.applicant.id %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
-				<li><a href="{% url 'view_profiledelete' id=obj.id %}"><i class="glyphicon glyphicon-trash"></i> Delete</a></li>
-				<li><a href="{% url 'view_profile_rpt' id=obj.id %}"><i class="glyphicon glyphicon-print"></i> Print</a></li>
-				<li><a href="{% url 'view_profiles' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
-				<li><a href="{% url 'view_remindernew' model_name='profile' field_id=obj.id %}"><i class="glyphicon glyphicon-bell"></i> Create reminder</a></li>
-				<li><a href="{% url 'view_applicationnew_profile' profile_id=obj.id %}"><i class="glyphicon glyphicon-send"></i> Apply</a></li>
+				<li><a href="{% url 'view_profileedit' id=obj.id %}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></li>
+				<li><a href="{% url 'view_profilenew' applicant=obj.applicant.id %}"><i class="fa fa-plus" aria-hidden="true"></i> New</a></li>
+				<li><a href="{% url 'view_profiledelete' id=obj.id %}"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
+				<li><a href="{% url 'view_profile_rpt' id=obj.id %}"><i class="fa fa-print" aria-hidden="true"></i> Print</a></li>
+				<li><a href="{% url 'view_profiles' %}"><i class="fa fa-th-large" aria-hidden="true"></i> See all</a></li>
+				<li><a href="{% url 'view_remindernew' model_name='profile' field_id=obj.id %}"><i class="fa fa-bell" aria-hidden="true"></i> Create reminder</a></li>
+				<li><a href="{% url 'view_applicationnew_profile' profile_id=obj.id %}"><i class="fa fa-paper-plane" aria-hidden="true"></i> Apply</a></li>
 			</ul>
 		</div>
 	</div>
@@ -152,8 +152,8 @@
 			<button style="vertical-align:bottom;" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-briefcase"></i> <b>Related Openings</b> <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-				<li><a href="{% url 'view_openingnew' %}"><i class="glyphicon glyphicon-plus"></i> New Opening</a></li>
-				<li><a href="{% url 'view_openings' %}"><i class="glyphicon glyphicon-th-large"></i> See all (Even not related)</a></li>
+				<li><a href="{% url 'view_openingnew' %}"><i class="fa fa-plus" aria-hidden="true"></i> New Opening</a></li>
+				<li><a href="{% url 'view_openings' %}"><i class="fa fa-th-large" aria-hidden="true"></i> See all (Even not related)</a></li>
 			</ul>
 		</div>
 		<div style="vertical-align:text-bottom; display:inline;">
@@ -203,7 +203,7 @@
 	<div class="well well-white" style="margin-bottom: 14px;">
 		<p>There are no openings</p>
 		<a class="btn btn-primary" href="{% url 'view_openingnew' %}" title="Add new opening to the system">
-			<i class="glyphicon glyphicon-plus"></i> Create new opening
+			<i class="fa fa-plus" aria-hidden="true"></i> Create new opening
 		</a>
 	</div>
 {% endif %}

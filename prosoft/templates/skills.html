@@ -6,13 +6,13 @@
 <div class="row">
 	<div class="col-xs-5">
 		<div class="dropdown" style="display:inline;">
-			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-education"></i> <b>Skills</b> <span class="caret"></span>
+			<button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <b>Skills</b> <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-				<li><a href="{% url 'view_skillnew' %}"><i class="glyphicon glyphicon-plus"></i> New</a></li>
-				<li><a href="{% url 'view_skills' %}"><i class="glyphicon glyphicon-th-large"></i> See all</a></li>
+				<li><a href="{% url 'view_skillnew' %}"><i class="fa fa-plus" aria-hidden="true"></i> New</a></li>
+				<li><a href="{% url 'view_skills' %}"><i class="fa fa-th-large" aria-hidden="true"></i> See all</a></li>
 				{% if not search %}
-					<li><a href="{% url 'view_skills_rpt' %}"><i class="glyphicon glyphicon-print"></i> Print All</a></li>		
+					<li><a href="{% url 'view_skills_rpt' %}"><i class="fa fa-print" aria-hidden="true"></i> Print All</a></li>		
 				{% endif %}
 			</ul>
 		</div>
@@ -104,7 +104,7 @@
 		{% endif %}
 		</p>
 		<a class="btn btn-primary" href="{% url 'view_skillnew' %}" title="Create new skill">
-			<i class="glyphicon glyphicon-plus"></i> Create new skill
+			<i class="fa fa-plus" aria-hidden="true"></i> Create new skill
 		</a>
 	</div>
 {% endif %}
