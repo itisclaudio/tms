@@ -15,7 +15,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY','afl549q&v2eppw3reii)7wozdiol47n)hr7^fi
 MIDDLEWARE_CLASSES = (
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.common.CommonMiddleware',
-	'prosoft.libs.middleware.AddControlToHeader',
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'prosoft.libs.middleware.LoginRequiredMiddleware',
@@ -24,7 +23,7 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 	'django.middleware.security.SecurityMiddleware',
 )
-#'prosoft.libs.middleware.AddControlToHeader',#To allow AWS to serve fonts
+
 import dj_database_url
 #db_from_env = dj_database_url.config()
 DATABASES = {

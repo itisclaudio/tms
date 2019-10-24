@@ -30,28 +30,3 @@ class LoginRequiredMiddleware:
 				#return HttpResponseRedirect(settings.LOGIN_URL)
 				fullURL = "%s?next=%s" % (settings.LOGIN_URL,urlquote(request.get_full_path()))
 				return HttpResponseRedirect(fullURL)
-
-try:
-	from django.utils.deprecation import MiddlewareMixin
-except ImportError:
-	MiddlewareMixin = object
-				
-class AddControlToHeader(MiddlewareMixin):
-	def process_response(self, request, response):
-		response["Access-Control-Allow-Origin"] = "*"
-		return response
-"""
-	def process_request(self, request):
-		# Process the request
-		request.META['Access-Control-Allow-Origin'] = "prosoft-tms-stage.s3.amazonaws.com"
-		#pass
-	def process_response(self, request, response):
-		print "in AddControlToHeader"
-		#request.META['Access-Control-Allow-Origin'] = "prosoft-tms-stage.s3.amazonaws.com"
-		#self.get_response = get_response
-		#response = self.get_response(request)
-		#request['Access-Control-Allow-Origin'] = "prosoft-tms-stage.s3.amazonaws.com"
-		#response.__setitem__('Access-Control-Allow-Origin', "prosoft-tms-stage.s3.amazonaws.com")
-		response['Access-Control-Allow-Origin'] = "prosoft-tms-stage.s3.amazonaws.com"
-		return response
-"""
