@@ -190,7 +190,7 @@
 <div class="row">
 	<div class="col-xs-5">
 		<div class="dropdown" style="display:inline;">
-		  <button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="glyphicon glyphicon-earphone"></i> <b>Activities</b> <span class="caret"></span>
+		  <button style="vertical-align:bottom;" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-phone" aria-hidden="true"></i> <b>Activities</b> <span class="caret"></span>
 		  </button>
 		  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 			<li><a href="{% url 'view_activitynew' %}"><i class="fa fa-plus" aria-hidden="true"></i> New</a></li>
@@ -289,7 +289,7 @@
 		<a href="{% url 'view_applicant' id=obj.id %}" class="list-group-item" style="padding: 6px 12px;">
 			<p style="margin-bottom:2px;"><b>{{obj.firstname|truncatechars:15}} {{obj.lastname|truncatechars:15}}</b></p>
 			<p style="margin-top:2px; margin-bottom:2px; line-height:14px;" class="smallfont">
-			<i class="glyphicon glyphicon-send" title="Profiles"></i>  {{obj.profiles_count}} | 
+			<i class="fa fa-graduation-cap" aria-hidden="true" title="Profiles"></i>  {{obj.profiles_count}} | 
 			<i class="fa fa-paper-plane" aria-hidden="true" title="Applications"></i>  {{obj.app_count}} |
 			<i class="glyphicon glyphicon-globe" title="Location"></i> 
 			{% if obj.country %}
