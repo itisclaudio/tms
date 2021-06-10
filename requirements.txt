@@ -1,6 +1,6 @@
 #BASE
 #====
-Django==1.8
+Django==2.2.24
 #Django==1.11.20
 #psycopg2==2.6.1
 psycopg2==2.7.1
